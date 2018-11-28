@@ -1,10 +1,18 @@
 <?php
 
 require_once __DIR__ . '/models/ops/Shipment.php';
+require_once __DIR__ . '/models/ops/Agent.php';
 
-$gbl = 'BGNC0469443';
+$agent = new Agent('I8975');
 
-$s = new Shipment($gbl);
-print_r($s->getNotifications());
-print_r($s->getDriver());
-print_r($s->getOA());
+$users = $agent->getWebUsers();
+$claims = $agent->getClaims('all');
+
+foreach($users as $user){
+  echo $user->user_login . "\n";
+}
+foreach($claims as $claim){
+  echo $claim->gbl_number . "\n";
+  $docs = $agent->getClaimDocs($claim->gbl_number);
+  echo "Num Docs: " count($docs) . "\n";
+}
