@@ -135,7 +135,7 @@ class Claim extends \Record{
 
     public function __construct($id = null)
     {
-        parent::__construct(self::DRIVER,self::DB,self::TABLE,self::PRIMARYKEY,$id);
+        parent::__construct(self::DRIVER,self::DRIVER,self::DB,self::TABLE,self::PRIMARYKEY,$id);
     }
     public function getLineItems(){
         $lineItems = array();
