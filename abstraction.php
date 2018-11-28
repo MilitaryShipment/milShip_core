@@ -1,0 +1,30 @@
+<?php
+
+require_once '/srv/www/htdocs/classes/db/db.php';
+
+if(!isset($GLOBALS['db'])){
+    $db = new DB();
+}
+
+interface RecordBehavior{
+    public function create();
+    public function update();
+    public function setFields($updateObj);
+}
+interface ContactBehavior{
+//    public function getNotifications();
+//    public function getResponses();
+//    public function call();
+//    public function fax();
+//    public function email();
+//    public function verify();
+}
+interface ContractBehavior{
+    public function send();
+    public function revoke();
+    public function comment($comment);
+    public function reply($msg);
+    public function unexpire();
+    public function buildTemplate($web);
+    public function buildPdf($signed);
+}
