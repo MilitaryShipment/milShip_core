@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../record.php';
 
-class WebImageTmp extends Record{
+class WebImageTmp extends \Record{
 
     const DRIVER = 'mysql';
     const DB = 'structure';
