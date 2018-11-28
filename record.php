@@ -38,7 +38,7 @@ abstract class Record implements RecordBehavior{
             ->database($this->database)
             ->table($this->table)
             ->select("*")
-            ->where($this->primaryKey,"=",$this->id)
+            ->where($this->primaryKey,"=","'" . $this->id . "'")
             ->get();
         if($this->driver == self::MSSQL){
             if(!mssql_num_rows($results)){
