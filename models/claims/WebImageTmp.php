@@ -56,6 +56,9 @@ class WebImageTmp extends \Record{
             ->andWhere("is_web_enabled","=",1)
             ->andWhere("status_id","=",1)
             ->get();
+        if(!mysql_num_rows($results)){
+          return $data;
+        }
         while($row = mysql_fetch_assoc($results)){
             $ids[] = $row[self::PRIMARYKEY];
         }
