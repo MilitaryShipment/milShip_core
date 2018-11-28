@@ -10,7 +10,7 @@ require_once __DIR__ . '/../billing/EpayImage.php';
 require_once __DIR__ . '/../billing/Scac.php';
 require_once __DIR__ . '/Lumper.php';
 require_once __DIR__ . '/Agent.php';
-require_once __DIR__ . '/translateGbl.php';
+require_once __DIR__ . '/../util/translateGbl.php';
 
 
 class Shipment extends Record{
