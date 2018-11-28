@@ -41,7 +41,7 @@ abstract class Record implements RecordBehavior{
             ->where($this->primaryKey,"=",$this->id)
             ->get();
         if($this->driver == self::MSSQL){
-            if(!sqlsrv_num_rows($results)){
+            if(!mssql_num_rows($results)){
                 throw new Exception('Invalid Record ID');
             }
             while($row = mssql_fetch_assoc($results)){
