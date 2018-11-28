@@ -57,7 +57,7 @@ class Notification extends Record{
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
-            ->where($key,"=",$value)
+            ->where($key,"=","'" . $value . "'")
             ->get();
         while($row = mssql_fetch_assoc($results)){
             $ids[] = $row[self::PRIMARYKEY];
@@ -76,7 +76,7 @@ class Notification extends Record{
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
-            ->where("message_filename","=",$message_filename)
+            ->where("message_filename","=","'" . $message_filename . "'")
             ->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)")
             ->get();
         while($row = mssql_fetch_assoc($results)){

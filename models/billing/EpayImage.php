@@ -84,7 +84,7 @@ class EpayImage extends Record{
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
-            ->where($key,"=",$value);
+            ->where($key,"=","'" . $value . "'");
         switch (strtolower($option)){
             case 'all':
                 $results = $GLOBALS['db']->get();
@@ -116,7 +116,7 @@ class EpayImage extends Record{
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
             ->where("gbl_dps","like","%$gbl_dps%")
-            ->andWhere("agent_id","=","$agentId")
+            ->andWhere("agent_id","=","'$agentId'")
             ->andWhere("web_enabled","=",1)
             ->andWhere("status_id","=",1)
             ->get();
