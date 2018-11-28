@@ -45,20 +45,17 @@ class WebImageTmp extends \Record{
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
-            ->where("(agent_id","like","%$agentId%")
-            ->orWhere("pack_id","=",$agentId)
-            ->orWhere("haul1_id","=",$agentId)
-            ->orWhere("hauler_carrier_id","=",$agentId)
-            ->orWhere("haul2_id","=",$agentId)
-            ->orWhere("stg1_id","=",$agentId)
-            ->orWhere("other_id","=","$agentId)")
-            ->andWhere("gbl_dps","=",$gbl_dps)
+            ->where("(agent_id","like","'%$agentId%'")
+            ->orWhere("pack_id","=","'" . $agentId . "'")
+            ->orWhere("haul1_id","=","'" . $agentId . "'")
+            ->orWhere("hauler_carrier_id","=","'" . $agentId . "'")
+            ->orWhere("haul2_id","=","'" . $agentId . "'")
+            ->orWhere("stg1_id","=","'" . $agentId . "'")
+            ->orWhere("other_id","=","'$agentId')")
+            ->andWhere("gbl_dps","=","'" . $gbl_dps . "'")
             ->andWhere("is_web_enabled","=",1)
             ->andWhere("status_id","=",1)
             ->get();
-        if(!mysql_num_rows($results)){
-          return $data;
-        }
         while($row = mysql_fetch_assoc($results)){
             $ids[] = $row[self::PRIMARYKEY];
         }
