@@ -222,7 +222,7 @@ class Agent extends Record{
 
     public function __construct($agent_id = null)
     {
-        parent::__construct(self::DRIVER,self::DB,self::TABLE,self::PRIMARYKEY,$agent_id);
+        parent::__construct(self::DRIVER,self::DRIVER,self::DB,self::TABLE,self::PRIMARYKEY,$agent_id);
     }
     public function getDrivers(){
         return Driver::get('agent_id',$this->agentid_number);
