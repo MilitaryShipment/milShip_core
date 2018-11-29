@@ -231,7 +231,7 @@ class Shipment extends Record{
     public function isMilitaryHousing($option){
       if(strtolower($option) == 'origin'){
         return $this->isOrigMilitaryHousing();
-      }elsif(strtolower($option) == 'destination'){
+      }elseif(strtolower($option) == 'destination'){
         return $this->isDestMilitaryHousing();
       }
       throw new \Exception('Invalid Housing Option');
