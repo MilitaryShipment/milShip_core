@@ -228,10 +228,27 @@ class Shipment extends Record{
         }
         return false;
     }
+    public function isMilitaryHousing($option){
+      if(strtolower($option) == 'origin'){
+        return $this->isOrigMilitaryHousing();
+      }elsif(strtolower($option) == 'destination'){
+        return $this->isDestMilitaryHousing();
+      }
+      throw new \Exception('Invalid Housing Option');
+    }
     public function isOrigMilitaryHousing(){
       $responses = $this->getResponses();
       foreach($responses as $response){
         if(strtolower($response->orig_military_housing) == 'y' || strtolower($response->orig_military_housing) == 'yes'){
+          return true;
+        }
+      }
+      return false;
+    }
+    public function isDestMilitaryHousing(){
+      $responses = $this->getResponses();
+      foreach($responses as $response){
+        if(strtolower($response->military_housing) == 'y' || strtolower($response->military_housing) == 'yes'){
           return true;
         }
       }
