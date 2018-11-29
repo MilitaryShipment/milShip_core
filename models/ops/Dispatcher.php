@@ -44,7 +44,7 @@ class Dispatcher extends Record{
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
-            ->where($key,"=",$value)
+            ->where($key,"=","'" . $value . "'")
             ->get();
         while($row = mssql_fetch_assoc($results)){
             $ids[] = $row[self::PRIMARYKEY];
