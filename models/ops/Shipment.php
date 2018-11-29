@@ -8,9 +8,10 @@ require_once __DIR__ . '/../comms/MobileResponse.php';
 require_once __DIR__ . '/../claims/Claim.php';
 require_once __DIR__ . '/../billing/EpayImage.php';
 require_once __DIR__ . '/../billing/Scac.php';
+require_once __DIR__ . '/../util/translateGbl.php';
 require_once __DIR__ . '/Lumper.php';
 require_once __DIR__ . '/Agent.php';
-require_once __DIR__ . '/../util/translateGbl.php';
+
 
 
 class Shipment extends Record{
@@ -226,5 +227,14 @@ class Shipment extends Record{
             return true;
         }
         return false;
+    }
+    public function isOrigMilitaryHousing(){
+      $responses = $this->getResponses();
+      foreach($responses as $response){
+        if(strtolower($response->orig_military_housing) == 'y' || strtolower($response->orig_military_housing) == 'yes'){
+          return true;
+        }
+      }
+      return false;
     }
 }
