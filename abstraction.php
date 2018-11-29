@@ -28,3 +28,10 @@ interface ContractBehavior{
     public function buildTemplate($web);
     public function buildPdf($signed);
 }
+interface MessageBehavior{
+    public static function verify($contact);
+    public static function send($to,$from,$fromName,$replyTo,$cc,$bcc,$subject,$body,$attachments);
+//    public function call();
+//    public function fax();
+//    public function email();
+}
