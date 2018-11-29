@@ -27,5 +27,24 @@ class AchPayment extends Record{
   public function __construct($id = null){
     parent::__construct(self::DRIVER,self::DRIVER,self::DB,self::TABLE,self::PRIMARYKEY,$id);
   }
+  public static function get($key,$value){
+      $data = array();
+      $ids = array();
+      $results = $GLOBALS['db']
+          ->suite(self::DRIVER)
+          ->driver(self::DRIVER)
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select(self::PRIMARYKEY)
+          ->where($key,"=","'" . $value . "'")
+          ->get();
+      while($row = mssql_fetch_assoc($results)){
+          $ids[] = $row[self::PRIMARYKEY];
+      }
+      foreach($ids as $id){
+          $data[] = new self($id);
+      }
+      return $data;
+  }
 
 }
