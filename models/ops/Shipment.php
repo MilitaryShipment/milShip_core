@@ -157,7 +157,7 @@ class Shipment extends Record{
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
-            ->where($key,"=",$value);
+            ->where($key,"=","'" . $value . "'");
         switch (strtolower($option)){
             case 'active':
                 $results = $GLOBALS['db']->andWhere("required_delivery_date",">","GETDATE()")->get();
