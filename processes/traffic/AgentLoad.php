@@ -6,16 +6,12 @@ expects format: hour:min [18:22, 19:4] because date is assumed $pack_date
 expects a default hour:min of '0:0'
 */
 
-//todo create MobileTrafficResponse
-//todo send Notifcation email -- to whom?
-//todo updates -- to shipment | movestar shipment
-//todo we will need to build and send a message and a notification to go with that message
-
 require_once __DIR__ . '/../../Messenger.php';
 require_once __DIR__ . '/../../models/comms/MobileTrafficResponse.php';
 require_once __DIR__ . '/../../models/comms/Notification.php';
 require_once __DIR__ . '/../../models/ops/Shipment.php';
 require_once __DIR__ . '/../../models/ops/Driver.php';
+
 
 class AgentLoad{
 
@@ -44,7 +40,11 @@ class AgentLoad{
       $this->shipement->load_eta_early_time = $this->_isUntouched($this->timeInputs['load_eta_early_time']) ? $this->shipement->load_eta_early_time : $this->_buildTimeStr($this->timeInputs['load_eta_early_time']);;
       $this->shipment->load_eta_late_time = $this->_isUntouched($this->timeInputs['load_eta_late_time']) ? $this->shipment->load_eta_late_time : $this->_buildTimeStr($this->timeInputs['load_eta_late_time']);;
       $this->shipment->update();
-      //$this->_buildResponse();
+      $this->_buildMsgSubject()
+            ->_buildMsgBody()
+            ->_buildResponse()
+            ->_sendMsg()
+            ->_buildNotification();
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
@@ -86,6 +86,14 @@ class AgentLoad{
       if(!$this->_isUntouched($value)){
         $this->msgBody .= $key . " = " . $value . "\n";
       }
+    }
+    return $this;
+  }
+  protected function _sendMsg(){
+    try{
+      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody,$attachments);
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
     }
     return $this;
   }
