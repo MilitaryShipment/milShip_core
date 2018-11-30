@@ -103,7 +103,8 @@ abstract class Record implements RecordBehavior{
             ->driver($this->driver)
             ->database($this->database)
             ->table($this->table)
-            ->insert($upData)
+            ->data($upData)
+            ->insert()
             ->put();
         $this->_buildId()->_build();
         return $this;
@@ -131,8 +132,9 @@ abstract class Record implements RecordBehavior{
             ->driver($this->driver)
             ->database($this->database)
             ->table($this->table)
-            ->update($upData)
-            ->where($this->primaryKey,"=",$this->$key)
+            ->data($upData)
+            ->update()
+            ->where($this->primaryKey,"=","'" . $this->$key . "'")
             ->put();
         return $this;
     }
