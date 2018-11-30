@@ -75,23 +75,25 @@ class AgentLoad{
   }
   protected function _buildMsgBody(){
     $driver = $this->shipment->getDriver();
-    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an AGENT_LOAD_ETA traffic text with the following results:\n";
-    $this->msgBody .= "Are you planning to go to the origin agent before load?\n";
+    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an AGENT_LOAD_ETA traffic text with the following results:<br>";
+    $this->msgBody .= "Are you planning to go to the origin agent before load?<br>";
     if($this->_isAtAgentBeforeLoad()){
       $this->msgBody .= "\tYes\n";
     }else{
       $this->msgBody .= "\tNo\n";
     }
+    $this->msgBody .= "<ul>";
     foreach($this->timeInputs as $key=>$value){
       if(!$this->_isUntouched($value)){
-        $this->msgBody .= $key . " = " . $value . "\n";
+        $this->msgBody .= "<li>" . $key . " = " . $value . "</li>";
       }
     }
+    $this->msgBody .= "</ul>";
     return $this;
   }
   protected function _sendMsg(){
     try{
-      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody,$attachments);
+      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody,'');
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
