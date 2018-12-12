@@ -13,21 +13,22 @@ require_once __DIR__ . '/../../models/ops/Shipment.php';
 require_once __DIR__ . '/../../models/ops/Driver.php';
 require_once __DIR__ . '/TrafficResponse.php';
 
-$v = new VanOperator();
-
 class VanOperator extends TrafficResponse{
 
-  const UNTOUCHED = '0:0';
-  const PAGE = 'agentLoadETA';
-  const MSGFILENAME = 'agentLoadResponse';
-  const MSGTYPE = 'internal-email';
+  const PAGE = 'vanOperator';
+  const MSGFILENAME = 'vanOperatorResponse';
+
   const MSGTO = 'j.watson@allamericanmoving.com';
-  const MSGFROM = 'mobileSite@militaryshipment.com';
-  const MSGCC = 'webadmin@allamericanmoving.com';
 
   public $response;
   protected $msgSubject;
   protected $msgBody;
 
-  public function __construct(){}
+  public function __construct($gbl_dps,$inputObj){}
+
+  protected function _buildResponse(){}
+  protected function _buildNotification(){}
+  protected function _buildMsgSubject(){}
+  protected function _buildMsgBody(){}
+  protected function _sendMsg(){}
 }

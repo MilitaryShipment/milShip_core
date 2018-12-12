@@ -35,3 +35,14 @@ interface MessageBehavior{
 //    public function fax();
 //    public function email();
 }
+interface TrafficResponseBehavior{
+  const UNTOUCHEDTIME = '0:0';
+  const MSGTYPE = 'internal-email';
+  const MSGFROM = 'mobileSite@militaryshipment.com';
+  const MSGCC = 'webadmin@allamericanmoving.com';
+  protected function _buildResponse();
+  protected function _buildNotification();
+  protected function _buildMsgSubject();
+  protected function _buildMsgBody();
+  protected function _sendMsg();
+}
