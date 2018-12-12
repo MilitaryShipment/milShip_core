@@ -93,7 +93,7 @@ class AgentLoad{
   }
   protected function _sendMsg(){
     try{
-      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody,array(),true);
+      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody);
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }

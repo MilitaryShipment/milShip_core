@@ -53,7 +53,7 @@ abstract class Messenger implements MessageBehavior{
         }
         return false;
     }
-    public static function send($to,$from,$fromName,$replyTo,$cc,$bcc,$subject,$body,$attachments){
+    public static function send($to,$from,$fromName,$replyTo,$cc,$bcc,$subject,$body,$attachments = array()){
         return new SendMessage($to,$from,$fromName,$replyTo,$cc,$bcc,$subject,$body,$attachments);
     }
 }
