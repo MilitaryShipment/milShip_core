@@ -114,7 +114,6 @@ class AgentLoad{
     $response->driver_name = $driver->first_name . " " . $driver->last_name;
     $response->driver_phone = $driver->phone_number;
     $response->driver_mobile = $driver->mobile;
-    $response->driver_eta_date = $this->shipment->driver_eta_date;
     $response->load_eta_early_time = $this->_isUntouched($this->timeInputs['load_eta_early_time']) ? null : $this->_buildDateStr($this->timeInputs['load_eta_early_time']);
     $response->load_eta_late_time = $this->_isUntouched($this->timeInputs['load_eta_late_time']) ? null : $this->_buildDateStr($this->timeInputs['load_eta_late_time']);
     $response->at_orig_agent_before_load = $this->_isAtAgentBeforeLoad() ? 1 : 0;
