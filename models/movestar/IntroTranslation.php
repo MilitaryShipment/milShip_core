@@ -29,6 +29,7 @@ class IntroTranslation{
     const SHIPKEY = 'gbl_dps';
     const PAGEKEY = 'page';
     const ORIGPAGE = 'OrigAddress';
+    const SHIPPERHAPPYKEY = 'delivery_overall_move';
     const INPUTLOG = '/srv/www/htdocs/m/log/Introparams.txt';
     const TRUE = 'Y';
     const FALSE = 'N';
@@ -54,7 +55,8 @@ class IntroTranslation{
         "orig_authorized_individual_phone"=>"releasing_agent_phone",
         "dest_authorized_individual"=>"receiving_agent_name",
         "dest_authorized_individual_phone"=>"receiving_agent_phone",
-        "gun_yn"=>"is_firearm"
+        "gun_yn"=>"is_firearm",
+        "delivery_overall_move"=>"shipper_satisfied",
     );
     protected $targetLists = array(
         "Oversize"
@@ -91,7 +93,9 @@ class IntroTranslation{
             ->_parseBools()
             ->_parseFirearms()
             ->_checkForNewPickup()
-            ->_checkForAddresses();
+            ->_checkForAddresses()
+            ->_checkForShipperSatisfied();
+        $this->shipment->status_id = 1;
         $this->shipment->update();
     }
     protected function _logInput(){
@@ -192,6 +196,14 @@ class IntroTranslation{
             $this->shipment->dest_state = $this->input[$this->addressKeys[2]];
             $this->shipment->dest_zip = $this->input[$this->addressKeys[3]];
         }
+        return $this;
+    }
+    protected function _checkForShipperSatisfied(){
+        if(!isset($this->input[self::SHIPPERHAPPYKEY])){
+            return $this;
+        }
+        $field = $this->targets[self::SHIPPERHAPPYKEY];
+        $this->shipment->$field = $this->input[self::SHIPPERHAPPYKEY];
         return $this;
     }
     protected function _verifyAddressKeys(){
