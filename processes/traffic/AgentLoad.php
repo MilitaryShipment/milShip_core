@@ -23,6 +23,7 @@ class AgentLoad{
   const MSGFROM = 'mobileSite@militaryshipment.com';
   const MSGCC = 'webadmin@allamericanmoving.com';
 
+  public $response;
   protected $shipment;
   protected $timeInputs = array();
   protected $msgBody;
@@ -122,6 +123,7 @@ class AgentLoad{
     $response->created_by = $this->shipment->driver_id;
     $response->status_id = 1;
     $response->create();
+    $this->response = $response;
     return $this;
   }
   protected function _buildNotification(){
