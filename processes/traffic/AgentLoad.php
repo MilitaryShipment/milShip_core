@@ -37,8 +37,8 @@ class AgentLoad{
     );
     try{
       $this->shipment = new Shipment($gbl_dps);
-      $this->shipement->load_eta_early_time = $this->_isUntouched($this->timeInputs['load_eta_early_time']) ? $this->shipement->load_eta_early_time : $this->_buildTimeStr($this->timeInputs['load_eta_early_time']);;
-      $this->shipment->load_eta_late_time = $this->_isUntouched($this->timeInputs['load_eta_late_time']) ? $this->shipment->load_eta_late_time : $this->_buildTimeStr($this->timeInputs['load_eta_late_time']);;
+      $this->shipment->load_eta_early_time = $this->_isUntouched($this->timeInputs['load_eta_early_time']) ? $this->shipement->load_eta_early_time : $this->_buildTimeStr($this->timeInputs['load_eta_early_time']);
+      $this->shipment->load_eta_late_time = $this->_isUntouched($this->timeInputs['load_eta_late_time']) ? $this->shipment->load_eta_late_time : $this->_buildTimeStr($this->timeInputs['load_eta_late_time']);
       $this->shipment->update();
       $this->_buildMsgSubject()
             ->_buildMsgBody()
@@ -93,7 +93,7 @@ class AgentLoad{
   }
   protected function _sendMsg(){
     try{
-      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody,'');
+      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody,array(),true);
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
