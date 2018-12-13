@@ -49,7 +49,7 @@ class EpayResend{
         $recipients = $this->_getRecipient($match[0]);
         foreach($recipients as $recipient){
           echo $recipient . "\n";
-          $msgBody = $this->_appendMsgBody($msgBody,$agent_id,$recipient);
+          $msgBody = $this->_appendMsgBody($msgBody,$matches[0],$recipient);
           echo $msgBody . "\m";
         }
       }catch(\Exception $e){
