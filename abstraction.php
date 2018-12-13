@@ -37,6 +37,7 @@ interface MessageBehavior{
 }
 interface TrafficResponseBehavior{
   const UNTOUCHEDTIME = '0:0';
+  const UNTOUCHEDDATE = '0/1/1970';
   const MSGTYPE = 'internal-email';
   const MSGFROM = 'mobileSite@militaryshipment.com';
   const MSGCC = 'webadmin@allamericanmoving.com';

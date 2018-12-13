@@ -8,14 +8,20 @@ abstract class TrafficResponse implements TrafficResponseBehavior{
 
   public function __construct(){}
 
-  protected function _isUntouched($timeStr){
-    if($timeStr == self::UNTOUCHED){
+  protected function _isTimeUntouched($timeStr){
+    if($timeStr == self::UNTOUCHEDTIME){
       return true;
     }
     return false;
   }
-  protected function _buildDateStr($timeStr){
-    $date = date("m/d/Y",strtotime($this->shipment->pack_date));
+  protected function _isDateUntouched($dateStr){
+    if($dateStr == self::UNTOUCHEDDATE){
+      return true;
+    }
+    return false;
+  }
+  protected function _buildDateStr($dateStr,$timeStr){
+    $date = date("m/d/Y",strtotime($dateStr));
     $timeStr = $date . " " . $timeStr;
     return date("m/d/Y H:i:s",strtotime($timeStr));
   }
