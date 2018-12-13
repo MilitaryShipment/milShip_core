@@ -50,12 +50,12 @@ class EpayResend{
     foreach($this->matches as $match){
       try{
         $web_password = $this->_getWebPassword($match[0]);
-        $msgBody = $this->_buildMsgBody($match[0],$web_password,$match[1]);
         $recipients = $this->_getRecipient($match[0]);
         $subject = $this->_buildMsgSubject($match[0]);
         foreach($recipients as $recipient){
+          $msgBody = $this->_buildMsgBody($match[0],$web_password,$match[1]);
           $msgBody = $this->_appendMsgBody($msgBody,$match[0],$recipient);
-          Messenger::send(self::DEVMAIL,self::MSGFROM,self::FROMNAME,self::FROM,array(self::FROM,self::MSGCC),array(),$subject,$msgBody);
+          Messenger::send(self::DEVMAIL,self::MSGFROM,self::FROMNAME,self::MSGFROM,array(self::MSGFROM,self::MSGCC),array(),$subject,$msgBody);
         }
       }catch(\Exception $e){
         $this->_badAgents[] = $match[0];
@@ -102,7 +102,7 @@ class EpayResend{
   protected function _appendMsgBody($msgBody,$agent_id,$email){
     $credentials = WebUser::getCredentials($email);
     $msgBody .= "<br>If you have issues with the link above, please visit " . self::HOMEURL;
-    $msgBody .= "<br>. Where you can login with the following credentials:<br>";
+    $msgBody .= "<br>Where you can login with the following credentials:<br>";
     $msgBody .= "Agent ID: " . $agent_id . "<br>";
     $msgBody .= "Username: " . $credentials['username'] . "<br>";
     $msgBody .= "Password: " . $credentials['password'];
