@@ -5,7 +5,7 @@
 //$agent_id,$web_password,$gbl_dps
 
 require_once __DIR__ . '/../../models/ops/Agent.php';
-require_once __DIR__ . '';
+//require_once __DIR__ . '';
 
 $obj = new EpayResend();
 
@@ -21,7 +21,8 @@ class EpayResend{
   public function __construct(){
     $this->_readErrors();
     foreach($this->matches as $match){
-      print_r($match);
+      echo $this->_getWebPassword($match[0]);
+      // print_r($match);
     }
   }
 
@@ -50,7 +51,7 @@ class EpayResend{
   protected function _getWebPassword($agent_id){
     try{
       $agent = new Agent($agent_id);
-    }catch(\Exception($e)){
+    }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
     return $agent->web_password;
