@@ -23,7 +23,7 @@ class EpayResend{
   protected $_badAgents = array();
 
   public function __construct(){
-    $this->_readErrors();
+    $this->_readErrors()->_resend();
   }
 
   protected function _readErrors(){
