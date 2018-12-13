@@ -357,6 +357,20 @@ class Agent extends Record{
     public function getContracts(){
         return Contract::get('agent_id',$this->agentid_number);
     }
+    public function getEpayRecipient(){
+      $results = $GLOBALS['db']
+        ->suite(WebUser::DRIVER)
+        ->driver(WebUser::DRIVER)
+        ->database(WebUser::DB)
+        ->table(WebUser::TABLE)
+        ->select("b1_user_e_mail_address_14")
+        ->where("vendor_number","=","'$this->vendorid_number'")
+        ->andWhere("agent_number","!=","'m0134'")
+        ->andWhere("b1_user_e_mail_address_14","!=","''")
+        ->andWhere("e_mail_e_pay_payment_confirmation","=","'y'")
+        ->get('value');
+        return $results
+    }
 }
 class Blackout extends Record{
 
