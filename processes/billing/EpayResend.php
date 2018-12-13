@@ -21,8 +21,11 @@ class EpayResend{
   public function __construct(){
     $this->_readErrors();
     foreach($this->matches as $match){
-      echo $this->_getWebPassword($match[0]);
-      // print_r($match);
+      try{
+        echo $this->_getWebPassword($match[0]);
+      }catch(\Exception $e){
+        echo $e->getMessage() . "\n";
+      }
     }
   }
 
