@@ -369,7 +369,7 @@ class Agent extends Record{
         ->andWhere("agent_number","!=","'m0134'")
         ->andWhere("b1_user_e_mail_address_14","!=","''")
         ->andWhere("e_mail_e_pay_payment_confirmation","=","'y'")
-        ->get('value');
+        ->get();
       while($row = mssql_fetch_assoc($results)){
         $data[] = $row['b1_user_e_mail_address_14'];
       }
