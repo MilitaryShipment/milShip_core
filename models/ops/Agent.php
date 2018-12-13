@@ -357,7 +357,7 @@ class Agent extends Record{
     public function getContracts(){
         return Contract::get('agent_id',$this->agentid_number);
     }
-    public function getEpayRecipient(){
+    public function getEpayRecipients(){
       $data = array();
       $results = $GLOBALS['db']
         ->suite(WebUser::DRIVER)

@@ -1,5 +1,7 @@
 <?php
 
+//$msg .= "\nIf you have issues with the link above, please visit $homeUrl\n. Where you can login with the following credentials:\nAgent ID: $agent_id\nUsername:$username\nPassword:$password";
+
 //http://www.aftermovecare.com/basic/main.php?msg=&report_heading=Agent_Information&task=agent_info&agent_id=$agent_id&s=$web_password&gbl_dps=$gbl_dps&constraint=epay
 
 //$agent_id,$web_password,$gbl_dps
@@ -14,6 +16,7 @@ $obj = new EpayResend();
 class EpayResend{
 
   const ERRORDIR = './failedMsgs';
+  const HOMEURL = 'http://www.aftermovecare.com';
   const URLBASE = 'http://www.aftermovecare.com/basic/main.php?msg=&report_heading=Agent_Information&task=agent_info&agent_id=';
   const SUBJPATTERN = '/E-Pay\sFor\s([A-Z][0-9]{4}).*Shipment_\s([A-Z]{4}[0-9]{7})/i';
 
@@ -23,7 +26,7 @@ class EpayResend{
   protected $_badAgents = array();
 
   public function __construct(){
-    $this->_readErrors()->_resend();
+    $this->_readErrors()->_cycleMatches();
   }
 
   protected function _readErrors(){
@@ -38,14 +41,17 @@ class EpayResend{
     }
     return $this;
   }
-  protected function _resend(){
+  protected function _cycleMatches(){
     foreach($this->matches as $match){
       try{
         $web_password = $this->_getWebPassword($match[0]);
         $msgBody = $this->_buildMsgBody($match[0],$web_password,$match[1]);
         $recipients = $this->_getRecipient($match[0]);
-        print_r($recipients);
-        echo $msgBody . "\n";
+        foreach($recipients as $recipient){
+          echo $recipient . "\n";
+          $msgBody = $this->_appendMsgBody($msgBody,$agent_id,$email);
+          echo $msgBody . "\m";
+        }
       }catch(\Exception $e){
         $this->_badAgents[] = $match[0];
       }
@@ -76,12 +82,21 @@ class EpayResend{
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
-    return $agent->getEpayRecipient();
+    return $agent->getEpayRecipients();
   }
   protected function _buildWebPath($agent_id,$web_password,$gbl_dps){
     return self::URLBASE . $agent_id . "&s=" . $web_password . "&gbl_dps=" . $gbl_dps  . "&constraint=epay";
   }
   protected function _buildMsgBody($agent_id,$web_password,$gbl_dps){
     return "Your epay images are ready for review:<br>" . $this->_buildWebPath($agent_id,$web_password,$gbl_dps);
+  }
+  protected function _appendMsgBody($msgBody,$agent_id,$email){
+    $credentials = WebUser::getCredentials($email);
+    $msgBody .= "<br>If you have issues with the link above, please visit " . self::HOMEURL;
+    $msgBody .= "<br>. Where you can login with the following credentials:<br>";
+    $msgBody .= "Agent ID: " . $agent_id . "<br>";
+    $msgBody .= "Username: " . $credentials['username'] . "<br>";
+    $msgBody .= "Password: " . $credentials['password'];
+    return $msgBody;
   }
 }
