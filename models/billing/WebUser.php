@@ -125,7 +125,7 @@ class WebUser extends Record{
         return $data;
     }
     public static function getCredentials($email){
-      $data = self::get("b1_user_e_mail_address_14",$email;)
+      $data = self::get("b1_user_e_mail_address_14",$email);
       return array("username"=>$data->user_login,"password"=>$data->user_password);
     }
 }

@@ -43,11 +43,11 @@ class EpayResend{
       try{
         $web_password = $this->_getWebPassword($match[0]);
         $msgBody = $this->_buildMsgBody($match[0],$web_password,$match[1]);
-        $recipient = $this->_getRecipient($match[0]);
-        echo $recipient . "\n";
+        $recipients = $this->_getRecipient($match[0]);
+        print_r($recipients);
         echo $msgBody . "\n";
       }catch(\Exception $e){
-        $this->$_badAgents[] = $match[0];
+        $this->_badAgents[] = $match[0];
       }
     }
     return $this;

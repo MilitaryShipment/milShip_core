@@ -358,6 +358,7 @@ class Agent extends Record{
         return Contract::get('agent_id',$this->agentid_number);
     }
     public function getEpayRecipient(){
+      $data = array();
       $results = $GLOBALS['db']
         ->suite(WebUser::DRIVER)
         ->driver(WebUser::DRIVER)
@@ -369,7 +370,10 @@ class Agent extends Record{
         ->andWhere("b1_user_e_mail_address_14","!=","''")
         ->andWhere("e_mail_e_pay_payment_confirmation","=","'y'")
         ->get('value');
-        return $results
+      while($row = mssql_fetch_assoc($results)){
+        $data[] = $row['b1_user_e_mail_address_14'];
+      }
+      return $data;
     }
 }
 class Blackout extends Record{
