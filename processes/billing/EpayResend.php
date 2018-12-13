@@ -9,7 +9,7 @@
 //todo build URL, get recipeint RESEND
 
 require_once __DIR__ . '/../../models/ops/Agent.php';
-//require_once __DIR__ . '';
+require_once __DIR__ . '/../../Messenger.php';
 
 $obj = new EpayResend();
 
@@ -18,7 +18,12 @@ class EpayResend{
   const ERRORDIR = './failedMsgs';
   const HOMEURL = 'http://www.aftermovecare.com';
   const URLBASE = 'http://www.aftermovecare.com/basic/main.php?msg=&report_heading=Agent_Information&task=agent_info&agent_id=';
+  const SUBJECTBASE = 'All-American Moving Group E-Pay For ';
   const SUBJPATTERN = '/E-Pay\sFor\s([A-Z][0-9]{4}).*Shipment_\s([A-Z]{4}[0-9]{7})/i';
+  const MSGFROM = 'Epay@allamericanmoving.com';
+  const FROMNAME = 'Epay';
+  const MSGCC = 'webadmin@allamericanmoving.com';
+  const DEVMAIL = 'j.watson@allamericanmoving.com';
 
   protected $matches = array();
   protected $_parsed = array();
@@ -47,10 +52,10 @@ class EpayResend{
         $web_password = $this->_getWebPassword($match[0]);
         $msgBody = $this->_buildMsgBody($match[0],$web_password,$match[1]);
         $recipients = $this->_getRecipient($match[0]);
+        $subject = $this->_buildMsgSubject($match[0]);
         foreach($recipients as $recipient){
-          echo $recipient . "\n";
           $msgBody = $this->_appendMsgBody($msgBody,$match[0],$recipient);
-          echo $msgBody . "\m";
+          Messenger::send(self::DEVMAIL,self::MSGFROM,self::FROMNAME,self::FROM,array(self::FROM,self::MSGCC),array(),$subject,$msgBody);
         }
       }catch(\Exception $e){
         $this->_badAgents[] = $match[0];
@@ -89,6 +94,10 @@ class EpayResend{
   }
   protected function _buildMsgBody($agent_id,$web_password,$gbl_dps){
     return "Your epay images are ready for review:<br>" . $this->_buildWebPath($agent_id,$web_password,$gbl_dps);
+  }
+  protected function _buildMsgSubject($agent_id){
+    $agent = new Agent($agent_id);
+    return self::SUBJECTBASE . $agent_id . " " . $agent->agent_name;
   }
   protected function _appendMsgBody($msgBody,$agent_id,$email){
     $credentials = WebUser::getCredentials($email);
