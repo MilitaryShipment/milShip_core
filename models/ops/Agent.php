@@ -26,8 +26,8 @@ class Agent extends Record{
 
     const DRIVER = 'mssql';
     const DB = 'Sandbox';
-//    const TABLE = 'tbl_agents';
-    const TABLE = 'tbl_agents_test';
+    const TABLE = 'tbl_agents';
+    //const TABLE = 'tbl_agents_test';
     const PRIMARYKEY = 'agentid_number';
 
     public $agentid_number;
