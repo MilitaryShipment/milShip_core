@@ -6,7 +6,7 @@ class AgentInquiry extends Record{
 
   const DRIVER = 'mssql';
   const DB = 'Sandbox';
-  const TABLE = 'tbl_webusers';
+  const TABLE = 'tbl_epay_inquiries';
   const PRIMARYKEY = 'id';
 
   public $id;
