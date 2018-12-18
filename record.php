@@ -117,7 +117,7 @@ abstract class Record implements RecordBehavior{
             $key = $obj->name;
             if($key == 'updated_date'){
                 $upData[$key] = date("m/d/Y H:i:s");
-            }elseif(!is_null($this->$key) && !empty($this->$key)){
+            }elseif($this->$key == 0 || (!is_null($this->$key) && !empty($this->$key))){
                 $upData[$key] = $this->$key;
             }
         }
