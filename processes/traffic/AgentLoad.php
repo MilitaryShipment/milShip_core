@@ -76,8 +76,8 @@ class AgentLoad{
   }
   protected function _buildMsgBody(){
     $driver = $this->shipment->getDriver();
-    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an AGENT_LOAD_ETA traffic text with the following results:<br>";
-    $this->msgBody .= "Are you planning to go to the origin agent before load?<br>";
+    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an AGENT_LOAD_ETA traffic text with the following results:\n";
+    $this->msgBody .= "Are you planning to go to the origin agent before load?\n";
     if($this->_isAtAgentBeforeLoad()){
       $this->msgBody .= "\tYes\n";
     }else{
@@ -94,7 +94,7 @@ class AgentLoad{
   }
   protected function _sendMsg(){
     try{
-      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody);
+      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,nl2br($this->msgBody));
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }

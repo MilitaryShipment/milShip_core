@@ -35,6 +35,7 @@ class VanOperator extends TrafficResponse{
   const PAGE = 'vanOperator';
   const MSGFILENAME = 'vanOperatorResponse';
   const MSGTO = 'j.watson@allamericanmoving.com';
+  const MSGCC = 'webadmin@allamericanmoving.com';
 
   public $response;
   protected $shipment;
@@ -65,6 +66,11 @@ class VanOperator extends TrafficResponse{
       $this->shipment->gross_weight = ($this->input->gross_weight == 0) ? $this->shipment->gross_weight : $this->input->gross_weight;
       $this->shipment->tare_weight = ($this->input->tare_weight == 0) ? $this->shipment->tare_weight : $this->input->tare_weight;
       $this->shipment->update();
+      $this->_buildResponse()
+          ->_buildNotification()
+          ->_buildMsgSubject()
+          ->_buildMsgBody()
+          ->_sendMsg();
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
@@ -136,10 +142,37 @@ class VanOperator extends TrafficResponse{
     $this->msgSubject = "ATTN: VAN OPERATOR REPLY FROM " . $this->shipment->driver_id . " ON SHIPMENT " . $this->shipment->gbl_dps;
     return $this;
   }
-  protected function _buildMsgBody(){}
+  protected function _buildMsgBody(){
+    $driver = $this->shipment->getDriver();
+    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an AGENT_LOAD_ETA traffic text with the following results:\n";
+    $this->msgBody .= "Can you provide an ETA for delivery?\n\n";
+    if($this->_isDateUntouched($this->input->delivery_eta_date) && !$this->_isDateUntouched($this->input->final_load_eta_date)){
+      $this->msgBody .= "No.\n";
+      $this->msgBody .= "Estimated date when a delivery ETA can be provided?\n";
+      $this->msgBody .= $this->input->final_load_eta_date . "\n";
+    }else{
+      $this->msgBody .= "Yes.\n";
+      $this->msgBody .= "What is your ETA for delivery?\n";
+      $this->msgBody .= $this->input->delivery_eta_date . "\n";
+      $this->msgBody .= "What is your earliest arrival time?\n";
+      $this->msgBody .= $this->input->delivery_date_eta_early_time . "\n";
+      $this->msgBody .= "What is your lastest arrival time?\n";
+      $this->msgBody .= $this->input->delivery_date_eta_late_time . "\n";
+    }
+    $this->msgBody .= "Gross Weight?\n";
+    $this->msgBody .= $this->input->gross_weight . "\n";
+    $this->msgBody .= "Tare Weight?\n";
+    $this->msgBody .= $this->input->tare_weight . "\n";
+    $this->msgBody .= "Is there an overflow?\n";
+    $this->msgBody .= $this->input->is_overflow ? "Yes\n": "No\n";
+    $this->msgBody .= "Did you leave any necessity items?\n";
+    $this->msgBody .= $this->input->necessity_items_left ? "Yes\n" : "No\n";
+    $this->msgBody .= (strlen($this->input->necessity_item_description)) ? $this->input->necessity_item_description . "\n" : "";
+    return $this;
+  }
   protected function _sendMsg(){
     try{
-      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,$this->msgBody);
+      Messenger::send(self::MSGTO,self::MSGFROM,self::MSGFROM,self::MSGCC,self::MSGCC,'',$this->msgSubject,nl2br($this->msgBody));
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
