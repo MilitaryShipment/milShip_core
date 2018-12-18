@@ -35,7 +35,6 @@ class VanOperator extends TrafficResponse{
   const PAGE = 'vanOperator';
   const MSGFILENAME = 'vanOperatorResponse';
   const MSGTO = 'j.watson@allamericanmoving.com';
-  const MSGCC = 'webadmin@allamericanmoving.com';
 
   public $response;
   protected $shipment;
