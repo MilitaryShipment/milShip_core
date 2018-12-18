@@ -47,6 +47,6 @@ class TonnageShipment extends Record{
     public $status_id;
 
     public function __construct($id = null){
-        parent::__construct(self::DRIVER,self::DRIVER,self::DATABASE,self::PRIMARYKEY,self::TABLE,$id);
+        parent::__construct(self::DRIVER,self::DRIVER,self::DATABASE,self::TABLE,self::PRIMARYKEY,$id);
     }
 }
