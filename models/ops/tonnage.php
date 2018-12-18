@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../record.php';
+require_once __DIR__ . "/../../record.php";
 
 
 class TonnageShipment extends Record{
