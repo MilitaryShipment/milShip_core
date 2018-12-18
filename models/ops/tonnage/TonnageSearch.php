@@ -1,8 +1,6 @@
 <?php
 
-require_once __DIR__ . "/../../record.php";
-
-
+require_once __DIR__ . '/TonnageShipment.php';
 
 class TonnageSearch{
 
