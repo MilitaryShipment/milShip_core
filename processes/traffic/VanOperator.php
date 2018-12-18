@@ -143,7 +143,7 @@ class VanOperator extends TrafficResponse{
   }
   protected function _buildMsgBody(){
     $driver = $this->shipment->getDriver();
-    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an AGENT_LOAD_ETA traffic text with the following results:\n";
+    $this->msgBody = $driver->first_name . " " . $driver->last_name . " has responded to an VAN OPERATOR traffic text with the following results:\n";
     $this->msgBody .= "Can you provide an ETA for delivery?\n\n";
     if($this->_isDateUntouched($this->input->delivery_eta_date) && !$this->_isDateUntouched($this->input->final_load_eta_date)){
       $this->msgBody .= "No.\n";
