@@ -95,7 +95,8 @@ class Lane{
             ->andWhere("round","=",$this->round)
             ->get();
         if(!mssql_num_rows($results)){
-            die('No BKAR AVAILABLE');
+            $exceptionStr = $this->lane . " | " . $this->year . " | " . $this->round . " | No BKAR AVAILABLE";
+            throw new \Exception($exceptionStr);
         }else{
             while($row = mssql_fetch_assoc($results)){
                 $this->lh_bkar = $row[$col1];
@@ -123,7 +124,8 @@ class Lane{
             ->andWhere("round = '$this->round'")
             ->get();
         if(!mssql_num_rows($results)){
-            die('No BKAR AVAILABLE');
+            $exceptionStr = $this->lane . " | " . $this->year . " | " . $this->round . " | No LKAR AVAILABLE";
+            throw new \Exception($exceptionStr;
         }else{
             while($row = mssql_fetch_assoc($results)){
                 $this->lh_lkar = $row[$col1];
