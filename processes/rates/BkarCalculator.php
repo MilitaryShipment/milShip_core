@@ -69,7 +69,7 @@ class BkarCalculator{
                 ->database(Lane::DATABASE)
                 ->table($table)
                 ->select($col1)
-                ->where("lane = '$lane'")
+                ->where("lane","=","'$lane'")
                 ->andWhere("$col2","=","0")
                 ->andWhere("year","=","'$this->year'")
                 ->andWhere("round","=","'$this->round'")
