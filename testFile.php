@@ -1,6 +1,16 @@
 <?php
 
 
+require_once __DIR__ . '/models/rates/RateFactory.php';
+
+$scac = RateFactory::buildScac("AAMG",2,2018);
+
+print_r($scac);
+
+
+
+exit;
+
 require_once __DIR__ . '/processes/traffic/VanOperator.php';
 
 $gbl_dps = 'FDNT0000000';

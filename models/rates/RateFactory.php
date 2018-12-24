@@ -1,5 +1,16 @@
 <?php
 
+require_once __DIR__ . '/Lane.php';
+require_once __DIR__ . '/ScacList.php';
+require_once __DIR__ . '/LaneList.php';
+require_once __DIR__ . '/RegionList.php';
+require_once __DIR__ . '/ChannelList.php';
+require_once __DIR__ . '/YearList.php';
+require_once __DIR__ . '/Scac.php';
+require_once __DIR__ . '/../../processes/rates/RateSearch.php';
+require_once __DIR__ . '/../../processes/rates/RateExport.php';
+require_once __DIR__ . '/../../processes/rates/RateCopy.php';
+
 class RateFactory{
 
     public static function generateDB(){
