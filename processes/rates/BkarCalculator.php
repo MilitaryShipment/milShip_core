@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+require_once __DIR__ . '/../../models/rates/Lane.php';
 
 
 class BkarCalculator{
@@ -35,9 +37,10 @@ class BkarCalculator{
     }
     private function buildLanes(){
         $results = $GLOBALS['db']
-            ->driver('mssql')
-            ->database('test')
-            ->table("dps_rates_peak")
+            ->suite(Lane::DRIVER)
+            ->driver(Lane::DRIVER)
+            ->database(Lane::DATABASE)
+            ->table(Lane::PEAK)
             ->select("distinct lane")
             ->get();
         while($row = mssql_fetch_assoc($results)){
@@ -62,14 +65,14 @@ class BkarCalculator{
         foreach($this->lanes as $lane){
             $bkars[$lane] = array();
             $results = $GLOBALS['db']
-                ->driver(self::MSSQL)
-                ->database(self::DATABASE)
+                ->driver(Lane::DRIVER)
+                ->database(Lane::DATABASE)
                 ->table($table)
                 ->select($col1)
                 ->where("lane = '$lane'")
-                ->andWhere("$col2 = 0")
-                ->andWhere("year = '$this->year'")
-                ->andWhere("round = '$this->round'")
+                ->andWhere("$col2","=","0")
+                ->andWhere("year","=","'$this->year'")
+                ->andWhere("round","=","'$this->round'")
                 ->get();
             if(!mssql_num_rows($results)){
                 $this->errors[] = 'There are no values for selected period';
@@ -91,9 +94,9 @@ class BkarCalculator{
             $vals['round'] = $this->round;
             $vals['year'] = $this->year;
             $results = $GLOBALS['db']
-                ->driver(self::MSSQL)
-                ->database(self::DATABASE)
-                ->table(self::BKAR)
+                ->driver(Lane::DRIVER)
+                ->database(LANE::DATABASE)
+                ->table(Lane::BKAR)
                 ->data($vals)
                 ->insert()
                 ->put();

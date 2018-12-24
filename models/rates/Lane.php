@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../record.php';
 class Lane{
 
     const MSSQL = 'mssql';
+    const DRIVER = 'mssql';
     const DATABASE = 'test';
     const PEAK = 'dps_rates_peak';
     const NONPEAK = 'dps_rates_non_peak';
@@ -89,9 +90,9 @@ class Lane{
             ->database(self::DATABASE)
             ->table(self::BKAR)
             ->select($col1,$col2)
-            ->where("lane = '$this->lane'")
-            ->andWhere("year = '$this->year'")
-            ->andWhere("round = '$this->round'")
+            ->where("lane","=","'$this->lane'")
+            ->andWhere("year","=",$this->year)
+            ->andWhere("round","=",$this->round)
             ->get();
         if(!mssql_num_rows($results)){
             die('No BKAR AVAILABLE');
