@@ -125,7 +125,7 @@ class Lane{
             ->get();
         if(!mssql_num_rows($results)){
             $exceptionStr = $this->lane . " | " . $this->year . " | " . $this->round . " | No LKAR AVAILABLE";
-            throw new \Exception($exceptionStr;
+            throw new \Exception($exceptionStr);
         }else{
             while($row = mssql_fetch_assoc($results)){
                 $this->lh_lkar = $row[$col1];
