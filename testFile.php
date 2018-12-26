@@ -45,7 +45,7 @@ foreach($allScacs as $scacLabel){
   foreach($scac->peakLanes as $lane){
     $lh_range = $lane->getKnownAcceptedRange();
     $lane->lh_adj = $lh_range['x'] + $peakLanes[$lane->lane];
-    echo $scacLabel . " | " . $lane->lane . " | " . $lane->lh_discount . " + " . $peakLanes[$lane->lane]  "\n";
+    echo $scacLabel . " | " . $lane->lane . " | " . $lane->lh_discount . " + " . $peakLanes[$lane->lane] . "\n";
     echo $lane->lh_adj . "\n";
     print_r($lh_range);
     exit;
