@@ -3,48 +3,62 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+
+/*REDFILE ROUND 1 AUTOFLE*/
 $year = 2018;
 $round = 2;
+$redFiles = array("AAMG","EVAL","AVLE");
+foreach($redFiles as $scacLabel){
+  $scac = RateFactory::buildScac($scacLabel);
+  foreach($scac->peakLanes as $lane){
+    $lh_range = $lane->getKnownAcceptedRange();
+    if($lh_range['x'] !== $lane->lh_bkar){
+      echo $lh_range['x'] . " | " . $lane->lh_bkar . "\n";
+    }
+  }
+}
 
+exit;
+/*END REDFILE ROUND 1 AUTOFILE*/
+
+/*PASTURE ROUND 1 AUTOFILE*/
+$year = 2018;
+$round = 2;
 $pasture = array(
-  "AAMG"=>0,
-  "EVAL"=>0,
-  "AVLE"=>0,
-  "MXSP"=>1,
-  "NVYV"=>1,
-  "GVLN"=>1
+  "AAMG"=>array("isHigh"=>1,"lh"=>0,"sit"=>0),
+  "EVAL"=>array("isHigh"=>1,"lh"=>1,"sit"=>1),
+  "AVLE"=>array("isHigh"=>1,"lh"=>-1,"sit"=>2),
+  "MXSP"=>array("isHigh"=>1,"lh"=>-2,"sit"=>-.25),
+  "NVYV"=>array("isHigh"=>0,"lh"=>0,"sit"=>-.50),
+  "GVLN"=>array("isHigh"=>0,"lh"=>-1,"sit"=>-.75),
+  "PYVL"=>array("isHigh"=>0,"lh"=>-2,"sit"=>-1)
 );
-$harvest = array(
-  "ADVA"=>0,
-  "ALMM"=>0,
-  "AVLM"=>0,
-  "PYVL"=>0,
-  "PPVL"=>1,
-  "UVNL"=>1,
-  "USAV"=>1,
-  "VVNL"=>1
-);
-$redFile = array("AWVA","CFVL","MVUS");
-
-foreach($pasture as $scac => $isHigh){
-  $scac = RateFactory::buildScac($scac,$round,$year);
+foreach($pasture as $scacLabel=>$variance){
+  $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
     $lh_range = $lane->getKnownAcceptedRange();
     $sit_range = $lane->getKnownAcceptedRange(true,false);
-    print_r($lh_range);
-    print_r($sit_range);
+    if($variance['isHigh']){
+      $lane->lh_adj = $lh_range['x'] + $variance['lh'];
+    }else{
+      $lane->lh_adj = $lh_range['y'] + $variance['lh'];
+    }
+    $lane->sit_adj = $sit_range['x'] + $variance['sit'];
   }
-  // if($isHigh){
-  //   //todo one thing.
-  // }else{
-  //   //todo another thing.
-  // }
+  foreach($scac->nonPeakLanes as $lane){
+    $lh_range = $lane->getKnownAcceptedRange(false,true);
+    $sit_range = $lane->getKnownAcceptedRange(false,false);
+    if($variance['isHigh']){
+      $lane->lh_adj = $lh_range['x'] + $variance['lh'];
+    }else{
+      $lane->lh_adj = $lh_range['y'] + $variance['lh'];
+    }
+    $lane->sit_adj = $sit_range['x'] + $variance['sit'];
+  }
 }
-
-
-
-
+/*END PASTURE ROUND 1 AUTOFILE*/
 exit;
+
 
 require_once __DIR__ . '/processes/traffic/VanOperator.php';
 

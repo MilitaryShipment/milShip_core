@@ -165,18 +165,27 @@ class Lane{
         ->table($table);
       if($lh){
         $select = "max(lh_discount) as max,min(lh_discount) as min";
+        $andKey = "lh_rejection_code";
       }else{
         $select = "max(sit_discount) as max,min(sit_discount) as min";
+        $andKey = "sit_rejection_code";
       }
       $results = $GLOBALS['db']
         ->select($select)
-        ->where("round","=","'" . $this->round . "'")
+        ->where("lane","=","'" . $this->lane . "'")
+        ->andWhere("round","=","'" . $this->round . "'")
         ->andWhere("year","=","'" . $this->year . "'")
+        ->andWhere($andKey,"=",0)
         ->get();
       while($row = mssql_fetch_assoc($results)){
         $data['x'] = $row['max'];
         $data['y'] = $row['min'];
       }
+      return $data;
+    }
+    public function getEhpRange(){
+      //ehp range == Exploratory High Price Range
+      $data = array();
       return $data;
     }
 }
