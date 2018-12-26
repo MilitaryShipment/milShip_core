@@ -3,8 +3,13 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-$scac = RateFactory::buildScac("AAMG",2,2018);
 
+$c = RateFactory::calculateLkar(2,2018);
+print_r($c->errors);
+
+exit;
+
+$scac = RateFactory::buildScac("AAMG",2,2018);
 print_r($scac);
 
 

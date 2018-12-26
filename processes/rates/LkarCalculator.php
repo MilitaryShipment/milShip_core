@@ -102,5 +102,6 @@ class LkarCalculator{
                 ->insert()
                 ->put();
         }
+        return $this;
     }
 }

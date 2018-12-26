@@ -10,6 +10,7 @@ require_once __DIR__ . '/Scac.php';
 require_once __DIR__ . '/../../processes/rates/RateSearch.php';
 require_once __DIR__ . '/../../processes/rates/RateExport.php';
 require_once __DIR__ . '/../../processes/rates/RateCopy.php';
+require_once __DIR__ . '/../../processes/rates/LkarCalculator.php';
 
 class RateFactory{
 
@@ -90,5 +91,8 @@ class RateFactory{
     }
     public static function blankObject(){
         return new stdClass();
+    }
+    public static function calculateLkar($year,$round){
+      return new LkarCalculator($rear,$round);
     }
 }
