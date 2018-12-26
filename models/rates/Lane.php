@@ -201,7 +201,7 @@ class Lane{
         ->driver(self::DRIVER)
         ->database(self::DATABASE)
         ->table($table)
-        ->select()
+        ->select($select)
         ->where("lane","=","'" . $this->lane . "'")
         ->andWhere("year","=", "'" . $this->year . "'")
         ->andWhere("round","=",1)
