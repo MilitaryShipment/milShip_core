@@ -50,9 +50,9 @@ class LkarCalculator{
     private function build($peak = true,$lh = true){
         $bkars = array();
         if($peak){
-            $table = self::PEAK;
+            $table = Lane::PEAK;
         }else{
-            $table = self::NONPEAK;
+            $table = Lane::NONPEAK;
         }
         if($lh){
             $col1 = 'lh_discount';
