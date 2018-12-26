@@ -40,7 +40,6 @@ foreach($pasture as $isHigh => $scac){
 }
 
 
-function _getKnownAcceptedRange($lane,$round,$year){}
 
 
 exit;
