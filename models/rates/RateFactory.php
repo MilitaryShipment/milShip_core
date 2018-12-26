@@ -93,6 +93,6 @@ class RateFactory{
         return new stdClass();
     }
     public static function calculateLkar($year,$round){
-      return new LkarCalculator($rear,$round);
+      return new LkarCalculator($year,$round);
     }
 }
