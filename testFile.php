@@ -35,7 +35,7 @@ function _readFromCsv($peak = true){
   }
   return $data;
 }
-function _doAdjustments($allScacs,$peakLanes,$nonPeaksLanes){
+function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
   foreach($allScacs as $scacLabel){
     $scac = RateFactory::buildScac($scacLabel,$round,$year);
     foreach($scac->peakLanes as $lane){
@@ -56,9 +56,7 @@ $redFiles = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
 $allScacs = array_merge($redFiles,$harvest);
 $peakLanes = _readFromCsv();
 $nonPeaksLanes = _readFromCsv(false);
-
-
-_doAdjustments($allScacs,$peakLanes,$nonPeaksLanes);
+_doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes);
 
 exit;
 /*BUILDING LANE DATA*/
