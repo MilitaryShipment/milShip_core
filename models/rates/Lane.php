@@ -178,8 +178,8 @@ class Lane{
         ->andWhere($andKey,"=",0)
         ->get();
       while($row = mssql_fetch_assoc($results)){
-        $data['x'] = $row['max'];
-        $data['y'] = $row['min'];
+        $data['x'] = $row['min'];
+        $data['y'] = $row['max'];
       }
       return $data;
     }
