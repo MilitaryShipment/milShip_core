@@ -93,15 +93,14 @@ class LkarCalculator{
             $vals['lane'] = $lane;
             $vals['round'] = $this->round;
             $vals['year'] = $this->year;
-            print_r($vals);
-            // $results = $GLOBALS['db']
-            //     ->suite(Lane::DRIVER)
-            //     ->driver(Lane::DRIVER)
-            //     ->database(Lane::DATABASE)
-            //     ->table(Lane::LKAR)
-            //     ->data($vals)
-            //     ->insert()
-            //     ->put();
+            $results = $GLOBALS['db']
+                ->suite(Lane::DRIVER)
+                ->driver(Lane::DRIVER)
+                ->database(Lane::DATABASE)
+                ->table(Lane::LKAR)
+                ->data($vals)
+                ->insert()
+                ->put();
         }
         return $this;
     }
