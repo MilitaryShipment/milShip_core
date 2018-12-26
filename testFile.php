@@ -9,15 +9,25 @@ $year = 2018;
 $round = 2;
 $harvest = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
 $redFiles = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
-
+$peakLanes = array();
+$nonPeaksLanes = array();
 foreach($redFiles as $scacLabel){
   $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
-    $ehp = $lane->getEhpRange();
-    $variance = $ehp / (count($harvest) + count($redFiles));
-    echo $ehp . " -> " . $variance .  "\n";
+    $lh_ehp = $lane->getEhpRange();
+    $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
+    $peakLanes[] = array($lane->lane=>$lh_variance);
+  }
+  foreach($scac->nonPeakLanes as $lane){
+    $lh_ehp = $lane->getEhpRange(false,true);
+    $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
+    $lane->lh_adj = $lh->lh_discount + $lh_variance;
+    $nonPeaksLanes[] = array($lane->lane=>$lh_variance);
   }
 }
+
+print_r($peakLanes);
+print_r($nonPeaksLanes);
 
 exit;
 /*END REDFILE ROUND 1 AUTOFILE*/
