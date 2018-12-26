@@ -18,7 +18,7 @@ foreach($redFiles as $scacLabel){
     $lh_ehp = $lane->getEhpRange();
     $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
     if(!isset($peakLanes[$lane->lane])){
-      $peakLanes[] = array($lane->lane=>$lh_variance);
+      $peakLanes[$lane->lane] = $lh_variance;
     }elseif($peakLanes[$lane->lane] != $lh_variance){
       echo $scacLabel . " | " . $lane->lane . " | " . $lh_variance . " | " . $peakLanes[$lane->lane] . "\n";
     }
