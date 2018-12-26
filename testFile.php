@@ -3,6 +3,17 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+
+$csv = array_map('str_getcsv', file('/tmp/peakLanes.csv'));
+
+foreach($csv as $row){
+    $peakLanes[$row[0]] = $row[1];
+
+}
+print_r($peakLanes);
+
+print_r($csv);
+exit;
 $peakLanes = array(
   "us11 to region 1"=>1.13,
   "us11 to region 2"=>.334,
@@ -19,12 +30,12 @@ $nonPeaksLanes = array(
 
 $handle = fopen("/tmp/peakLanes.csv","w");
 foreach($peakLanes as $lane=>$value){
-  fputcsv($handle,",",array($lane,$value));
+  fputcsv($handle,array($lane,$value));
 }
 fclose($handle);
 $handle = fopen("/tmp/nonPeakLanes.csv","w");
 foreach($nonPeaksLanes as $lane=>$value){
-  fputcsv($handle,",",array($lane,$value));
+  fputcsv($handle,array($lane,$value));
 }
 
 exit;
