@@ -151,13 +151,18 @@ class Lane{
             ->put();
         return $this;
     }
-    public function getKnownAcceptedRange($lh = true){
+    public function getKnownAcceptedRange($peak = true,$lh = true){
       $data = array();
+      if($peak){
+        $table = self::PEAK;
+      }else{
+        $table = self::NONPEAK;
+      }
       $GLOBALS['db']
         ->suite(self::DRIVER)
         ->driver(self::DRIVER)
         ->database(self::DATABASE)
-        ->table(self::TABLE);
+        ->table($table);
       if($lh){
         $select = "max(lh_discount) as max,min(lh_discount) as min";
       }else{

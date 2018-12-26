@@ -29,8 +29,10 @@ $redFile = array("AWVA","CFVL","MVUS");
 foreach($pasture as $scac => $isHigh){
   $scac = RateFactory::buildScac($scac,$round,$year);
   foreach($scac->peakLanes as $lane){
-    $range = $lane->getKnownAcceptedRange();
-    print_r($range);
+    $lh_range = $lane->getKnownAcceptedRange();
+    $sit_range = $lane->getKnownAcceptedRange(true,false);
+    print_r($lh_range);
+    print_r($sit_range);
   }
   // if($isHigh){
   //   //todo one thing.
