@@ -3,6 +3,32 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+$peakLanes = array(
+  "us11 to region 1"=>1.13,
+  "us11 to region 2"=>.334,
+  "us11 to region 3"=>.6789,
+
+);
+$nonPeaksLanes = array(
+  "us11 to region 1"=>1.13,
+  "us11 to region 2"=>.334,
+  "us11 to region 3"=>.6789,
+
+);
+
+
+$handle = fopen("/tmp/peakLanes.csv");
+foreach($peakLanes as $lane){
+  fputcsv($handle,$lane);
+}
+fclose($handle);
+$handle = fopen("/tmp/nonPeakLanes.csv");
+foreach($nonPeaksLanes as $lane){
+  fputcsv($handle,$lane);
+}
+
+exit;
+
 
 /*REDFILE ROUND 1 AUTOFLE*/
 
@@ -40,6 +66,24 @@ foreach($redFiles as $scacLabel){
     }
   }
 }
+/*
+$file_input = fopen("addresses.csv","w");
+            foreach($csv as $line){
+                fputcsv($file_input,split(',',$line));
+            }
+            fclose($file_input);
+
+*/
+$handle = fopen("/tmp/peakLanes.csv");
+foreach($peakLanes as $lane){
+  fputcsv($handle,$lane);
+}
+fclose($handle);
+$handle = fopen("/tmp/nonPeakLanes.csv");
+foreach($nonPeaksLanes as $lane){
+  fputcsv($handle,$lane);
+}
+
 foreach($allScacs as $scacLabel){
   $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
