@@ -9,6 +9,7 @@ $year = 2018;
 $round = 2;
 $harvest = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
 $redFiles = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
+$allScacs = array_merge($redFiles,$harvest);
 $peakLanes = array();
 $nonPeaksLanes = array();
 foreach($redFiles as $scacLabel){
@@ -16,17 +17,21 @@ foreach($redFiles as $scacLabel){
   foreach($scac->peakLanes as $lane){
     $lh_ehp = $lane->getEhpRange();
     $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
-    $peakLanes[] = array($lane->lane=>$lh_variance);
+    if(!isset($peakLanes[$lane->lane])){
+      $peakLanes[] = array($lane->lane=>$lh_variance);
+    }elseif($peakLanes[$lane->lane] != $lh_variance){
+      echo $scacLabel . " | " . $lane->lane . " | " . $lh_variance . " | " . $peakLanes[$lane->lane] . "\n";
+    }
   }
-  foreach($scac->nonPeakLanes as $lane){
-    $lh_ehp = $lane->getEhpRange(false,true);
-    $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
-    $nonPeaksLanes[] = array($lane->lane=>$lh_variance);
-  }
+  // foreach($scac->nonPeakLanes as $lane){
+  //   $lh_ehp = $lane->getEhpRange(false,true);
+  //   $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
+  //   $nonPeaksLanes[] = array($lane->lane=>$lh_variance);
+  // }
 }
 
 print_r($peakLanes);
-print_r($nonPeaksLanes);
+//print_r($nonPeaksLanes);
 
 exit;
 /*END REDFILE ROUND 1 AUTOFILE*/
