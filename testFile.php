@@ -17,12 +17,12 @@ $nonPeaksLanes = array(
 );
 
 
-$handle = fopen("/tmp/peakLanes.csv");
+$handle = fopen("/tmp/peakLanes.csv","w");
 foreach($peakLanes as $lane){
   fputcsv($handle,$lane);
 }
 fclose($handle);
-$handle = fopen("/tmp/nonPeakLanes.csv");
+$handle = fopen("/tmp/nonPeakLanes.csv","w");
 foreach($nonPeaksLanes as $lane){
   fputcsv($handle,$lane);
 }
