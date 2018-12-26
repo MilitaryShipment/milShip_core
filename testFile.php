@@ -9,7 +9,7 @@ $year = 2018;
 $round = 2;
 $redFiles = array("AAMG","EVAL","AVLE");
 foreach($redFiles as $scacLabel){
-  $scac = RateFactory::buildScac($scacLabel);
+  $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
     $lh_range = $lane->getKnownAcceptedRange();
     if($lh_range['x'] !== $lane->lh_bkar){
