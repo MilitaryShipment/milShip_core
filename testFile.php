@@ -7,26 +7,26 @@ $year = 2018;
 $round = 2;
 
 $pasture = array(
-  array(0,"AAMG"),
-  array(0,"EVAL"),
-  array(0,"AVLE"),
-  array(1,"MXSP"),
-  array(1,"NVYV"),
-  array(1,"GVLN")
+  "AAMG"=>0,
+  "EVAL"=>0,
+  "AVLE"=>0,
+  "MXSP"=>1,
+  "NVYV"=>1,
+  "GVLN"=>1
 );
 $harvest = array(
-  array(0,"ADVA"),
-  array(0,"ALMM"),
-  array(0,"AVLM"),
-  array(0,"PYVL"),
-  array(1,"PPVL"),
-  array(1,"UVNL"),
-  array(1,"USAV"),
-  array(1,"VVNL")
+  "ADVA"=>0,
+  "ALMM"=>0,
+  "AVLM"=>0,
+  "PYVL"=>0,
+  "PPVL"=>1,
+  "UVNL"=>1,
+  "USAV"=>1,
+  "VVNL"=>1
 );
 $redFile = array("AWVA","CFVL","MVUS");
 
-foreach($pasture as $isHigh => $scac){
+foreach($pasture as $scac => $isHigh){
   $scac = RateFactory::buildScac($scac,$round,$year);
   foreach($scac->peakLanes as $lane){
     $range = $lane->getKnownAcceptedRange();
