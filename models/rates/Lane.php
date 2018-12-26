@@ -156,7 +156,7 @@ class Lane{
       $GLOBALS['db']
         ->suite(self::DRIVER)
         ->driver(self::DRIVER)
-        ->database(self::DATABSE)
+        ->database(self::DATABASE)
         ->table(self::TABLE);
       if($lh){
         $select = "max(lh_discount) as max,min(lh_discount) as min";
