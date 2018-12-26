@@ -23,7 +23,7 @@ foreach($peakLanes as $lane=>$value){
 }
 fclose($handle);
 $handle = fopen("/tmp/nonPeakLanes.csv","w");
-foreach($nonPeaksLanes as $lane){
+foreach($nonPeaksLanes as $lane=>$value){
   fputcsv($handle,",",array($lane,$value));
 }
 
