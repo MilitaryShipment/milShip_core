@@ -21,7 +21,6 @@ foreach($redFiles as $scacLabel){
   foreach($scac->nonPeakLanes as $lane){
     $lh_ehp = $lane->getEhpRange(false,true);
     $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
-    $lane->lh_adj = $lh->lh_discount + $lh_variance;
     $nonPeaksLanes[] = array($lane->lane=>$lh_variance);
   }
 }
