@@ -35,14 +35,32 @@ function _readFromCsv($peak = true){
   }
   return $data;
 }
+function _doAdjustments($allScacs){
+  foreach($allScacs as $scacLabel){
+    $scac = RateFactory::buildScac($scacLabel,$round,$year);
+    foreach($scac->peakLanes as $lane){
+      $lh_range = $lane->getKnownAcceptedRange();
+      $lane->lh_adj = $lh_range['x'] + $peakLanes[$lane->lane];
+      echo $scacLabel . " | " . $lane->lane . " | " . $lane->lh_discount . " + " . $peakLanes[$lane->lane] . "\n";
+      echo $lane->lh_adj . "\n";
+      print_r($lh_range);
+      exit;
+    }
+  }
+}
 
 $year = 2018;
 $round = 2;
 $harvest = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
 $redFiles = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
 $allScacs = array_merge($redFiles,$harvest);
-$peakLanes = array();
-$nonPeaksLanes = array();
+$peakLanes = _readFromCsv();
+$nonPeaksLanes = _readFromCsv(false);
+print_r($peakLanes);
+print_r($nonPeaksLanes);
+
+exit;
+/*BUILDING LANE DATA*/
 foreach($redFiles as $scacLabel){
   $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
@@ -66,21 +84,7 @@ foreach($redFiles as $scacLabel){
 }
 _saveToCsv($peakLanes);
 _saveToCsv($nonPeaksLanes,false);
-
-exit;
-
-foreach($allScacs as $scacLabel){
-  $scac = RateFactory::buildScac($scacLabel,$round,$year);
-  foreach($scac->peakLanes as $lane){
-    $lh_range = $lane->getKnownAcceptedRange();
-    $lane->lh_adj = $lh_range['x'] + $peakLanes[$lane->lane];
-    echo $scacLabel . " | " . $lane->lane . " | " . $lane->lh_discount . " + " . $peakLanes[$lane->lane] . "\n";
-    echo $lane->lh_adj . "\n";
-    print_r($lh_range);
-    exit;
-  }
-}
-
+/*END BUILDING LANE DATA*/
 exit;
 /*END REDFILE ROUND 1 AUTOFILE*/
 
