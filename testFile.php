@@ -7,11 +7,15 @@ require_once __DIR__ . '/models/rates/RateFactory.php';
 /*REDFILE ROUND 1 AUTOFLE*/
 $year = 2018;
 $round = 2;
-$redFiles = array("AAMG","EVAL","AVLE");
+$harvest = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
+$redFiles = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
+
 foreach($redFiles as $scacLabel){
   $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
-    echo $lane->lane . ": " . $lane->getEhpRange() . "\n";
+    $ehp = $lane->getEhpRange();
+    $variance = $ehp / (count($harvest) + count($redFiles));
+    echo $ehp . " -> " . $variance .  "\n";
   }
 }
 
