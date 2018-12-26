@@ -11,10 +11,7 @@ $redFiles = array("AAMG","EVAL","AVLE");
 foreach($redFiles as $scacLabel){
   $scac = RateFactory::buildScac($scacLabel,$round,$year);
   foreach($scac->peakLanes as $lane){
-    $lh_range = $lane->getKnownAcceptedRange();
-    if($lh_range['x'] !== $lane->lh_bkar){
-      echo $lh_range['x'] . " | " . $lane->lh_bkar . "\n";
-    }
+    echo $lane->lane . ": " . $lane->getEhpRange() . "\n";
   }
 }
 
@@ -22,6 +19,9 @@ exit;
 /*END REDFILE ROUND 1 AUTOFILE*/
 
 /*PASTURE ROUND 1 AUTOFILE*/
+
+//TODO MAKESURE YOU VERIFY THE ISHIGH X AND Y BUSINESS. REMEMBER: YOU FLIPPED THEM!!!
+
 $year = 2018;
 $round = 2;
 $pasture = array(

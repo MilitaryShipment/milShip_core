@@ -183,10 +183,37 @@ class Lane{
       }
       return $data;
     }
-    public function getEhpRange(){
+    public function getHighestRejection($peak = true,$lh = true){
+      if($peak){
+        $table = self::PEAK;
+      }else{
+        $table = self::NONPEAK;
+      }
+      if($lh){
+        $select = "max(lh_discount)";
+        $rejection = "lh_rejection_code";
+      }else{
+        $select = "max(sit_discount)";
+        $rejection = "sit_rejection_code";
+      }
+      $results = $GLOBALS['db']
+        ->suite(self::DRIVER)
+        ->driver(self::DRIVER)
+        ->database(self::DATABASE)
+        ->table($table)
+        ->select()
+        ->where("lane","=","'" . $this->lane . "'")
+        ->andWhere("year","=", "'" . $this->year . "'")
+        ->andWhere("round","=",1)
+        ->andWhere($rejection,"!=",0)
+        ->get("value");
+        return $results;
+    }
+    public function getEhpRange($peak = true,$lh = true){
+      $rejection = $this->getHighestRejection($peak,$lh);
+      $bkar = $this->getKnownAcceptedRange($peak,$lh);
       //ehp range == Exploratory High Price Range
-      $data = array();
-      return $data;
+      return $bkar['x'] - $rejection;
     }
 }
 
