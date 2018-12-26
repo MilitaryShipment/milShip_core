@@ -66,23 +66,8 @@ foreach($redFiles as $scacLabel){
 }
 _saveToCsv($peakLanes);
 _saveToCsv($nonPeaksLanes,false);
-/*
-$file_input = fopen("addresses.csv","w");
-            foreach($csv as $line){
-                fputcsv($file_input,split(',',$line));
-            }
-            fclose($file_input);
 
-*/
-$handle = fopen("/tmp/peakLanes.csv");
-foreach($peakLanes as $lane){
-  fputcsv($handle,$lane);
-}
-fclose($handle);
-$handle = fopen("/tmp/nonPeakLanes.csv");
-foreach($nonPeaksLanes as $lane){
-  fputcsv($handle,$lane);
-}
+exit;
 
 foreach($allScacs as $scacLabel){
   $scac = RateFactory::buildScac($scacLabel,$round,$year);
