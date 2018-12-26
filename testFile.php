@@ -3,9 +3,44 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+$year = 2018;
+$round = 2;
 
-$scac = RateFactory::buildScac("AAMG",2,2018);
-print_r($scac);
+$pasture = array(
+  array(0,"AAMG"),
+  array(0,"EVAL"),
+  array(0,"AVLE"),
+  array(1,"MXSP"),
+  array(1,"NVYV"),
+  array(1,"GVLN")
+);
+$harvest = array(
+  array(0,"ADVA"),
+  array(0,"ALMM"),
+  array(0,"AVLM"),
+  array(0,"PYVL"),
+  array(1,"PPVL"),
+  array(1,"UVNL"),
+  array(1,"USAV"),
+  array(1,"VVNL")
+);
+$redFile = array("AWVA","CFVL","MVUS");
+
+foreach($pasture as $isHigh => $scac){
+  $scac = RateFactory::buildScac($scac,$round,$year);
+  foreach($scac->peakLanes as $lane){
+    $range = $lane->getKnownAcceptedRange();
+    print_r($range);
+  }
+  // if($isHigh){
+  //   //todo one thing.
+  // }else{
+  //   //todo another thing.
+  // }
+}
+
+
+function _getKnownAcceptedRange($lane,$round,$year){}
 
 
 exit;

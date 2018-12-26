@@ -151,4 +151,35 @@ class Lane{
             ->put();
         return $this;
     }
+    public function getKnownAcceptedRange($lh = true){
+      $data = array();
+      $GLOBALS['db']
+        ->suite(self::DRIVER)
+        ->driver(self::DRIVER)
+        ->database(self::DATABSE)
+        ->table(self::TABLE);
+      if($lh){
+        $select = "max(lh_discount) as max,min(lh_discount) as min";
+      }else{
+        $select = "max(sit_discount) as max,min(sit_discount) as min";
+      }
+      $results = $GLOBALS['db']
+        ->select($select)
+        ->where("round","=","'" . $this->round . "'")
+        ->andWhere("year","=","'" . $this->year . "'")
+        ->get();
+      while($row = mssql_fetch_assoc($results)){
+        $data['x'] = $row['max'];
+        $data['y'] = $row['min'];
+      }
+      return $data;
+    }
 }
+
+/*
+/*        ->select()
+        ->where()
+        ->andWhere()
+        ->get();*/
+
+*/
