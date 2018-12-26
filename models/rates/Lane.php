@@ -190,12 +190,15 @@ class Lane{
         $table = self::NONPEAK;
       }
       if($lh){
-        $select = "max(lh_discount)";
+        $discount = "lh_discount";
         $rejection = "lh_rejection_code";
+        $bkar = $this->lh_bkar;
       }else{
-        $select = "max(sit_discount)";
+        $discount = "sit_discount";
         $rejection = "sit_rejection_code";
+        $bkar = $this->sit_bkar;
       }
+      $select = "max(" . $discount . ")";
       $results = $GLOBALS['db']
         ->suite(self::DRIVER)
         ->driver(self::DRIVER)
@@ -203,6 +206,7 @@ class Lane{
         ->table($table)
         ->select($select)
         ->where("lane","=","'" . $this->lane . "'")
+        ->andWhere($discount,"<",$bkar)
         ->andWhere("year","=", "'" . $this->year . "'")
         ->andWhere("round","=",1)
         ->andWhere($rejection,"!=",0)
