@@ -5,6 +5,13 @@ require_once __DIR__ . '/models/rates/RateFactory.php';
 
 
 /*REDFILE ROUND 1 AUTOFLE*/
+
+function _doError($scac,$lane,$lh_variance,$otherVal){
+  $errorStr = "Error: Differing variances discovered: ";
+  $errorStr .= $scac . " | " . $lane . " | " . $lh_variance . " | " . $otherVal;
+  throw new \Exception($errorStr);
+}
+
 $year = 2018;
 $round = 2;
 $harvest = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
@@ -20,18 +27,30 @@ foreach($redFiles as $scacLabel){
     if(!isset($peakLanes[$lane->lane])){
       $peakLanes[$lane->lane] = $lh_variance;
     }elseif($peakLanes[$lane->lane] != $lh_variance){
-      echo $scacLabel . " | " . $lane->lane . " | " . $lh_variance . " | " . $peakLanes[$lane->lane] . "\n";
+      _doError($scacLabel,$lane->lane,$lh_variance,$peaksLanes[$lane->lane]);
     }
   }
-  // foreach($scac->nonPeakLanes as $lane){
-  //   $lh_ehp = $lane->getEhpRange(false,true);
-  //   $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
-  //   $nonPeaksLanes[] = array($lane->lane=>$lh_variance);
-  // }
+  foreach($scac->nonPeakLanes as $lane){
+    $lh_ehp = $lane->getEhpRange(false,true);
+    $lh_variance = $lh_ehp / (count($harvest) + count($redFiles));
+    if(!isset($nonPeaksLanes[$lane->lane])){
+      $nonPeaksLanes[$lane->lane] = $lh_variance;
+    }elseif($nonPeaksLanes[$lane->lane] != $lh_variance){
+      _doError($scacLabel,$lane->lane,$lh_variance,$nonPeaksLanes[$lane->lane]);
+    }
+  }
 }
-
-print_r($peakLanes);
-//print_r($nonPeaksLanes);
+foreach($allScacs as $scacLabel){
+  $scac = RateFactory::buildScac($scacLabel,$round,$year);
+  foreach($scac->peakLanes as $lane){
+    $lh_range = $lane->getKnownAcceptedRange();
+    $lane->lh_adj = $lh_range['x'] + $peakLanes[$lane->lane];
+    echo $scacLabel . " | " . $lane->lane . " | " . $lane->lh_discount . " + " . $peakLanes[$lane->lane]  "\n";
+    echo $lane->lh_adj . "\n";
+    print_r($lh_range);
+    exit;
+  }
+}
 
 exit;
 /*END REDFILE ROUND 1 AUTOFILE*/
