@@ -3,50 +3,37 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-
-$csv = array_map('str_getcsv', file('/tmp/peakLanes.csv'));
-
-foreach($csv as $row){
-    $peakLanes[$row[0]] = $row[1];
-
-}
-print_r($peakLanes);
-
-print_r($csv);
-exit;
-$peakLanes = array(
-  "us11 to region 1"=>1.13,
-  "us11 to region 2"=>.334,
-  "us11 to region 3"=>.6789,
-
-);
-$nonPeaksLanes = array(
-  "us11 to region 1"=>1.13,
-  "us11 to region 2"=>.334,
-  "us11 to region 3"=>.6789,
-
-);
-
-
-$handle = fopen("/tmp/peakLanes.csv","w");
-foreach($peakLanes as $lane=>$value){
-  fputcsv($handle,array($lane,$value));
-}
-fclose($handle);
-$handle = fopen("/tmp/nonPeakLanes.csv","w");
-foreach($nonPeaksLanes as $lane=>$value){
-  fputcsv($handle,array($lane,$value));
-}
-
-exit;
-
-
 /*REDFILE ROUND 1 AUTOFLE*/
 
 function _doError($scac,$lane,$lh_variance,$otherVal){
   $errorStr = "Error: Differing variances discovered: ";
   $errorStr .= $scac . " | " . $lane . " | " . $lh_variance . " | " . $otherVal;
   throw new \Exception($errorStr);
+}
+function _saveToCsv($data,$peak = true){
+  if($peak){
+    $file = "/tmp/peakLanes.csv";
+  }else{
+    $file = "/tmp/nonPeakLanes.csv";
+  }
+  $handle = fopen($file,"w");
+  foreach($data as $lane=>$value){
+    fputcsv($handle,array($lane,$value));
+  }
+  fclose($handle);
+}
+function _readFromCsv($peak = true){
+  $data = array();
+  if($peak){
+    $file = "/tmp/peakLanes.csv";
+  }else{
+    $file = "/tmp/nonPeakLanes.csv";
+  }
+  $csv = array_map('str_getcsv', file($file));
+  foreach($csv as $row){
+    $data[$row[0]] = $row[1];
+  }
+  return $data;
 }
 
 $year = 2018;
@@ -77,6 +64,8 @@ foreach($redFiles as $scacLabel){
     }
   }
 }
+_saveToCsv($peakLanes);
+_saveToCsv($nonPeaksLanes,false);
 /*
 $file_input = fopen("addresses.csv","w");
             foreach($csv as $line){
