@@ -11,7 +11,7 @@ require_once __DIR__ . '/../../processes/rates/RateSearch.php';
 require_once __DIR__ . '/../../processes/rates/RateExport.php';
 require_once __DIR__ . '/../../processes/rates/RateCopy.php';
 require_once __DIR__ . '/../../processes/rates/LkarCalculator.php';
-require_once __DIR__ . '/../../processes/rates/Round1Pasture.php';
+require_once __DIR__ . '/../../processes/rates/autofile/Round1Pasture.php';
 
 class RateFactory{
 
