@@ -30,11 +30,7 @@ class Round1Pasture{
       }else{
         $isHigh = 0;
         $index = ($i / 2) / 2;
-        if($index == 1){
-          $index = 0;
-        }else{
-          $index = round($index);
-        }
+        $index = ($index == 1) ? 0 : round($index);
         $lh_variance = $this->lh_variance[$index];
       }
       $obj->scac = $this->scacs[$i];
@@ -99,6 +95,68 @@ for($i = 0; $i < count($scacs); $i++){
 //   "PYVL"=>array("isHigh"=>0,"lh"=>-2,"sit"=>-1)
 // );
 //
+Array
+(
+    [0] => stdClass Object
+        (
+            [scac] => AAMG
+            [isHigh] => 1
+            [lh_variance] => 1
+            [sit_variance] => 2
+        )
+
+    [1] => stdClass Object
+        (
+            [scac] => EVAL
+            [isHigh] => 1
+            [lh_variance] => 0
+            [sit_variance] => 1
+        )
+
+    [2] => stdClass Object
+        (
+            [scac] => AVLE
+            [isHigh] => 1
+            [lh_variance] => -1
+            [sit_variance] => 0
+        )
+
+    [3] => stdClass Object
+        (
+            [scac] => MXSP
+            [isHigh] => 1
+            [lh_variance] => -2
+            [sit_variance] => -0.25
+        )
+
+    [4] => stdClass Object
+        (
+            [scac] => NVYV
+            [isHigh] => 0
+            [lh_variance] =>
+            [sit_variance] => -0.5
+        )
+
+    [5] => stdClass Object
+        (
+            [scac] => GVLN
+            [isHigh] => 0
+            [lh_variance] =>
+            [sit_variance] => -0.75
+        )
+
+    [6] => stdClass Object
+        (
+            [scac] => PYVL
+            [isHigh] => 0
+            [lh_variance] =>
+            [sit_variance] => -1
+        )
+
+)
+
+
+
 // foreach($pasture as $scacLabel=>$variance){
 //   $scac = RateFactory::buildScac($scacLabel,$round,$year);
 //   foreach($scac->peakLanes as $lane){
