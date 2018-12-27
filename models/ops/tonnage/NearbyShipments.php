@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/TonnageShipment.php';
 require_once __DIR__ . '/../../../GoogleDirections.php';
+require_once __DIR__ . '/../ZipLocation.php';
 
 class NearbyShipments{
 
