@@ -31,6 +31,7 @@ class Round1Pasture{
         $isHigh = 0;
         $index = ($i / 2) / 2;
         $index = ($index == 1) ? 0 : round($index);
+        echo $index . "\n";
         $lh_variance = $this->lh_variance[$index];
       }
       $obj->scac = $this->scacs[$i];
