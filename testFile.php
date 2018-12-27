@@ -5,8 +5,8 @@ require_once __DIR__ . '/models/rates/RateFactory.php';
 
 $params = RateFactory::blankObject();
 $params->scac = "ADVA";
-$params->year = 2019;
-$params->round = 1;
+$params->year = 2018;
+$params->round = 2;
 RateFactory::export($params);
 
 /*REDFILE ROUND 1 AUTOFLE*/

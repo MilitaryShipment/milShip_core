@@ -63,6 +63,10 @@ class RateExport{
     }
     private function export(){
         $file = fopen($this->exportFile,'w');
+        if(!$file){
+          $error = error_get_last();
+          throw new \Exception($error['message']);
+        }
         foreach($this->export as $lane=>$values){
             fputcsv($file,$values);
         }
