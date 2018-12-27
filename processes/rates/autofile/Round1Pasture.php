@@ -13,12 +13,11 @@ class Round1Pasture{
   protected $sit_variances = array(2,1,0,-.25,-.5,-.75,-1,-1.25);
   protected $dataObjects = array();
 
-  public function __construct($scacs){
-    // $this->year = $year;
-    // $this->round = $round;
+  public function __construct($year,$scacs){
+    $this->year = $year - 1;
+    $this->round = 2;
     $this->scacs = $scacs;
     $this->_build();
-    print_r($this->dataObjects);
   }
   protected function _build(){
     $breakPoint = round(count($this->scacs) / 2);
@@ -41,59 +40,29 @@ class Round1Pasture{
     }
     return $this;
   }
-  protected function _autoFile(){}
+  protected function _autoFile(){
+    foreach($this->dataObjects as $fileObj){
+      $scac = RateFactory::buildScac($fileObj->scac,$this->round,$this->year);
+      foreach($scac->peakLanes as $lane){
+        $lh_range = $lane->getKnownAcceptedRange();
+        print_r($lh_range);
+        echo $lane->lh_bkar . "\n";
+        $sit_range = $lane->getKnownAcceptedRange(true,false);
+        if($fileObj->isHigh){
+        }
+      }
+      // foreach($scac->nonPeakLanes as $lane){
+      //   $lh_range = $lane->getKnownAcceptedRange(false,true);
+      //   $sit_range = $lane->getKnownAcceptedRange(false,false);
+      // }
+    }
+    return $this;
+  }
 }
 
 
-/*
-$scacs = array(
-	"ADVA",
-	"FVNL",
-	"AVLE",
-	"GVLN",
-	"PYVL",
-	"MXSP",
-	"NVYV"
-);
-
-$lh_variances = array(1,0,-1,-2);
-
-for($i = 0; $i < count($scacs); $i++){
-	$breakPoint = round(count($scacs) / 2);
-	if($i < $breakPoint){
-		$isHigh = 1;
-		$lh_variance = $lh_variances[$i];
-		echo $scacs[$i] . " | " . $lh_variance . "<br>";
-	}else{
-		$isHigh = 0;
-		$index = ($i / 2) / 2;
-		if($index == 1){
-			$index = 0;
-		}else{
-			$index = round($index);
-		}
-		$lh_variance = $lh_variances[$index];
-		echo $scacs[$i] . " | " . $lh_variance . "<br>";
-	}
-}
-
-*/
 
 /*PASTURE ROUND 1 AUTOFILE*/
-
-//TODO MAKESURE YOU VERIFY THE ISHIGH X AND Y BUSINESS. REMEMBER: YOU FLIPPED THEM!!!
-
-// $year = 2018;
-// $round = 2;
-// $pasture = array(
-//   "AAMG"=>array("isHigh"=>1,"lh"=>0,"sit"=>0),
-//   "EVAL"=>array("isHigh"=>1,"lh"=>1,"sit"=>1),
-//   "AVLE"=>array("isHigh"=>1,"lh"=>-1,"sit"=>2),
-//   "MXSP"=>array("isHigh"=>1,"lh"=>-2,"sit"=>-.25),
-//   "NVYV"=>array("isHigh"=>0,"lh"=>0,"sit"=>-.50),
-//   "GVLN"=>array("isHigh"=>0,"lh"=>-1,"sit"=>-.75),
-//   "PYVL"=>array("isHigh"=>0,"lh"=>-2,"sit"=>-1)
-// );
 //
 // foreach($pasture as $scacLabel=>$variance){
 //   $scac = RateFactory::buildScac($scacLabel,$round,$year);

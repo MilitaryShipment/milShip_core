@@ -96,7 +96,7 @@ class RateFactory{
     public static function calculateLkar($year,$round){
       return new LkarCalculator($year,$round);
     }
-    public static function round1Pasture($scacsArray){
-      return new Round1Pasture($scacsArray);
+    public static function round1Pasture($year,$scacsArray){
+      return new Round1Pasture($year,$scacsArray);
     }
 }

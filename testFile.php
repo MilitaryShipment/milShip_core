@@ -8,7 +8,7 @@ $year = 2018;
 $round = 2;
 $scacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
 
-RateFactory::round1Pasture($scacs);
+RateFactory::round1Pasture(2019,$scacs);
 
 // $params = RateFactory::blankObject();
 // $params->scac = "ADVA";
