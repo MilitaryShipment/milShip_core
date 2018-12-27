@@ -35,16 +35,23 @@ function _readFromCsv($peak = true){
   }
   return $data;
 }
+
 function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
-  foreach($allScacs as $scacLabel){
-    $scac = RateFactory::buildScac($scacLabel,$round,$year);
-    foreach($scac->peakLanes as $lane){
-      $lh_range = $lane->getKnownAcceptedRange();
-      $lane->lh_adj = $lh_range['x'] + $peakLanes[$lane->lane];
-      echo $scacLabel . " | " . $lane->lane . " | " . $lane->lh_discount . " + " . $peakLanes[$lane->lane] . "\n";
-      echo $lane->lh_adj . "\n";
-      print_r($lh_range);
-      exit;
+  foreach($peakLanes as $laneLabel => $variance){
+    echo $laneLabel . "\n";
+    $increment = Lane::getBkar($laneLabel,$year,$round,true,true);
+    echo "BKAR: " . $increment . "\n";
+    foreach($allScacs as $scacLabel){
+      $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,true);
+      $increment += $$peakLanes[$lane->lane]
+      $lane->lh_adj = $increment;
+      echo $scacLabel . " -> " . $lane->lh_adj . "\n";
+    }
+  }
+  foreach($nonPeaksLanes as $laneLabel => $variance){
+    $increment = Lane::getBkar($laneLabel,$year,$round,true,false);
+    foreach($allScacs as $scacLabel){
+      $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,false);
     }
   }
 }

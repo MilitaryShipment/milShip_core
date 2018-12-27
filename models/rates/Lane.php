@@ -8,6 +8,7 @@ class Lane{
     const MSSQL = 'mssql';
     const DRIVER = 'mssql';
     const DATABASE = 'test';
+    const PRIMARYKEY = 'id';
     const PEAK = 'dps_rates_peak';
     const NONPEAK = 'dps_rates_non_peak';
     const BKAR = 'dps_rates_bkar';
@@ -218,6 +219,47 @@ class Lane{
       $bkar = $this->getKnownAcceptedRange($peak,$lh);
       //ehp range == Exploratory High Price Range
       return $bkar['x'] - $rejection;
+    }
+    public static function getLane($lane,$scac,$year,$round,$peak = true){
+      if($peak){
+        $table = self::PEAK;
+      }else{
+        $table = self::NONPEAK;
+      }
+      $results = $GLOBALS['db']
+        ->suite(self::DRIVER)
+        ->driver(self::DRIVER)
+        ->database(self::DATABASE)
+        ->table($table)
+        ->select(self::PRIMARYKEY)
+        ->where("lane","=","'" . $lane . "'")
+        ->andWhere("scac","=","'" . $scac . "'")
+        ->andWhere("year","=",$year)
+        ->andWhere("round","=",$round)
+        ->get('value');
+      return new self($results);
+    }
+    public static function getBkar($lane,$year,$round,$lh = true,$peak = true){
+      if($lh && $peak){
+        $col = "lh_peak";
+      }elseif($lh && !$peak){
+        $col = "lh_non_peak";
+      }elseif(!$lh && $peak){
+        $col = "sit_peak";
+      }else{
+        $col = "sit_non_peak";
+      }
+      $results = $GLOBALS['db']
+        ->suite(self::DRIVER)
+        ->driver(self::DRIVER)
+        ->database(self::DATABASE)
+        ->table(self::BKAR)
+        ->select($col)
+        ->where("lane","=","'" . $lane . "'")
+        ->andWhere("year","=",$year)
+        ->andWhere("round","=",$round)
+        ->get('value');
+      return $results;
     }
 }
 
