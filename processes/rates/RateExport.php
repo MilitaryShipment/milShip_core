@@ -21,7 +21,7 @@ class RateExport{
     {
         $this->outRoot = __DIR__ . "/" . self::OUTROOT;
         $this->outDir = __DIR__ . "/" . self::OUTPUTDIR;
-        $this->$outArchive = __DIR__ . "/" . self::OUTPUTARCHIVE;
+        $this->outArchive = __DIR__ . "/" . self::OUTPUTARCHIVE;
         $this->scacLabel = $params->scac;
         $this->round = $params->round;
         $this->year = $params->year;
@@ -85,7 +85,7 @@ class RateExport{
         return $this;
     }
     private function appendZip(){
-        $output = shell_exec('zip ' . $this->$outArchive . ' ' . escapeshellarg($this->exportFile));
+        $output = shell_exec('zip ' . $this->outArchive . ' ' . escapeshellarg($this->exportFile));
 //        if($output){
 //            die($output);
 //        }
