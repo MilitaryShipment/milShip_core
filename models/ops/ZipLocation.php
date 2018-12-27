@@ -28,4 +28,21 @@ class ZipLocation extends Record{
     public function __construct($id = null){
         parent::__construct(self::DRIVER,self::DRIVER,self::DB,self::TABLE,self::PRIMARYKEY,$id);
     }
+    public static function getCityState($city,$state){
+      $data = array();
+      $results = $GLOBALS['db']
+        ->suite(self::DRIVER)
+        ->driver(self::DRIVER)
+        ->database(self::DB)
+        ->table(self::TABLE)
+        ->select(self::PRIMARYKEY)
+        ->where("city","=","'$city'")
+        ->andWhere("state","=","'$state'")
+        ->get();
+        while($row = mssql_fetch_assoc($results)){
+          $data[] = new self($row[self::PRIMARYKEY]);
+        }
+        return $data;
+      }
+
 }
