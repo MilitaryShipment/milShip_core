@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../../models/ops/tonnage/TonnageList.php';
 require_once __DIR__ . '/../../models/ops/tonnage/TonnageRef.php';
+require_once __DIR__ . '/../../models/ops/tonnage/NearbyShipments.php';
 
 class UpdateTonnageRef{
 
