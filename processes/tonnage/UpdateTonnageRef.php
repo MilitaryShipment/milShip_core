@@ -45,6 +45,7 @@ class UpdateTonnageRef{
       $ref->near_origin = implode(',',$nearOriginIds);
       $ref->near_destination = implode(',',$nearDestIds);
       $ref->on_the_way = implode(',',$otwIds);
+      $ref->create();
     }
     return $this;
   }
