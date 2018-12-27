@@ -8,6 +8,7 @@ require_once __DIR__ . '/../ZipLocation.php';
 class NearbyShipments{
 
     const MAXMILES = 50;
+    const MAXDATE = '15 Jan 2019';
 
     protected $shipment;
     protected $availableShipments = array();
@@ -17,8 +18,14 @@ class NearbyShipments{
         $this->_buildAvailableShipments();
     }
     protected function _buildAvailableShipments(){
+        $shipments = array();
         $list = new TonnageList();
-        $this->availableShipments = $list->shipments;
+        foreach($list->shipments as $possible){
+          if(strtotime($possible->pickup) < strtotime(self::MAXDATE)){
+            $shipments[] = $possible;
+          }
+        }
+        $this->availableShipments = $shipments;
         return $this;
     }
     protected function _buildGeoData($shipment,$origin = true){
