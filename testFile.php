@@ -3,11 +3,12 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-require_once __DIR__ . '/proccesses/tonnage/UpdateTonnageRef.php';
+$params = RateFactory::blankObject();
+$params->scac = "ADVA";
+$params->year = 2019;
+$params->round = 1;
+RateFactory::export($params);
 
-$u = new UpdateTonnageRef();
-
-exit;
 /*REDFILE ROUND 1 AUTOFLE*/
 
 function _doError($scac,$lane,$lh_variance,$otherVal){
