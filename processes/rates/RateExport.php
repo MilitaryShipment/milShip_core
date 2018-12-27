@@ -93,6 +93,6 @@ class RateExport{
         $error = error_get_last();
         throw new \Exception($error['message']);
       }
-      retunr $this;
+      return $this;
     }
 }
