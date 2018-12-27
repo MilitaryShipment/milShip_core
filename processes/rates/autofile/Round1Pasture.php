@@ -17,7 +17,7 @@ class Round1Pasture{
     $this->year = $year - 1;
     $this->round = 2;
     $this->scacs = $scacs;
-    $this->_build();
+    $this->_build()->_autoFile();
   }
   protected function _build(){
     $breakPoint = round(count($this->scacs) / 2);
