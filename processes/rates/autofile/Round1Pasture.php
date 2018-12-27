@@ -40,7 +40,7 @@ class Round1Pasture{
       $obj->scac = $this->scacs[$i];
       $obj->isHigh = $isHigh;
       $obj->lh_variance = $lh_variance;
-      $obj->$sit_variance = $this->sit_variances[$i];
+      $obj->sit_variance = $this->sit_variances[$i];
       $this->dataObjects[] = $obj;
     }
     return $this;
