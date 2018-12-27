@@ -3,9 +3,9 @@
 
 class RateExport{
 
-    const OUTROOT = '/data';
-    const OUTPUTDIR = '/data/output/';
-    const OUTPUTARCHIVE = '/data/output/rates.zip';
+    const OUTROOT = 'data';
+    const OUTPUTDIR = 'data/output/';
+    const OUTPUTARCHIVE = 'data/output/rates.zip';
 
     private $scacLabel;
     private $round;
