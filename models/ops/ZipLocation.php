@@ -39,6 +39,7 @@ class ZipLocation extends Record{
         ->where("city","=","'$city'")
         ->andWhere("state","=","'$state'")
         ->get();
+        echo $GLOBALS['db']->query . "\n";
         while($row = mssql_fetch_assoc($results)){
           $data[] = new self($row[self::PRIMARYKEY]);
         }
