@@ -3,10 +3,6 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-require_once __DIR__ . '/processes/tonnage/UpdateTonnageRef.php';
-
-$u = new UpdateTonnageRef();
-
 /*REDFILE ROUND 1 AUTOFLE*/
 
 function _doError($scac,$lane,$lh_variance,$otherVal){
