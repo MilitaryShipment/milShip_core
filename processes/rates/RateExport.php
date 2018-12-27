@@ -13,9 +13,15 @@ class RateExport{
     private $scac;
     private $exportFile;
     private $export = array();
+    protected $outRoot;
+    protected $outDir;
+    protected $outArchive;
 
     public function __construct($params)
     {
+        $this->outRoot = __DIR__ . "/" . self::OUTROOT;
+        $this->outDir = __DIR__ . "/" . self::OUTPUTDIR;
+        $this->$outArchive = __DIR__ . "/" . self::OUTPUTARCHIVE;
         $this->scacLabel = $params->scac;
         $this->round = $params->round;
         $this->year = $params->year;
@@ -35,7 +41,7 @@ class RateExport{
             $round = 1;
             $year = $this->year + 1;
         }
-        $this->exportFile = self::OUTPUTDIR . $this->scacLabel . ' - Round ' . $round . ' - ' . $year . '.csv';
+        $this->exportFile = $this->outDir . $this->scacLabel . ' - Round ' . $round . ' - ' . $year . '.csv';
         return $this;
     }
     private function buildExport($peak = true){
@@ -79,17 +85,17 @@ class RateExport{
         return $this;
     }
     private function appendZip(){
-        $output = shell_exec('zip ' . self::OUTPUTARCHIVE . ' ' . escapeshellarg($this->exportFile));
+        $output = shell_exec('zip ' . $this->$outArchive . ' ' . escapeshellarg($this->exportFile));
 //        if($output){
 //            die($output);
 //        }
         return $this;
     }
     protected function _prepForOutPut(){
-      if(!is_dir(self::OUTROOT) && !mkdir(self::OUTROOT)){
+      if(!is_dir($this->outRoot) && !mkdir($this->outRoot)){
         $error = error_get_last();
         throw new \Exception($error['message']);
-      }elseif(!is_dir(self::OUTPUTDIR) && !mkdir(self::OUTPUTDIR)){
+      }elseif(!is_dir($this->outDir) && !mkdir($this->outDir)){
         $error = error_get_last();
         throw new \Exception($error['message']);
       }
