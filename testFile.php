@@ -39,17 +39,17 @@ function _readFromCsv($peak = true){
 function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
   foreach($peakLanes as $laneLabel => $variance){
     echo $laneLabel . "\n";
-    $increment = Lane::getBkar($laneLabel,$year,$round,true,true);
+    $increment = Lane::findBkar($laneLabel,$year,$round,true,true);
     echo "BKAR: " . $increment . "\n";
     foreach($allScacs as $scacLabel){
       $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,true);
-      $increment += $$peakLanes[$lane->lane]
+      $increment += $$peakLanes[$lane->lane];
       $lane->lh_adj = $increment;
       echo $scacLabel . " -> " . $lane->lh_adj . "\n";
     }
   }
   foreach($nonPeaksLanes as $laneLabel => $variance){
-    $increment = Lane::getBkar($laneLabel,$year,$round,true,false);
+    $increment = Lane::findBkar($laneLabel,$year,$round,true,false);
     foreach($allScacs as $scacLabel){
       $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,false);
     }

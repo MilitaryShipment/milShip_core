@@ -239,7 +239,7 @@ class Lane{
         ->get('value');
       return new self($results);
     }
-    public static function getBkar($lane,$year,$round,$lh = true,$peak = true){
+    public static function findBkar($lane,$year,$round,$lh = true,$peak = true){
       if($lh && $peak){
         $col = "lh_peak";
       }elseif($lh && !$peak){
