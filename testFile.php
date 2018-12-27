@@ -43,9 +43,10 @@ function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
     echo "BKAR: " . $increment . "\n";
     foreach($allScacs as $scacLabel){
       $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,true);
-      $increment += $$peakLanes[$lane->lane];
+      $rejection = $lane->getHighestRejection(true,true);
+      $increment += $peakLanes[$lane->lane];
       $lane->lh_adj = $increment;
-      echo $scacLabel . " -> " . $lane->lh_adj . "\n";
+      echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
     }
   }
   foreach($nonPeaksLanes as $laneLabel => $variance){
