@@ -26,7 +26,7 @@ class Round1Pasture{
       $obj = RateFactory::blankObject();
       if($i < $breakPoint){
         $isHigh = 1;
-        $lh_variance = $this->$lh_variances[$i];
+        $lh_variance = $this->lh_variances[$i];
       }else{
         $isHigh = 0;
         $index = ($i / 2) / 2;
@@ -35,12 +35,12 @@ class Round1Pasture{
         }else{
           $index = round($index);
         }
-        $lh_variance = $this->$lh_variance[$index];
+        $lh_variance = $this->lh_variance[$index];
       }
       $obj->scac = $this->scacs[$i];
       $obj->isHigh = $isHigh;
       $obj->lh_variance = $lh_variance;
-      $obj->$sit_variance = $this->$sit_variances[$i];
+      $obj->$sit_variance = $this->sit_variances[$i];
       $this->dataObjects[] = $obj;
     }
     return $this;
