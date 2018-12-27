@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/TonnageShipment.php';
+require_once __DIR__ . '/TonnageList.php';
 require_once __DIR__ . '/../../../GoogleDirections.php';
 require_once __DIR__ . '/../ZipLocation.php';
 

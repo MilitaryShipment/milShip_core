@@ -44,5 +44,4 @@ class ZipLocation extends Record{
         }
         return $data;
       }
-
 }
