@@ -3,6 +3,7 @@
 
 class RateExport{
 
+    const OUTROOT = './data';
     const OUTPUTDIR = './data/output/';
     const OUTPUTARCHIVE = './data/output/rates.zip';
 
@@ -19,7 +20,8 @@ class RateExport{
         $this->round = $params->round;
         $this->year = $params->year;
         $this->scac = RateFactory::buildScac($this->scacLabel,$this->round,$this->year);
-        $this->buildOutPutFile()
+        $this->_prepForOutPut()
+            ->buildOutPutFile()
             ->buildExport()
             ->buildExport(false)
             ->export()
@@ -82,5 +84,15 @@ class RateExport{
 //            die($output);
 //        }
         return $this;
+    }
+    protected function _prepForOutPut(){
+      if(!is_dir(self::OUTROOT) && !mkdir(self::OUTROOT)){
+        $error = error_get_last();
+        throw new \Exception($error['message']);
+      }elseif(!is_dir(self::OUTPUTDIR) && !mkdir(self::OUTPUTDIR)){
+        $error = error_get_last();
+        throw new \Exception($error['message']);
+      }
+      retunr $this;
     }
 }

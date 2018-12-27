@@ -9,6 +9,7 @@ $params->year = 2018;
 $params->round = 2;
 RateFactory::export($params);
 
+exit;
 /*REDFILE ROUND 1 AUTOFLE*/
 
 function _doError($scac,$lane,$lh_variance,$otherVal){
