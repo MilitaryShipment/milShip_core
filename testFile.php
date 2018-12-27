@@ -44,7 +44,7 @@ function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
     foreach($allScacs as $scacLabel){
       $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,true);
       $rejection = $lane->getHighestRejection(true,true);
-      $increment += $peakLanes[$lane->lane];
+      $increment -= $peakLanes[$lane->lane];
       $lane->lh_adj = $increment;
       echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
     }
