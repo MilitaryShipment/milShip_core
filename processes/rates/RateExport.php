@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 
 class RateExport{
 
-    const OUTPUTDIR = 'data/output/';
-    const OUTPUTARCHIVE = 'data/output/rates.zip';
+    const OUTPUTDIR = './data/output/';
+    const OUTPUTARCHIVE = './data/output/rates.zip';
 
     private $scacLabel;
     private $round;
