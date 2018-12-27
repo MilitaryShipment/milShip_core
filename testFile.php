@@ -38,8 +38,8 @@ function _readFromCsv($peak = true){
 
 function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
   foreach($peakLanes as $laneLabel => $variance){
-    echo $laneLabel . "\n";
     $increment = Lane::findBkar($laneLabel,$year,$round,true,true);
+    echo $laneLabel . "\n";
     echo "BKAR: " . $increment . "\n";
     foreach($allScacs as $scacLabel){
       $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,true);
@@ -51,8 +51,14 @@ function _doAdjustments($allScacs,$round,$year,$peakLanes,$nonPeaksLanes){
   }
   foreach($nonPeaksLanes as $laneLabel => $variance){
     $increment = Lane::findBkar($laneLabel,$year,$round,true,false);
+    echo $laneLabel . "\n";
+    echo "BKAR: " . $increment . "\n";
     foreach($allScacs as $scacLabel){
       $lane = Lane::getLane($laneLabel,$scacLabel,$year,$round,false);
+      $rejection = $lane->getHighestRejection(false,true);
+      $increment -= $nonPeaksLanes[$lane->lane];
+      $lane->lh_adj = $increment;
+      echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
     }
   }
 }
