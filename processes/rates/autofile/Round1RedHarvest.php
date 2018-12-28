@@ -80,7 +80,7 @@ class Round1RedHarvest{
         $lane->lh_adj = $increment;
         $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
         echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
-        echo "\t\t" . $lane->sit_adj . "\n";
+        echo "\t" . $lane->sit_adj . "\n";
       }
     }
     foreach($this->nonPeakLanes as $laneLabel => $variance){
