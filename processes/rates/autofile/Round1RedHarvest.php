@@ -12,6 +12,23 @@ class Round1RedHarvest{
   protected $harvestScacs = array();
   protected $peakLanes = array();
   protected $nonPeaksLanes = array();
+  protected $sit_increments = array(
+    -1.50,
+    -1.75,
+    -2,
+    -2.25,
+    -2.50,
+    -2.75,
+    -3,
+    -3.25,
+    -3.50,
+    -3.75,
+    -4,
+    -4.25,
+    -4.50,
+    -4.75,
+    -5
+  );
 
   public function __construct($year,$redScacs,$harvestScacs){
     $this->year = $year - 1;
@@ -55,24 +72,30 @@ class Round1RedHarvest{
       $increment = Lane::findBkar($laneLabel,$year,$round,true,true);
       echo $laneLabel . "\n";
       echo "BKAR: " . $increment . "\n";
+      $i = 0;
       foreach($this->allScacs as $scacLabel){
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,true);
         $rejection = $lane->getHighestRejection(true,true);
         $increment -= $this->peakLanes[$lane->lane];
         $lane->lh_adj = $increment;
+        $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
         echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
+        echo "\t\t" . $lane->sit_adj . "\n";
       }
     }
     foreach($this->nonPeakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$year,$round,true,false);
       echo $laneLabel . "\n";
       echo "BKAR: " . $increment . "\n";
+      $i = 0;
       foreach($this->allScacs as $scacLabel){
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,false);
         $rejection = $lane->getHighestRejection(false,true);
         $increment -= $this->nonPeaksLanes[$lane->lane];
         $lane->lh_adj = $increment;
+        $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
         echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
+        echo "\t\t" . $lane->sit_adj . "\n";
       }
     }
     return $this;

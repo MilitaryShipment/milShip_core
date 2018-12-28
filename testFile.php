@@ -3,8 +3,12 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-$scacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
-RateFactory::round1Pasture(2019,$scacs);
+$pastureScacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
+$redScacs = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
+$harvestScacs = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
+
+//RateFactory::round1Pasture(2019,$pastureScacs);
+RateFactory::round1RedHarvest(2019,$redScacs,$harvestScacs);
 
 exit;
 /*REDFILE ROUND 1 AUTOFLE*/
