@@ -17,9 +17,7 @@ class Round1Pasture{
     $this->year = $year - 1;
     $this->round = 2;
     $this->scacs = $scacs;
-    $this->_build();
-    print_r($this->dataObjects);
-    //->_autoFile()
+    $this->_build()->_autoFile()->export();
   }
   protected function _build(){
     $breakPoint = round(count($this->scacs) / 2);
@@ -79,6 +77,16 @@ class Round1Pasture{
   protected function _calculateIndex($i){
     $index = ($i / 2) / 2;
     return ($index == 1) ? 0 : round($index);
+  }
+  protected function _export(){
+    foreach($this->scacs as $scac){
+      $params = RateFactory::blankObject();
+      $params->scac = $scac;
+      $params->year = $this->year;
+      $params->round = $this->round;
+      RateFactory::export($params);
+    }
+    return $this;
   }
 }
 
