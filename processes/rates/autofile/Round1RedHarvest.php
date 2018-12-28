@@ -70,7 +70,7 @@ class Round1RedHarvest{
   protected function _autoFile(){
     foreach($this->peakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,true);
-      $sit_bkar = Lane::findBkar($laneLabel,$this->year,$this->round,false,true)
+      $sit_bkar = Lane::findBkar($laneLabel,$this->year,$this->round,false,true);
       echo $laneLabel . "LH BKAR: " . $increment . " SIT BKAR: " . $sit_bkar . "\n";
       $i = 0;
       foreach($this->allScacs as $scacLabel){
