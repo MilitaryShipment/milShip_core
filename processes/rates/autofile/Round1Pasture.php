@@ -28,9 +28,7 @@ class Round1Pasture{
         $lh_variance = $this->lh_variances[$i];
       }else{
         $isHigh = 0;
-        $index = ($i / 2) / 2;
-        $index = ($index == 1) ? 0 : round($index);
-        $lh_variance = $this->lh_variances[$index];
+        $lh_variance = $this->lh_variances[$this->_calculateIndex($i)];
       }
       $obj->scac = $this->scacs[$i];
       $obj->isHigh = $isHigh;
@@ -45,18 +43,40 @@ class Round1Pasture{
       $scac = RateFactory::buildScac($fileObj->scac,$this->round,$this->year);
       foreach($scac->peakLanes as $lane){
         $lh_range = $lane->getKnownAcceptedRange();
-        print_r($lh_range);
-        echo $lane->lh_bkar . "\n";
         $sit_range = $lane->getKnownAcceptedRange(true,false);
-        if($fileObj->isHigh){
+        $bkar = $lh_range['x'];
+        $lkar = $lh_range['y'];
+        if($bkar != $lane->bkar){
+          $this->_bkarError($lane->lane,$bkar,$lane->bkar);
         }
+        $lane->lh_adj = $fileObj->isHigh ? $lane->lh_adj = $bkar + $fileObj->lh_variance : $lane->lh_adj = $lkar + $fileObj->lh_variance;
+        $lane->sit_adj = $sit_range['x'] + $fileObj->sit_variance;
+        $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+        $lane->update($update);
       }
-      // foreach($scac->nonPeakLanes as $lane){
-      //   $lh_range = $lane->getKnownAcceptedRange(false,true);
-      //   $sit_range = $lane->getKnownAcceptedRange(false,false);
-      // }
+      foreach($scac->nonPeakLanes as $lane){
+        $lh_range = $lane->getKnownAcceptedRange(false,true);
+        $sit_range = $lane->getKnownAcceptedRange(false,false);
+        $bkar = $lh_range['x'];
+        $lkar = $lh_range['y'];
+        if($bkar != $lane->bkar){
+          $this->_bkarError($lane->lane,$bkar,$lane->bkar);
+        }
+        $lane->lh_adj = $fileObj->isHigh ? $lane->lh_adj = $bkar + $fileObj->lh_variance : $lane->lh_adj = $lkar + $fileObj->lh_variance;
+        $lane->sit_adj = $sit_range['x'] + $fileObj->sit_variance;
+        $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+        $lane->update($update);
+      }
     }
     return $this;
+  }
+  protected function _bkarError($lane,$bkar,$otherVal){
+    $errorStr = "Non Matching BKAR found in lane" . $lane . " " . $bkar . " " . $otherVal;
+    throw new \Exception($errorStr);
+  }
+  protected function _calculateIndex($i){
+    $index = ($i / 2) / 2;
+    return ($index == 1) ? 0 : round($index);
   }
 }
 

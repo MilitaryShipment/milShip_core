@@ -3,9 +3,6 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-
-$year = 2018;
-$round = 2;
 $scacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
 
 RateFactory::round1Pasture(2019,$scacs);
