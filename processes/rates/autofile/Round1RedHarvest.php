@@ -33,6 +33,8 @@ class Round1RedHarvest{
   public function __construct($year,$redScacs,$harvestScacs){
     $this->year = $year - 1;
     $this->round = 2;
+    print_r($redScacs);
+    print_r($harvestScacs);
     $this->$redScacs = $redScacs;
     $this->$harvestScacs = $harvestScacs;
     $this->allScacs = array_merge($this->redScacs,$this->harvestScacs);
