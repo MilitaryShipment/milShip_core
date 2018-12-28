@@ -69,7 +69,7 @@ class Round1RedHarvest{
   }
   protected function _autoFile(){
     foreach($this->peakLanes as $laneLabel => $variance){
-      $increment = Lane::findBkar($laneLabel,$year,$round,true,true);
+      $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,true);
       echo $laneLabel . "\n";
       echo "BKAR: " . $increment . "\n";
       $i = 0;
@@ -84,7 +84,7 @@ class Round1RedHarvest{
       }
     }
     foreach($this->nonPeakLanes as $laneLabel => $variance){
-      $increment = Lane::findBkar($laneLabel,$year,$round,true,false);
+      $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,false);
       echo $laneLabel . "\n";
       echo "BKAR: " . $increment . "\n";
       $i = 0;
