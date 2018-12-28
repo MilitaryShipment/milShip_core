@@ -19,6 +19,10 @@ class Round1RedHarvest{
     $this->$redScacs = $redScacs;
     $this->$harvestScacs = $harvestScacs;
     $this->allScacs = array_merge($this->redScacs,$this->harvestScacs);
+    if(!$this->_verifyLaneIncrements()){
+      $this->_buildLaneIncrements();
+    }
+    $this->_autoFile();
   }
   protected function _buildLaneIncrements(){
     foreach($this->redScacs as $scacLabel){
@@ -46,7 +50,44 @@ class Round1RedHarvest{
     $this->_saveToCsv($this->nonPeakLanes,false);
     return $this;
   }
-  protected function _verifyLaneIncrements(){}
+  protected function _autoFile(){
+    foreach($this->peakLanes as $laneLabel => $variance){
+      $increment = Lane::findBkar($laneLabel,$year,$round,true,true);
+      echo $laneLabel . "\n";
+      echo "BKAR: " . $increment . "\n";
+      foreach($this->allScacs as $scacLabel){
+        $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,true);
+        $rejection = $lane->getHighestRejection(true,true);
+        $increment -= $this->peakLanes[$lane->lane];
+        $lane->lh_adj = $increment;
+        echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
+      }
+    }
+    foreach($this->nonPeakLanes as $laneLabel => $variance){
+      $increment = Lane::findBkar($laneLabel,$year,$round,true,false);
+      echo $laneLabel . "\n";
+      echo "BKAR: " . $increment . "\n";
+      foreach($this->allScacs as $scacLabel){
+        $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,false);
+        $rejection = $lane->getHighestRejection(false,true);
+        $increment -= $this->nonPeaksLanes[$lane->lane];
+        $lane->lh_adj = $increment;
+        echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
+      }
+    }
+    return $this;
+  }
+  protected function _verifyLaneIncrements(){
+    if(!is_file(self::PEAKTMP) || !is_file(self::NONPEAKTMP)){
+      return false;
+    }
+    $this->peakLanes = $this->_readFromCsv();
+    $this->nonPeakLanes = $this->_readFromCsv(false);
+    if(!count($this->peakLanes) || !count($this->nonPeakLanes)){
+      return false;
+    }
+    return true;
+  }
   protected function _saveToCsv($data,$peak = true){
     $file = $peak ? self::PEAKTMP : self::NONPEAKTMP;
     $handle = fopen($file,"w");

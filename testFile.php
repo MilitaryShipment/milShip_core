@@ -4,14 +4,7 @@
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
 $scacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
-
 RateFactory::round1Pasture(2019,$scacs);
-
-// $params = RateFactory::blankObject();
-// $params->scac = "ADVA";
-// $params->year = 2018;
-// $params->round = 2;
-// RateFactory::export($params);
 
 exit;
 /*REDFILE ROUND 1 AUTOFLE*/
