@@ -3,12 +3,28 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+RateFactory::importBookings();
+
+
+exit;
+
 $pastureScacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
 $redScacs = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
 $harvestScacs = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
 
-//RateFactory::round1Pasture(2019,$pastureScacs);
-RateFactory::round1RedHarvest(2019,$redScacs,$harvestScacs);
+$harvestPeak = array();
+$harvestNonPeak = array();
+$redPeak = array();
+$redNonPeak = array();
+$pasturePeak = array();
+$pastureNonPeak = array();
+
+
+RateFactory::round1RedHarvest(2019,$redPeak,$harvestPeak,true);
+RateFactory::round1RedHarvest(2019,$redNonPeak,$harvestNonPeak,false);
+RateFactory::round1Pasture(2019,$pasturePeak,true);
+RateFactory::round1Pasture(2019,$pastureNonPeak,false);
+
 
 exit;
 /*REDFILE ROUND 1 AUTOFLE*/

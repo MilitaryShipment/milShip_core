@@ -8,16 +8,18 @@ class Round1Pasture{
 
   protected $year;
   protected $round;
+  protected $peak;
   protected $scacs = array();
   protected $lh_variances = array(1,0,-1,-2);
   protected $sit_variances = array(2,1,0,-.25,-.5,-.75,-1,-1.25);
   protected $dataObjects = array();
 
-  public function __construct($year,$scacs){
+  public function __construct($year,$scacs,$peak = true){
     $this->year = $year - 1;
     $this->round = 2;
     $this->scacs = $scacs;
-    $this->_build()->_autoFile()->export();
+    $this->peak = $peak;
+    $this->_build()->_autoFile();
   }
   protected function _build(){
     $breakPoint = round(count($this->scacs) / 2);
@@ -41,31 +43,34 @@ class Round1Pasture{
   protected function _autoFile(){
     foreach($this->dataObjects as $fileObj){
       $scac = RateFactory::buildScac($fileObj->scac,$this->round,$this->year);
-      foreach($scac->peakLanes as $lane){
-        $lh_range = $lane->getKnownAcceptedRange();
-        $sit_range = $lane->getKnownAcceptedRange(true,false);
-        $bkar = $lh_range['x'];
-        $lkar = $lh_range['y'];
-        if($bkar != $lane->bkar){
-          $this->_bkarError($lane->lane,$bkar,$lane->bkar);
+      if($this->peak){
+        foreach($scac->peakLanes as $lane){
+          $lh_range = $lane->getKnownAcceptedRange();
+          $sit_range = $lane->getKnownAcceptedRange(true,false);
+          $bkar = $lh_range['x'];
+          $lkar = $lh_range['y'];
+          if($bkar != $lane->bkar){
+            $this->_bkarError($lane->lane,$bkar,$lane->bkar);
+          }
+          $lane->lh_adj = $fileObj->isHigh ? $lane->lh_adj = $bkar + $fileObj->lh_variance : $lane->lh_adj = $lkar + $fileObj->lh_variance;
+          $lane->sit_adj = $sit_range['x'] + $fileObj->sit_variance;
+          $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+          //$lane->update($update);
         }
-        $lane->lh_adj = $fileObj->isHigh ? $lane->lh_adj = $bkar + $fileObj->lh_variance : $lane->lh_adj = $lkar + $fileObj->lh_variance;
-        $lane->sit_adj = $sit_range['x'] + $fileObj->sit_variance;
-        $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
-        $lane->update($update);
-      }
-      foreach($scac->nonPeakLanes as $lane){
-        $lh_range = $lane->getKnownAcceptedRange(false,true);
-        $sit_range = $lane->getKnownAcceptedRange(false,false);
-        $bkar = $lh_range['x'];
-        $lkar = $lh_range['y'];
-        if($bkar != $lane->bkar){
-          $this->_bkarError($lane->lane,$bkar,$lane->bkar);
+      }else{
+        foreach($scac->nonPeakLanes as $lane){
+          $lh_range = $lane->getKnownAcceptedRange(false,true);
+          $sit_range = $lane->getKnownAcceptedRange(false,false);
+          $bkar = $lh_range['x'];
+          $lkar = $lh_range['y'];
+          if($bkar != $lane->bkar){
+            $this->_bkarError($lane->lane,$bkar,$lane->bkar);
+          }
+          $lane->lh_adj = $fileObj->isHigh ? $lane->lh_adj = $bkar + $fileObj->lh_variance : $lane->lh_adj = $lkar + $fileObj->lh_variance;
+          $lane->sit_adj = $sit_range['x'] + $fileObj->sit_variance;
+          $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+          //$lane->update($update);
         }
-        $lane->lh_adj = $fileObj->isHigh ? $lane->lh_adj = $bkar + $fileObj->lh_variance : $lane->lh_adj = $lkar + $fileObj->lh_variance;
-        $lane->sit_adj = $sit_range['x'] + $fileObj->sit_variance;
-        $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
-        $lane->update($update);
       }
     }
     return $this;

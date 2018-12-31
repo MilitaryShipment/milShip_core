@@ -1,5 +1,8 @@
 <?php
 
+
+require_once '/srv/www/htdocs/classes/excel_reader2.php';
+
 require_once __DIR__ . '/Lane.php';
 require_once __DIR__ . '/ScacList.php';
 require_once __DIR__ . '/LaneList.php';
@@ -102,5 +105,8 @@ class RateFactory{
     }
     public static function round1RedHarvest($year,$redScacs,$harvestScacs){
       return new Round1RedHarvest($year,$redScacs,$harvestScacs);
+    }
+    public static function importBookings(){
+      return new BookingImport();
     }
 }

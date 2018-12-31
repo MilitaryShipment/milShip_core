@@ -30,7 +30,7 @@ class Round1RedHarvest{
     -5
   );
 
-  public function __construct($year,$redScacs,$harvestScacs){
+  public function __construct($year,$redScacs,$harvestScacs,$peak = true){
     $this->year = $year - 1;
     $this->round = 2;
     $this->redScacs = $redScacs;
@@ -39,7 +39,11 @@ class Round1RedHarvest{
     if(!$this->_verifyLaneIncrements()){
       $this->_buildLaneIncrements();
     }
-    $this->_autoFile();
+    if($peak){
+      $this->_autoFilePeak();
+    }else{
+      $this->_autoFileNonPeak();
+    }
   }
   protected function _buildLaneIncrements(){
     foreach($this->redScacs as $scacLabel){
@@ -67,11 +71,11 @@ class Round1RedHarvest{
     $this->_saveToCsv($this->nonPeakLanes,false);
     return $this;
   }
-  protected function _autoFile(){
+  protected function _autoFilePeak(){
     foreach($this->peakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,true);
       $sit_bkar = Lane::findBkar($laneLabel,$this->year,$this->round,false,true);
-      echo $laneLabel . "LH BKAR: " . $increment . " SIT BKAR: " . $sit_bkar . "\n";
+      echo $laneLabel . " LH BKAR: " . $increment . " SIT BKAR: " . $sit_bkar . "\n";
       $i = 0;
       foreach($this->allScacs as $scacLabel){
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,true);
@@ -79,10 +83,15 @@ class Round1RedHarvest{
         $increment -= $this->peakLanes[$lane->lane];
         $lane->lh_adj = $increment;
         $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
+        $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+        //$lane->update($update);
         echo $scacLabel . " -> LH:" . $lane->lh_adj . " | (" . $rejection . ")\n";
         echo "\tSIT: " . $lane->sit_adj . "\n";
       }
     }
+    return $this;
+  }
+  protected function _autoFileNonPeak(){
     foreach($this->nonPeakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,false);
       echo $laneLabel . "\n";
@@ -94,6 +103,8 @@ class Round1RedHarvest{
         $increment -= $this->nonPeaksLanes[$lane->lane];
         $lane->lh_adj = $increment;
         $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
+        $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+        //$lane->update($update);
         echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
         echo "\t\t" . $lane->sit_adj . "\n";
       }
