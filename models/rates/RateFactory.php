@@ -67,6 +67,9 @@ class RateFactory{
     public static function readXcel($inputFile){
         return new Spreadsheet_Excel_Reader($inputFile);
     }
+    public static function readCsv($file){
+      return array_map('str_getcsv', file($file));
+    }
     public static function createAnalyticsFile(){
         return new AnalyticsFile();
     }

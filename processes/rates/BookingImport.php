@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../models/rates/DpsBooking.php';
 class BookingImport{
 
   const INPUTDIR = 'data/input/bookings/';
-  const FILEPATT = "/([0-9]{4})\sDPS\sBOOKINGS\sBY\sLOAD\sDATE/";
+  const FILEPATT = "/([0-9]{4})\sbooking\sreport/i";
   protected $inDirDir;
   protected $inputFiles = array();
 
@@ -29,8 +29,8 @@ class BookingImport{
   }
   protected function _parseInputFiles(){
     foreach($this->inputFiles as $file){
-      $xcel = RateFactory::readXcel($file);
-      print_r($xcel);
+      $csv = RateFactory::readCsv($this->inDir . $file);
+      print_r($csv);
     }
     return $this;
   }

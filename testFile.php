@@ -12,6 +12,7 @@ $pastureScacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
 $redScacs = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
 $harvestScacs = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
 
+$year = 2019;
 $harvestPeak = array();
 $harvestNonPeak = array();
 $redPeak = array();
@@ -19,14 +20,16 @@ $redNonPeak = array();
 $pasturePeak = array();
 $pastureNonPeak = array();
 
-
-RateFactory::round1RedHarvest(2019,$redPeak,$harvestPeak,true);
-RateFactory::round1RedHarvest(2019,$redNonPeak,$harvestNonPeak,false);
-RateFactory::round1Pasture(2019,$pasturePeak,true);
-RateFactory::round1Pasture(2019,$pastureNonPeak,false);
-
-
-exit;
+for($i = 0; $i <= 1; $i++){
+	$peak = $i;
+	if($peak){
+    RateFactory::round1RedHarvest($year,$redPeak,$harvestPeak,$peak);
+    RateFactory::round1Pasture($year,$pasturePeak,$peak);
+	}else{
+    RateFactory::round1RedHarvest($year,$redNonPeak,$harvestNonPeak,$peak);
+    RateFactory::round1Pasture($year,$pastureNonPeak,$peak);
+	}
+}
 /*REDFILE ROUND 1 AUTOFLE*/
 
 function _doError($scac,$lane,$lh_variance,$otherVal){
