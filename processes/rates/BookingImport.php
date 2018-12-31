@@ -28,4 +28,11 @@ class BookingImport{
     }
     return $this;
   }
+  protected function _parseInputFiles(){
+    foreach($this->inputFiles as $file){
+      $xcel = RateFactory::readXcel($file);
+      print_r($xcel);
+    }
+    return $this;
+  }
 }
