@@ -12,8 +12,7 @@ class BookingImport{
 
   public function __construct(){
     $this->inDir = __DIR__ . "/" . self::INPUTDIR;
-    $this->_parseFileNames();
-    print_r($this->inputFiles);
+    $this->_parseFileNames()->_parseInputFiles();
   }
 
   protected function _parseFileNames(){
