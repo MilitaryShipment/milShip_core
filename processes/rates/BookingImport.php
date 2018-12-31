@@ -29,7 +29,7 @@ class BookingImport{
   }
   protected function _parseInputFiles(){
     foreach($this->inputFiles as $file){
-      $csv = RateFactory::readCsv($this->inDir . $file);
+      $csv = RateFactory::readCsv($this->inDir . $file['file']);
       print_r($csv);
     }
     return $this;
