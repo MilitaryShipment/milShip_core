@@ -13,10 +13,10 @@ require_once __DIR__ . '/Scac.php';
 require_once __DIR__ . '/../../processes/rates/RateSearch.php';
 require_once __DIR__ . '/../../processes/rates/RateExport.php';
 require_once __DIR__ . '/../../processes/rates/RateCopy.php';
+require_once __DIR__ . '/../../processes/rates/BookingImport.php';
 require_once __DIR__ . '/../../processes/rates/LkarCalculator.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1Pasture.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1RedHarvest.php';
-require_once __DIR__ . '/../../processes/rates/autofile/BookingImport.php';
 
 class RateFactory{
 
