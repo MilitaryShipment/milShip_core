@@ -16,7 +16,7 @@ class BookingImport{
 
   protected function _parseFileNames(){
     if(!is_dir(self::INPUTDIR)){
-      thorw new \Exception('Input does not exist');
+      throw new \Exception('Input does not exist');
     }
     $results = scandir(self::INPUTDIR);
     foreach($results as $result){
