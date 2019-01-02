@@ -33,6 +33,7 @@ class BookingImport{
   protected function _parseInputFiles(){
     foreach($this->inputFiles as $file){
       $rows = RateFactory::readCsv($this->inDir . $file['file']);
+      die(print_r($rows));
       foreach($rows as $row){
         $newBooking = new DpsBooking();
         $newBooking->scac = $row[0];
