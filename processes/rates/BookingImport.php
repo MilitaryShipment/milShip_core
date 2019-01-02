@@ -47,6 +47,7 @@ class BookingImport{
         $newBooking->load_status = $row[7];
         $newBooking->is_shortFuse = $row[10];
         $newBooking->create();
+        echo $GLOBALS['db']->query . "\n";
       }
     }
     return $this;
