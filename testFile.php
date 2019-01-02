@@ -3,10 +3,8 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-RateFactory::importBookings();
-
-
-exit;
+// RateFactory::importBookings();
+// exit;
 
 $pastureScacs = array("AAMG","EVAL","AVLE","MXSP","NVYV","GVLN","PYVL");
 $redScacs = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
