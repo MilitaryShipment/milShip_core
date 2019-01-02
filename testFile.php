@@ -13,12 +13,16 @@ $redScacs = array("MXSP","ADVA","EWVL","HVNL","GVLN","FVNL","AWVA");
 $harvestScacs = array("AVLM","FVNL","EVAL","PPVL","PYVL","ALMM","HVNL","EXDV");
 
 $year = 2019;
-$harvestPeak = array();
-$harvestNonPeak = array();
-$redPeak = array();
-$redNonPeak = array();
+$harvestPeak = array("AVLM","ADVA","ALMM","PYVL","EVAL","ADVA","FVNL","EWVL");
+$harvestNonPeak = array("AVLM","ADVA","ALMM","PYVL","EVAL","ADVA","FVNL","EWVL");
+$redPeak = array("AAMG","EVAL","AVLE","MXSP","GVLN","PPVL","HVNL");
+$redNonPeak = array("AAMG","EVAL","AVLE","MXSP","GVLN","PPVL","HVNL");
 $pasturePeak = array();
 $pastureNonPeak = array();
+
+RateFactory::round1RedHarvest($year,$redPeak,$harvestPeak,true);
+
+exit;
 
 for($i = 0; $i <= 1; $i++){
 	$peak = $i;

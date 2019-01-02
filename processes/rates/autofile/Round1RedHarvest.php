@@ -1,5 +1,7 @@
 <?php
 
+//todo make last 2 integers
+
 require_once __DIR__ . '/../../../models/rates/RateFactory.php';
 
 class Round1RedHarvest{
@@ -72,17 +74,26 @@ class Round1RedHarvest{
     return $this;
   }
   protected function _autoFilePeak(){
+    $max = count($this->allScacs);
     foreach($this->peakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,true);
       $sit_bkar = Lane::findBkar($laneLabel,$this->year,$this->round,false,true);
+      $sit_counter = 0;
+      $lh_counter = 0;
       echo $laneLabel . " LH BKAR: " . $increment . " SIT BKAR: " . $sit_bkar . "\n";
-      $i = 0;
       foreach($this->allScacs as $scacLabel){
+        $lh_counter++;
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,true);
         $rejection = $lane->getHighestRejection(true,true);
-        $increment -= $this->peakLanes[$lane->lane];
+        if($lh_counter == ($max - 1)){
+          $increment -= 1;
+        }elseif($lh_counter == $max){
+          $increment -= 2;
+        }else{
+          $increment -= $this->peakLanes[$lane->lane];
+        }
         $lane->lh_adj = $increment;
-        $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
+        $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$sit_counter++];
         $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
         //$lane->update($update);
         echo $scacLabel . " -> LH:" . $lane->lh_adj . " | (" . $rejection . ")\n";
@@ -94,15 +105,23 @@ class Round1RedHarvest{
   protected function _autoFileNonPeak(){
     foreach($this->nonPeakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,false);
+      $sit_counter = 0;
+      $lh_counter = 0;
       echo $laneLabel . "\n";
       echo "BKAR: " . $increment . "\n";
-      $i = 0;
       foreach($this->allScacs as $scacLabel){
+        $lh_counter++;
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,false);
         $rejection = $lane->getHighestRejection(false,true);
-        $increment -= $this->nonPeaksLanes[$lane->lane];
+        if($lh_counter == ($max - 1)){
+          $increment -= 1;
+        }elseif($lh_counter == $max){
+          $increment -= 2;
+        }else{
+          $increment -= $this->nonPeaksLanes[$lane->lane];  
+        }
         $lane->lh_adj = $increment;
-        $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$i++];
+        $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$sit_counter++];
         $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
         //$lane->update($update);
         echo $scacLabel . " -> " . $lane->lh_adj . " | (" . $rejection . ")\n";
