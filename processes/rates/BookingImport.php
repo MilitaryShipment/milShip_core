@@ -52,8 +52,10 @@ class BookingImport{
     return $this;
   }
   protected function _trimLane($lane){
-    preg_match(self::LANEPATT,$lane,$matches);
-    return trim(strtolower($matches[1]));
+    if(preg_match(self::LANEPATT,$lane,$matches)){
+      return trim(strtolower($matches[1]));
+    }
+    return $lane;
   }
   protected function _isShortFuse($value){
     if(empty($value) || is_null($value)){

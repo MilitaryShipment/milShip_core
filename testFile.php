@@ -23,11 +23,11 @@ $pastureNonPeak = array();
 for($i = 0; $i <= 1; $i++){
 	$peak = $i;
 	if($peak){
+		RateFactory::round1Pasture($year,$pasturePeak,$peak);
     RateFactory::round1RedHarvest($year,$redPeak,$harvestPeak,$peak);
-    RateFactory::round1Pasture($year,$pasturePeak,$peak);
 	}else{
+		RateFactory::round1Pasture($year,$pastureNonPeak,$peak);
     RateFactory::round1RedHarvest($year,$redNonPeak,$harvestNonPeak,$peak);
-    RateFactory::round1Pasture($year,$pastureNonPeak,$peak);
 	}
 }
 /*REDFILE ROUND 1 AUTOFLE*/
