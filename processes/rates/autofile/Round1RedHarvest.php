@@ -86,13 +86,14 @@ class Round1RedHarvest{
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,true);
         $rejection = $lane->getHighestRejection(true,true);
         if($lh_counter == ($max - 1)){
-          $increment = -1;
+          //todo I do not find ints like I should
+          $increment -= (round($this->peakLanes[$lane->lane]) - 1);
         }elseif($lh_counter == $max){
-          $increment = -2;
+          //todo I do not find ints like I should
+          $increment -= (round($this->peakLanes[$lane->lane]) - 2);
         }else{
-
+          $increment -= $this->peakLanes[$lane->lane];
         }
-        $increment -= $this->peakLanes[$lane->lane];
         $lane->lh_adj = $increment;
         $lane->sit_adj = $lane->sit_bkar + $this->sit_increments[$sit_counter++];
         $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
