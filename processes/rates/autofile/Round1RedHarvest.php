@@ -74,7 +74,6 @@ class Round1RedHarvest{
     return $this;
   }
   protected function _autoFilePeak(){
-    echo "Doing peak autofile\n";
     $max = count($this->allScacs);
     foreach($this->peakLanes as $laneLabel => $variance){
       $increment = Lane::findBkar($laneLabel,$this->year,$this->round,true,true);
@@ -89,9 +88,12 @@ class Round1RedHarvest{
         if($lh_counter == ($max - 1)){
           //todo I do not find ints like I should
           $increment -= (round($this->peakLanes[$lane->lane]) - 1);
+          echo $increment . "\n";
         }elseif($lh_counter == $max){
           //todo I do not find ints like I should
           $increment -= (round($this->peakLanes[$lane->lane]) - 2);
+          echo $increment . "\n";
+          exit;
         }else{
           $increment -= $this->peakLanes[$lane->lane];
         }
