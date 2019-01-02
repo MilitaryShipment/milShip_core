@@ -45,9 +45,8 @@ class BookingImport{
         $newBooking->reg_date = $row[6];
         $newBooking->load_date = $row[2];
         $newBooking->load_status = $row[7];
-        $newBooking->is_shortFuse = $row[10];
+        $newBooking->is_shortFuse = $this->_isShortFuse($row[10]);
         $newBooking->create();
-        echo $GLOBALS['db']->query . "\n";
       }
     }
     return $this;
@@ -55,5 +54,13 @@ class BookingImport{
   protected function _trimLane($lane){
     preg_match(self::LANEPATT,$lane,$matches);
     return trim(strtolower($matches[1]));
+  }
+  protected function _isShortFuse($value){
+    if(empty($value) || is_null($value)){
+      return 0;
+    }elseif(strtolower($value) == 'y'){
+      return 1;
+    }
+    return 0;
   }
 }
