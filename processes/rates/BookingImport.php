@@ -46,7 +46,8 @@ class BookingImport{
         $newBooking->load_date = $row[2];
         $newBooking->load_status = $row[7];
         $newBooking->is_shortFuse = $row[10];
-        $newBooking->create();
+        print_r($newBooking);
+        //$newBooking->create();
       }
     }
     return $this;
