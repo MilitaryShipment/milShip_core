@@ -9,7 +9,7 @@ class LoadDateAutoHide{
   public function __construct(){
     $list = new TonnageList();
     foreach($list->shipments as $shipment){
-      if(strtotime($shipment->pickup) < strtotime(self::LIMITSTR)){
+      if(strtotime($shipment->pickup) > strtotime(self::LIMITSTR)){
         echo $shipment->pickup . "\n";
       }
     }
