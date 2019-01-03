@@ -3,10 +3,7 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-require_once __DIR__ . '/processes/tonnage/LoadDateAutoHide.php';
 
-$l = new LoadDateAutoHide();
-exit;
 // RateFactory::importBookings();
 // exit;
 
