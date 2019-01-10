@@ -125,7 +125,7 @@ class SendMessage
         $email->Username = $this->username;
         $email->Password = $this->password;
         $email->From = $this->username;
-        $email->FromName = $this->fromName;
+        $email->FromName = isset($this->fromName) ? $this->fromName : $this->username;
         $this->carbonCopies($email);
         $this->blindCarboCopies($email);
         if(preg_match(self::PHONE_PATTERN,$to)){
@@ -138,7 +138,9 @@ class SendMessage
         $email->SingleTo = true;
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
-        $email = $this->_addAttachments($email);
+        if(isset($this->attachments)){
+          $email = $this->_addAttachments($email);  
+        }
         try{
           $email->send();
           $this->cleanUp($email);
