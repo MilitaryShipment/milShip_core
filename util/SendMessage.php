@@ -139,10 +139,11 @@ class SendMessage
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
         if(isset($this->attachments)){
-          $email = $this->_addAttachments($email);  
+          $email = $this->_addAttachments($email);
         }
         try{
           $email->send();
+          echo "Email Sent\n";
           $this->cleanUp($email);
         }catch(\Exception $e){
           throw new \Exception($e->getMessage());
