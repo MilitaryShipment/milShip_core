@@ -9,7 +9,12 @@ $message = array(
 	"body"=>"And here it is"
 );
 
-$m = new SendMessage($message);
+try{
+	$m = new SendMessage($message);
+}catch(\Exception $e){
+	$e->getMessage();
+}
+
 
 exit;
 require_once __DIR__ . '/models/rates/RateFactory.php';

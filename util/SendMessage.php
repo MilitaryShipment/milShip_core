@@ -200,6 +200,12 @@ class SendMessage
         $this->username = $username;
         $this->password = $password;
       }
+      print_r(array(
+        $this->host,
+        $this->port,
+        $this->username,
+        $this->password
+      ));
       return $this;
     }
     protected function _addAttachments($email){
