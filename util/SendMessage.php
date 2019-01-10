@@ -48,7 +48,7 @@ class SendMessage
      */
     public function __construct($parameters,$host = null,$port = null,$username = null,$password = null)
     {
-        $this->_parseHostDetails($host,$username,$password);
+        $this->_parseHostDetails($host,$port,$username,$password);
         // to and attachments expect arrays
         $parameters = $this->checkForScalarInArray($parameters);
         foreach ($parameters as $name => $value) {
