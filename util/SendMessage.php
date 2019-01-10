@@ -124,8 +124,8 @@ class SendMessage
         $email = new phpmailer(true);
         $email->isSMTP();
         $email->CharSet = self::DEFAULT_CHARSET;
-        $email->SMTPAuth = true;
         $email->SMTPSecure = self::DEFAULT_SEC;
+        $email->SMTPAuth = true;
         $email->Host = $this->host;
         $email->Port = $this->port;
         $email->Username = $this->username;
