@@ -1,6 +1,17 @@
 <?php
 
 
+require_once __DIR__ . '/util/SendMessage.php';
+
+$message = array(
+	"to"=>"j.watson@allamericanmoving.com",
+	"subject"=>"I wrote you a message",
+	"body"=>"And here it is"
+);
+
+$m = new SendMessage($message);
+
+exit;
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
 
