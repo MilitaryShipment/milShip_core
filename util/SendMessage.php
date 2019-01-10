@@ -120,7 +120,7 @@ class SendMessage
       $this->uniqueTo();
       // Single thread each message to prevent group messages
       foreach($this->to as $to){
-        $email = new phpmailer();
+        $email = new phpmailer(true);
         $email->isSMTP();
         $email->CharSet = self::DEFAULT_CHARSET;
         $email->SMTPAuth = true;
