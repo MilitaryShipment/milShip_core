@@ -130,8 +130,8 @@ class SendMessage
         $email->Password = $this->password;
         $email->From = $this->username;
         $email->FromName = isset($this->fromName) ? $this->fromName : $this->username;
-        $this->carbonCopies($email);
-        $this->blindCarboCopies($email);
+        //$this->carbonCopies($email);
+        //$this->blindCarboCopies($email);
         if(preg_match(self::PHONE_PATTERN,$to)){
           $email->isHTML(false);
           $email->Subject = $this->subject;

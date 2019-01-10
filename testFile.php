@@ -4,7 +4,7 @@
 require_once __DIR__ . '/util/SendMessage.php';
 
 $message = array(
-	"to"=>"j.watson@allamericanmoving.com",
+	"to"=>array("j.watson@allamericanmoving.com"),
 	"subject"=>"I wrote you a message",
 	"body"=>"And here it is"
 );
