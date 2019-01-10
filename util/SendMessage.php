@@ -141,7 +141,6 @@ class SendMessage
           $email->isHTML(true);
           $email->Subject = "";
         }
-        $email->SingleTo = true;
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
         if(isset($this->attachments)){
