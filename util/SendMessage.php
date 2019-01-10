@@ -14,12 +14,14 @@ class SendMessage
     const DEFAULT_CHARSET = 'UTF-8';
     const DEFAULT_CREDS = '/srv/www/config/.email';
     const PHONE_PATTERN = '/^[0-9]{10}@/';
+    const DEFAULT_PORT = 25;
     public $encoding = "base64";
     public $type = "text/plain";
 
     protected $host;
     protected $username;
     protected $password;
+    protected $port;
 
     public $mime_types = array(
         "123" => "application/vnd.lotus-1-2-3", "3dml" => "text/vnd.in3d.3dml", "3g2" => "video/3gpp2",
@@ -44,7 +46,7 @@ class SendMessage
      * TO FROM SUBJECT BODY -- REQUIRED
      * $message = new Send($array);
      */
-    public function __construct($parameters,$host = null,$username = null,$password = null)
+    public function __construct($parameters,$host = null,$port = null,$username = null,$password = null)
     {
         $this->_parseHostDetails($host,$username,$password);
         // to and attachments expect arrays
@@ -119,9 +121,11 @@ class SendMessage
       // Single thread each message to prevent group messages
       foreach($this->to as $to){
         $email = new phpmailer();
+        $email->isSMTP();
         $email->CharSet = self::DEFAULT_CHARSET;
         $email->SMTPAuth = true;
         $email->Host = $this->host;
+        $email->Port = $this->port;
         $email->Username = $this->username;
         $email->Password = $this->password;
         $email->From = $this->username;
@@ -180,17 +184,19 @@ class SendMessage
         }
         return $this;
     }
-    protected function _parseHostDetails($host,$username,$password){
-      if(is_null($host) || is_null($username) || is_null($password)){
+    protected function _parseHostDetails($host,$port,$username,$password){
+      if(is_null($host) || is_null($port) || is_null($username) || is_null($password)){
         if(!file_exists(self::DEFAULT_CREDS)){
           throw new \Exception('Cannot Read Default credentials.');
         }
         $file = file(self::DEFAULT_CREDS);
         $this->host = $file[0];
-        $this->username = $file[1];
-        $this->password = $file[2];
+        $this->port = $file[1];
+        $this->username = $file[2];
+        $this->password = $file[3];
       }else{
         $this->host = $host;
+        $this->port = self::DEFAULT_PORT;
         $this->username = $username;
         $this->password = $password;
       }
