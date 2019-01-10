@@ -150,6 +150,7 @@ class SendMessage
           echo "Email Sent\n";
           $this->cleanUp($email);
         }catch(\Exception $e){
+          echo $e->getMessage() . "\n";
           throw new \Exception($e->getMessage());
         }
       }
