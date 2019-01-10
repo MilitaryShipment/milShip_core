@@ -12,7 +12,7 @@ $message = array(
 try{
 	$m = new SendMessage($message);
 }catch(\Exception $e){
-	$e->getMessage();
+	echo $e->getMessage() . "\n";
 }
 
 

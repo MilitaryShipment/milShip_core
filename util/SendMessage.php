@@ -15,6 +15,7 @@ class SendMessage
     const DEFAULT_CREDS = '/srv/www/config/.email';
     const PHONE_PATTERN = '/^[0-9]{10}@/';
     const DEFAULT_PORT = 25;
+    const DEFAULT_SEC = 'tls';
     public $encoding = "base64";
     public $type = "text/plain";
 
@@ -124,6 +125,7 @@ class SendMessage
         $email->isSMTP();
         $email->CharSet = self::DEFAULT_CHARSET;
         $email->SMTPAuth = true;
+        $email->SMTPSecure = self::DEFAULT_SEC;
         $email->Host = $this->host;
         $email->Port = $this->port;
         $email->Username = $this->username;
@@ -147,10 +149,8 @@ class SendMessage
         }
         try{
           $email->send();
-          echo "Email Sent\n";
           $this->cleanUp($email);
         }catch(\Exception $e){
-          echo $e->getMessage() . "\n";
           throw new \Exception($e->getMessage());
         }
       }
