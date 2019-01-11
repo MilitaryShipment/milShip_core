@@ -190,10 +190,10 @@ class SendMessage
           throw new \Exception('Cannot Read Default credentials.');
         }
         $file = file(self::DEFAULT_CREDS);
-        $this->host = $file[0];
-        $this->port = $file[1];
-        $this->username = $file[2];
-        $this->password = $file[3];
+        $this->host = trim($file[0]);
+        $this->port = trim($file[1]);
+        $this->username = trim($file[2]);
+        $this->password = trim($file[3]);
       }else{
         $this->host = $host;
         $this->port = self::DEFAULT_PORT;
