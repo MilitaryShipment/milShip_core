@@ -123,11 +123,11 @@ class SendMessage
       foreach($this->to as $to){
         $email = new phpmailer(true);
         $email->isSMTP();
+        $email->Host = $this->host;
+        $email->Port = $this->port;
         $email->CharSet = self::DEFAULT_CHARSET;
         $email->SMTPSecure = self::DEFAULT_SEC;
         $email->SMTPAuth = true;
-        $email->Host = $this->host;
-        $email->Port = $this->port;
         $email->Username = $this->username;
         $email->Password = $this->password;
         $email->From = $this->username;
