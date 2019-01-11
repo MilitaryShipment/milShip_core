@@ -6,7 +6,8 @@ require_once __DIR__ . '/util/SendMessage.php';
 $message = array(
 	"to"=>array("j.watson@allamericanmoving.com"),
 	"subject"=>"I wrote you a message",
-	"body"=>"And here it is"
+	"body"=>"And here it is",
+	"fromName"=>"automailer@militaryshipment.com"
 );
 
 try{
