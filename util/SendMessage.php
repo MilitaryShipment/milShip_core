@@ -147,7 +147,6 @@ class SendMessage
           $email = $this->_addAttachments($email);
         }
         try{
-          die(print_r($email));
           $email->send();
           $this->cleanUp($email);
         }catch(\Exception $e){
