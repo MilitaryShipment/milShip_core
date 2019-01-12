@@ -7,7 +7,8 @@ $message = array(
 	"to"=>array("j.watson@allamericanmoving.com"),
 	"subject"=>"I wrote you a message",
 	"body"=>"And here it is",
-	"fromName"=>"automailer@militaryshipment.com"
+	"fromName"=>"automailer@militaryshipment.com",
+	"attachemnts"=>array("/srv/www/htdocs/tmp/epay_images.csv")
 );
 
 try{

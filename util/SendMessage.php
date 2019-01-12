@@ -136,10 +136,10 @@ class SendMessage
         //$this->blindCarboCopies($email);
         if(preg_match(self::PHONE_PATTERN,$to)){
           $email->isHTML(false);
-          $email->Subject = $this->subject;
-        }else{
-          $email->isHTML(true);
           $email->Subject = "";
+        }else{
+          $email->isHTML(false);
+          $email->Subject = $this->subject;
         }
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
