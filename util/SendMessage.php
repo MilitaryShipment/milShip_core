@@ -134,8 +134,9 @@ class SendMessage
           $email->AddReplyTo($this->replyTo);
         }
         if(isset($this->from)){
-          $email->SetFrom($this->from);
-          $email->From = $this->from;
+          $email->Sender = $this->username;
+          $from = isset($this->fromName) ? $this->fromName : '';
+          $email->SetFrom($this->from,$from,false);
         }else{
           $email->From = $this->username;
         }
