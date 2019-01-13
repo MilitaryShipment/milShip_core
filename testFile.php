@@ -8,6 +8,7 @@ $message = array(
 	"subject"=>"I wrote you a message",
 	"body"=>"And here it is",
 	"fromName"=>"missingItemsMonitor",
+	"replyTo"=>"webadmin@allamericanmoving.com"
 );
 
 try{
