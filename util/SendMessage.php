@@ -133,14 +133,7 @@ class SendMessage
         if(isset($this->replyTo)){
           $email->AddReplyTo($this->replyTo);
         }
-        if(isset($this->from)){
-          $email->Sender = $this->username;
-          $from = isset($this->fromName) ? $this->fromName : '';
-          $email->SetFrom($this->from,$from,false);
-        }else{
-          $email->From = $this->username;
-        }
-        $email->FromName = isset($this->fromName) ? $this->fromName : $this->username;
+        $email->From = $this->username;
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
         if(preg_match(self::PHONE_PATTERN,$to)){
