@@ -8,7 +8,7 @@ $message = array(
 	"subject"=>"I wrote you a message",
 	"body"=>"And here it is",
 	//"fromName"=>"automation@militaryshipment.com",
-	"attachments"=>array("/srv/www/htdocs/tmp/epay_images.csv","/srv/www/htdocs/tmp/templates.txt")
+	"attachments"=>array("/srv/www/htdocs/tmp/templates.txt")
 );
 
 try{
