@@ -144,6 +144,7 @@ class SendMessage
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
         if(isset($this->attachments)){
+          echo "Attachments isset\n";
           $email = $this->_addAttachments($email);
         }
         try{
