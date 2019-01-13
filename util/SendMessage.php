@@ -71,7 +71,7 @@ class SendMessage
                 $email->AddBCC($this->bcc);
             }
         }
-        return $this;
+        return $email;
     }
 
     // Send carbon copy to each member of array
@@ -86,7 +86,7 @@ class SendMessage
                 $email->AddCC($this->cc);
             }
         }
-        return $this;
+        return $email;
     }
 
     private function checkForScalarInArray($parameters)
@@ -132,8 +132,8 @@ class SendMessage
         $email->Password = $this->password;
         $email->From = $this->username;
         $email->FromName = isset($this->fromName) ? $this->fromName : $this->username;
-        //$this->carbonCopies($email);
-        //$this->blindCarboCopies($email);
+        $email->AddAddress($to,"ToEmail");
+        $email->Body = $this->body;
         if(preg_match(self::PHONE_PATTERN,$to)){
           $email->isHTML(false);
           $email->Subject = "";
@@ -141,10 +141,14 @@ class SendMessage
           $email->isHTML(false);
           $email->Subject = $this->subject;
         }
-        $email->AddAddress($to,"ToEmail");
-        $email->Body = $this->body;
         if(isset($this->attachments)){
           $email = $this->_addAttachments($email);
+        }
+        if(isset($this->cc)){
+          $email = $this->carbonCopies($email);
+        }
+        if(isset($this->bcc)){
+          $email = $this->blindCarboCopies($email);
         }
         try{
           $email->send();

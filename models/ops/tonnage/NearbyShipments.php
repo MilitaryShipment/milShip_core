@@ -8,7 +8,6 @@ require_once __DIR__ . '/../ZipLocation.php';
 class NearbyShipments{
 
     const MAXMILES = 50;
-    const MAXDATE = '15 Jan 2019';
 
     protected $shipment;
     protected $availableShipments = array();
