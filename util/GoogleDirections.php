@@ -16,7 +16,7 @@ class GoogleDirections{
     }
 
     public static function get($originCity,$originState,$destinationCity,$destinationState){
-        $url = self::APIBASE . 'key=' . self::getKet() . '&origin=' . urlencode($originCity) . ',' . $originState . '&destination=' . urlencode($destinationCity) . ',' . $destinationState . '&senson=false';
+        $url = self::APIBASE . 'key=' . self::getKey() . '&origin=' . urlencode($originCity) . ',' . $originState . '&destination=' . urlencode($destinationCity) . ',' . $destinationState . '&senson=false';
         return json_decode(file_get_contents($url));
     }
 }
