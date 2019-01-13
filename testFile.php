@@ -12,7 +12,7 @@ $message = array(
 );
 
 try{
-	$m = new SendMessage($message);
+	Messenger::send($message);
 }catch(\Exception $e){
 	echo $e->getMessage() . "\n";
 }
