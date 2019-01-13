@@ -30,7 +30,7 @@ interface ContractBehavior{
 }
 interface MessageBehavior{
     public static function verify($contact);
-    public static function send($to,$from,$fromName,$replyTo,$cc,$bcc,$subject,$body,$attachments);
+    public static function send($msgArray,$host,$port,$username,$password);
 //    public function call();
 //    public function fax();
 //    public function email();

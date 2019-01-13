@@ -1,7 +1,7 @@
 <?php
 
 
-require_once __DIR__ . '/util/SendMessage.php';
+require_once __DIR__ . '/util/Messenger.php';
 
 $message = array(
 	"to"=>array("j.watson@allamericanmoving.com"),
