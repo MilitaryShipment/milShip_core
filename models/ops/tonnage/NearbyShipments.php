@@ -20,12 +20,7 @@ class NearbyShipments{
     protected function _buildAvailableShipments(){
         $shipments = array();
         $list = new TonnageList();
-        foreach($list->shipments as $possible){
-          if(strtotime($possible->pickup) < strtotime(self::MAXDATE)){
-            $shipments[] = $possible;
-          }
-        }
-        $this->availableShipments = $shipments;
+        $this->availableShipments = $list->shipments;
         return $this;
     }
     protected function _buildGeoData($shipment,$origin = true){
