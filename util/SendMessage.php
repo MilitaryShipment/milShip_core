@@ -135,8 +135,9 @@ class SendMessage
         }
         if(isset($this->from)){
           $email->SetFrom($this->from);
+          $email->From = $this->from
         }else{
-          $email->From = $this->username;  
+          $email->From = $this->username;
         }
         $email->FromName = isset($this->fromName) ? $this->fromName : $this->username;
         $email->AddAddress($to,"ToEmail");
