@@ -7,7 +7,7 @@ $message = array(
 	"to"=>array("j.watson@allamericanmoving.com"),
 	"subject"=>"I wrote you a message",
 	"body"=>"And here it is",
-	"replyTo"=>"webadmin@allamericanmoving.com"
+	"replyTo"=>"webadmin@allamericanmoving.com",
 	"from"=>"missingitemsmonitor@militaryshipment.com"
 );
 

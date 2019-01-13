@@ -140,7 +140,6 @@ class SendMessage
         }else{
           $email->From = $this->username;
         }
-        $email->From = $this->username;
         $email->AddAddress($to,"ToEmail");
         $email->Body = $this->body;
         if(preg_match(self::PHONE_PATTERN,$to)){
