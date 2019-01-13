@@ -5,12 +5,9 @@ require_once __DIR__ . '/util/Messenger.php';
 
 $message = array(
 	"to"=>array("j.watson@allamericanmoving.com"),
-	"cc"=>array("j.watson@militaryshipment.com","johnjwatson13@gmail.com"),
-	"bcc"=>array("outlawstar4761@gmail.com")
 	"subject"=>"I wrote you a message",
 	"body"=>"And here it is",
 	//"fromName"=>"automation@militaryshipment.com",
-	"attachments"=>array("/srv/www/htdocs/tmp/templates.txt")
 );
 
 try{
