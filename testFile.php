@@ -1,24 +1,26 @@
 <?php
 
 
-require_once __DIR__ . '/util/Messenger.php';
-
-$message = array(
-	"to"=>array("j.watson@allamericanmoving.com"),
-	"subject"=>"I wrote you a message",
-	"body"=>"And here it is",
-	"replyTo"=>"webadmin@allamericanmoving.com",
-	"from"=>"missingitemsmonitor@militaryshipment.com"
-);
-
-try{
-	Messenger::send($message);
-}catch(\Exception $e){
-	echo $e->getMessage() . "\n";
-}
-
-
-exit;
+// require_once __DIR__ . '/util/Messenger.php';
+//
+// $message = array(
+// 	"to"=>array("j.watson@allamericanmoving.com"),
+// 	"subject"=>"I wrote you a message",
+// 	"body"=>"And here it is",
+// 	"replyTo"=>"webadmin@allamericanmoving.com",
+// 	"from"=>"missingitemsmonitor@militaryshipment.com",
+// 	"cc"=>array('k.thompson@allamericanmoving.com'),
+// 	"attachemnts"=>array('/tmp/sendMessage.occurences')
+// );
+//
+// try{
+// 	Messenger::send($message);
+// }catch(\Exception $e){
+// 	echo $e->getMessage() . "\n";
+// }
+//
+//
+// exit;
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
 
