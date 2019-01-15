@@ -146,7 +146,7 @@ class SendMessage
           $email->isHTML(false);
           $email->Subject = "";
         }else{
-          $email->isHTML(false);
+          $email->isHTML(true);
           $email->Subject = $this->subject;
         }
         if(isset($this->attachments)){
