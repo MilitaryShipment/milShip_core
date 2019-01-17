@@ -14,6 +14,7 @@ class Round1SlapDash{
   public function __construct($year,$scacs,$peak = true){
     $this->scacs = $scacs;
     $this->year = $year - 1;
+    $this->round = 2;
     $this->peak = $peak;
     $this->lanes = $this->_readFromCsv($this->peak);
     die(print_r($this->lanes));
