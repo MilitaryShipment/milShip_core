@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/processes/autofile/Round1SlapDash.php';
+require_once __DIR__ . '/processes/rates/autofile/Round1SlapDash.php';
 
 $scacs = array(
   "VVNL"=>1,

@@ -40,6 +40,6 @@ class Round1SlapDash{
         // $lane->update(array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj),$this->peak);
       }
     }
+    return $this;
   }
-  return $this;
 }
