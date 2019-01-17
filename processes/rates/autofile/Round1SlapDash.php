@@ -41,7 +41,7 @@ class Round1SlapDash{
         $lane->sit_adj = $sit_bkar + $increment;
         echo $scacLabel . " -> LH:" . $lane->lh_adj . "\n";
         echo "\tSIT: " . $lane->sit_adj . "\n";
-        // $lane->update(array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj),$this->peak);
+        $lane->update(array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj),$this->peak);
       }
     }
     return $this;

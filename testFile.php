@@ -22,16 +22,16 @@ $scacs = array(
   "PYVL"=>-1.5
 );
 
-// RateFactory::round1SlapDash(2019,$scacs);
+RateFactory::round1SlapDash(2019,$scacs);
 RateFactory::round1SlapDash(2019,$scacs,false);
 
-// foreach($scacs as $scac){
-// 	$params = RateFactory::blankObject();
-// 	$params->scac = $scac;
-// 	$params->year = 2018;
-// 	$params->round = 2;
-// 	RateFactory::export($params);
-// }
+foreach($scacs as $scac){
+	$params = RateFactory::blankObject();
+	$params->scac = $scac;
+	$params->year = 2018;
+	$params->round = 2;
+	RateFactory::export($params);
+}
 
 
 exit;
