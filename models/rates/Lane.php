@@ -237,7 +237,7 @@ class Lane{
         ->andWhere("year","=",$year)
         ->andWhere("round","=",$round)
         ->get('value');
-      return new self($results);
+      return new self($results,$peak);
     }
     public static function findBkar($lane,$year,$round,$lh = true,$peak = true){
       if($lh && $peak){
@@ -259,7 +259,6 @@ class Lane{
         ->andWhere("year","=",$year)
         ->andWhere("round","=",$round)
         ->get('value');
-      echo $GLOBALS['db']->query . "\n";
       return $results;
     }
 }
