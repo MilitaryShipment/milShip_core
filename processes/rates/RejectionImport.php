@@ -7,8 +7,8 @@ class RejectionImport{
     const PEAK = 'dps_rates_peak';
     const NONPEAK = 'dps_rates_non_peak';
 
-    const REJECTIONDIR = 'data/rejections/';
-    const PROCDIR = 'data/processed_rejections/';
+    const REJECTIONDIR = '/data/rejections/';
+    const PROCDIR = '/data/processed_rejections/';
     const YEARPATTERN = '/[0-9]{4}/';
     const REJECTIONSUBJPATTERN = '/Rate\(s\) Rejected for/';
     const REJECTIONSCACPATTERN = '/\(([A-Z]{4})\)/';
