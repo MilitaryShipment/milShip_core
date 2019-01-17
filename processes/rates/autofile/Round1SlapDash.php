@@ -16,6 +16,7 @@ class Round1SlapDash{
     $this->year = $year - 1;
     $this->peak = $peak;
     $this->lanes = $this->_readFromCsv($this->peak);
+    die(print_r($this->lanes));
     $this->_autoFile();
   }
   protected function _readFromCsv($peak = true){
