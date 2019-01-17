@@ -238,8 +238,6 @@ class RejectionImport{
                 ->andWhere("year","=","'" . $this->year . "'")
                 ->andWhere("round","=","'" . $this->round . "'")
                 ->put();
-                echo $GLOBALS['db']->query . "\n";
-                exit;
             $counter++;
         }
         echo $counter . " rejections processed\n";
