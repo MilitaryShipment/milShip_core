@@ -31,6 +31,8 @@ class RejectionImport{
 
     public function __construct()
     {
+        $this->inputDir = __DIR__ . self::REJECTIONDIR;
+        $this->outputDir = __DIR__ . self::PROCDIR;
         $this->beginImport()
             ->getRejectionMsgs()
             ->parseRejections()
@@ -59,13 +61,13 @@ class RejectionImport{
     }
 
     private function getRejectionMsgs(){
-        $results = scandir(self::REJECTIONDIR);
+        $results = scandir($this->inputDir);
         foreach($results as $result){
             if($result == '.' || $result == '..'){
                 continue;
             }else{
-                if(is_file(self::REJECTIONDIR . $result)){
-                    $pathInfo = pathinfo(self::REJECTIONDIR . $result);
+                if(is_file($this->inputDir . $result)){
+                    $pathInfo = pathinfo($this->inputDir . $result);
                     if(preg_match(self::REJECTIONSUBJPATTERN,$pathInfo['filename'])){
                         $this->rejectionMsgs[] = $result;
                     }
@@ -78,7 +80,7 @@ class RejectionImport{
         $rejections = array();
         $scac = '';
         foreach($this->rejectionMsgs as $msg){
-            $msgFile = self::REJECTIONDIR .$msg;
+            $msgFile = $this->inputDir .$msg;
             if(preg_match(self::REJECTIONSCACPATTERN,$msg,$matches)){
                 $scac = $matches[1];
                 if(!in_array($scac,$this->scacs)){
@@ -244,8 +246,8 @@ class RejectionImport{
     }
     private function cleanUpRejectionMsgs(){
         foreach($this->rejectionMsgs as $msg){
-            $source = self::REJECTIONDIR . $msg;
-            $destination = self::PROCDIR . $msg;
+            $source = $this->inputDir . $msg;
+            $destination = $this->outputDir . $msg;
             if(!rename($source,$destination)){
                 die(print_r(error_get_last()));
             }
