@@ -4,8 +4,10 @@ require_once __DIR__ . '/models/rates/RateFactory.php';
 
 $label = 'us72 to region 2';
 echo $label . "\n";
-echo "LH BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
-echo "SIT BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
+echo "PEAK LH BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
+echo "PEAK SIT BKAR: " . Lane::findBkar($label,2018,2,false,true) . "\n";
+echo "NONPEAK LH BKAR: " . Lane::findBkar($label,2018,2,true,false) . "\n";
+echo "NON PEAKSIT BKAR: " . Lane::findBkar($label,2018,2,false,false) . "\n";
 
 exit;
 
