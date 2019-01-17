@@ -13,6 +13,7 @@ require_once __DIR__ . '/Scac.php';
 require_once __DIR__ . '/../../processes/rates/RateSearch.php';
 require_once __DIR__ . '/../../processes/rates/RateExport.php';
 require_once __DIR__ . '/../../processes/rates/RateCopy.php';
+require_once __DIR__ . '/../../processes/rates/RejectionImport.php';
 require_once __DIR__ . '/../../processes/rates/BookingImport.php';
 require_once __DIR__ . '/../../processes/rates/LkarCalculator.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1Pasture.php';
@@ -116,5 +117,8 @@ class RateFactory{
     }
     public static function importBookings(){
       return new BookingImport();
+    }
+    public static function importRejections(){
+      return new RejectionImport();
     }
 }
