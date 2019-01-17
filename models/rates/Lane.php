@@ -259,6 +259,7 @@ class Lane{
         ->andWhere("year","=",$year)
         ->andWhere("round","=",$round)
         ->get('value');
+      echo $GLOBALS['db']->query . "\n";
       return $results;
     }
 }
