@@ -217,11 +217,11 @@ class RejectionImport{
             $data = array();
             $scac = $rejection['scac'];
             $lane = $rejection['lane'];
-			if(!is_null($rejection["Error Code"])){
-				$data[$rejection["rejection_field"]] = $rejection["Error Code"];
-			}else{
-				$data[$rejection["rejection_field"]] = 0;
-			}
+            if(!is_null($rejection["Error Code"])){
+              $data[$rejection["rejection_field"]] = $rejection["Error Code"];
+            }else{
+              $data[$rejection["rejection_field"]] = 0;
+            }
             if($rejection['peak']){
                 $table = self::PEAK;
             }else{
@@ -233,10 +233,10 @@ class RejectionImport{
                 ->table($table)
                 ->data($data)
                 ->update()
-                ->where("scac = '$scac'")
-                ->andWhere("lane = '$lane'")
-                ->andWhere("year = '$this->year'")
-                ->andWhere("round = '$this->round'")
+                ->where("scac","=","'" . $scac . "'")
+                ->andWhere("lane","=","'" . $lane . "'")
+                ->andWhere("year","=","'" . $this->year . "'")
+                ->andWhere("round","=","'" . $this->round . "'")
                 ->put();
             $counter++;
         }
