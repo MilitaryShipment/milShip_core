@@ -22,10 +22,10 @@ $scacs = array(
   "PYVL"=>-1.5
 );
 
-RateFactory::round1SlapDash(2019,$scacs);
-RateFactory::round1SlapDash(2019,$scacs,false);
+// RateFactory::round1SlapDash(2019,$scacs);
+// RateFactory::round1SlapDash(2019,$scacs,false);
 
-foreach($scacs as $scac){
+foreach($scacs as $scac=>$nothing){
 	$params = RateFactory::blankObject();
 	$params->scac = $scac;
 	$params->year = 2018;

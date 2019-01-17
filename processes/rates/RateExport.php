@@ -25,7 +25,11 @@ class RateExport{
         $this->scacLabel = $params->scac;
         $this->round = $params->round;
         $this->year = $params->year;
-        $this->scac = RateFactory::buildScac($this->scacLabel,$this->round,$this->year);
+        try{
+          $this->scac = RateFactory::buildScac($this->scacLabel,$this->round,$this->year);  
+        }catch(\Exception $e){
+          throw new \Exception $e->getMessage();
+        }
         $this->_prepForOutPut()
             ->buildOutPutFile()
             ->buildExport()

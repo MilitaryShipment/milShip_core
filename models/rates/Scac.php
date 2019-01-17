@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Scac{
 
@@ -50,7 +50,8 @@ class Scac{
             ->andWhere("round = '$this->round'")
             ->get();
         if(!mssql_num_rows($results)){
-            die('No Rates!');
+            $exceptionStr = "Unable to build SCAC: " . $this->scac . " for " . $this->year . " round " . $this->round;
+            throw new \Exception($exceptionStr);
         }else{
             while($row = mssql_fetch_assoc($results)){
                 if($peak){
