@@ -1,6 +1,13 @@
 <?php
 
-require_once __DIR__ . '/processes/rates/autofile/Round1SlapDash.php';
+require_once __DIR__ . '/models/rates/RateFactory.php';
+
+$label = 'us72 to region 2';
+echo $label . "\n";
+echo "LH BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
+echo "SIT BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
+
+exit;
 
 $scacs = array(
   "VVNL"=>1,
@@ -13,7 +20,18 @@ $scacs = array(
 );
 
 RateFactory::round1SlapDash(2019,$scacs);
+RateFactory::round1SlapDash(2019,$scacs,false);
 
+foreach($scacs as $scac){
+	$params = RateFactory::blankObject();
+	$params->scac = $scac;
+	$params->year = 2018;
+	$params->round = 2;
+	RateFactory::export($params);
+}
+
+
+exit;
 
 require_once __DIR__ . '/util/Messenger.php';
 
