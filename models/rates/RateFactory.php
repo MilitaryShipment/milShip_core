@@ -17,6 +17,7 @@ require_once __DIR__ . '/../../processes/rates/BookingImport.php';
 require_once __DIR__ . '/../../processes/rates/LkarCalculator.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1Pasture.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1RedHarvest.php';
+require_once __DIR__ . '/../../processes/rates/autofile/Round1SlapDash.php';
 
 class RateFactory{
 
@@ -109,6 +110,9 @@ class RateFactory{
     }
     public static function round1RedHarvest($year,$redScacs,$harvestScacs){
       return new Round1RedHarvest($year,$redScacs,$harvestScacs);
+    }
+    public static function round1SlapDash($year,$scacs,$peak = true){
+      return new Round1SlapDash($year,$scacs,$peak);
     }
     public static function importBookings(){
       return new BookingImport();

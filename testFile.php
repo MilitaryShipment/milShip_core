@@ -1,5 +1,19 @@
 <?php
 
+require_once __DIR__ . '/processes/autofile/Round1SlapDash.php';
+
+$scacs = array(
+  "VVNL"=>1,
+  "FDVN"=>0,
+  "HVNL"=>-1,
+  "AVLE"=>-2,
+  "EXDV"=>-3,
+  "PPVL"=>-4,
+  "PYVL"=>-5
+);
+
+RateFactory::round1SlapDash(2019,$scacs);
+
 
 require_once __DIR__ . '/util/Messenger.php';
 
@@ -42,7 +56,7 @@ function _buildMsg($numEmails){
 }
 
 try{
-	Messenger::send($message);
+	Messenger::send($message,'smtp.gmail.com',587,'johnjwatson@gmail.com','Youwonder1');
 }catch(\Exception $e){
 	echo $e->getMessage() . "\n";
 }
