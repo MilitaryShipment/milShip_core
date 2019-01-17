@@ -2,26 +2,27 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
-$label = 'us72 to region 2';
-echo $label . "\n";
-echo "PEAK LH BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
-echo "PEAK SIT BKAR: " . Lane::findBkar($label,2018,2,false,true) . "\n";
-echo "NONPEAK LH BKAR: " . Lane::findBkar($label,2018,2,true,false) . "\n";
-echo "NONPEAK SIT BKAR: " . Lane::findBkar($label,2018,2,false,false) . "\n";
+// $label = 'us27 to region 2';
+// echo $label . "\n";
+// echo "PEAK LH BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
+// echo "PEAK SIT BKAR: " . Lane::findBkar($label,2018,2,false,true) . "\n";
+// echo "NONPEAK LH BKAR: " . Lane::findBkar($label,2018,2,true,false) . "\n";
+// echo "NONPEAK SIT BKAR: " . Lane::findBkar($label,2018,2,false,false) . "\n";
 
-exit;
+// exit;
 
 $scacs = array(
   "VVNL"=>1,
   "FDVN"=>0,
-  "HVNL"=>-1,
-  "AVLE"=>-2,
-  "EXDV"=>-3,
-  "PPVL"=>-4,
-  "PYVL"=>-5
+  "HVNL"=>-.25,
+  "AAMG"=>-.5
+  "AVLE"=>-.75,
+  "EXDV"=>-1,
+  "PPVL"=>-1.25,
+  "PYVL"=>-1.5
 );
 
-RateFactory::round1SlapDash(2019,$scacs);
+// RateFactory::round1SlapDash(2019,$scacs);
 RateFactory::round1SlapDash(2019,$scacs,false);
 
 // foreach($scacs as $scac){
