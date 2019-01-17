@@ -16,6 +16,7 @@ require_once __DIR__ . '/../../processes/rates/RateCopy.php';
 require_once __DIR__ . '/../../processes/rates/RejectionImport.php';
 require_once __DIR__ . '/../../processes/rates/BookingImport.php';
 require_once __DIR__ . '/../../processes/rates/LkarCalculator.php';
+require_once __DIR__ . '/../../processes/rates/BkarCalculator.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1Pasture.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1RedHarvest.php';
 require_once __DIR__ . '/../../processes/rates/autofile/Round1SlapDash.php';
@@ -105,6 +106,9 @@ class RateFactory{
     }
     public static function calculateLkar($year,$round){
       return new LkarCalculator($year,$round);
+    }
+    public static function calculateBkar($year,$round){
+      return new BkarCalculator($year,$round);
     }
     public static function round1Pasture($year,$scacsArray){
       return new Round1Pasture($year,$scacsArray);

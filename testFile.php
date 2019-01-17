@@ -2,6 +2,10 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+RateFactory::calculateBkar(2018,2);
+
+exit;
+
 $label = 'us72 to region 2';
 echo $label . "\n";
 echo "LH BKAR: " . Lane::findBkar($label,2018,2,true,true) . "\n";
