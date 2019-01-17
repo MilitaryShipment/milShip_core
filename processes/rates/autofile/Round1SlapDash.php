@@ -32,6 +32,9 @@ class Round1SlapDash{
     foreach($this->lanes as $laneLabel => $nothing){
       $lh_bkar = Lane::findBkar($laneLabel,$this->year,$this->round,true,$this->peak);
       $sit_bkar = Lane::findBkar($laneLabel,$this->year,$this->round,false,$this->peak);
+      echo $laneLabel . "\n";
+      echo "LH BKAR: " . $lh_bkar . "\n";
+      echo "SIT BKAR: " . $sit_bkar . "\n";
       foreach($this->scacs as $scacLabel => $increment){
         $lane = Lane::getLane($laneLabel,$scacLabel,$this->year,$this->round,$this->peak);
         $lane->lh_adj = $lh_bkar + $increment;
