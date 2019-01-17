@@ -1,6 +1,6 @@
 <?php
 
-// require_once __DIR__ . '/models/rates/RateFactory.php';
+require_once __DIR__ . '/models/rates/RateFactory.php';
 //
 // $label = 'us72 to region 2';
 // echo $label . "\n";
@@ -24,13 +24,13 @@ $scacs = array(
 RateFactory::round1SlapDash(2019,$scacs);
 RateFactory::round1SlapDash(2019,$scacs,false);
 
-foreach($scacs as $scac){
-	$params = RateFactory::blankObject();
-	$params->scac = $scac;
-	$params->year = 2018;
-	$params->round = 2;
-	RateFactory::export($params);
-}
+// foreach($scacs as $scac){
+// 	$params = RateFactory::blankObject();
+// 	$params->scac = $scac;
+// 	$params->year = 2018;
+// 	$params->round = 2;
+// 	RateFactory::export($params);
+// }
 
 
 exit;
