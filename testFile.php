@@ -1,5 +1,11 @@
 <?php
 
+require_once __DIR__ . '/processes/billing/RecoverRecEmail.php';
+
+$r = new RecoverRecEmail('KKFA0566545');
+
+exit;
+
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
 // $label = 'us27 to region 2';
