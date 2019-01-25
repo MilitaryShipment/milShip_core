@@ -2,7 +2,19 @@
 
 require_once __DIR__ . '/processes/billing/RecoverRecEmail.php';
 
-$r = new RecoverRecEmail('KKFA0566545');
+$gbls = array(
+  "HAFC0414238",
+  "BKAS0088652",
+  "KKFA0569342",
+  "BGAC0395555",
+  "JEAT0264875",
+  "CHAT0059649",
+  "BGAC0375409"
+);
+
+foreach($gbls as $gbl){
+  $r = new RecoverRecEmail($gbl);  
+}
 
 exit;
 
