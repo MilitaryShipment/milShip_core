@@ -12,7 +12,7 @@ class RecoverRecEmail{
   public function __construct($longGbl){
     $this->$_longGbl = $longGbl;
     $this->$_shortGbl = $this->_getShortGbl($longGbl);
-    echo $this->_$shortGbl;
+    echo $this->$_shortGbl;
   }
   protected function _getShortGbl($longGbl){
     return dps2tops($longGbl);
