@@ -11,7 +11,7 @@ class RecoverRecEmail{
 
   public function __construct($longGbl){
     $this->$_longGbl = $longGbl;
-    $this->_$shortGbl = $this->_getShortGbl($longGbl);
+    $this->$_shortGbl = $this->_getShortGbl($longGbl);
     echo $this->_$shortGbl;
   }
   protected function _getShortGbl($longGbl){
