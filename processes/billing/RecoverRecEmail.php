@@ -20,9 +20,7 @@ class RecoverRecEmail{
   public function __construct($longGbl){
     $this->_longGbl = $longGbl;
     $this->_shortGbl = $this->_getShortGbl($longGbl);
-    $this->_build();
-    echo $this->_shortGbl . "\n";
-    echo count($this->_records) . "\n";
+    $this->_build()->_recover();
   }
   protected function _getShortGbl($longGbl){
     return dps2tops($longGbl,true);
@@ -38,6 +36,14 @@ class RecoverRecEmail{
         ->get();
     while($row = mysql_fetch_assoc($results)){
       $this->_records[] = new RecEmail($row[RecEmail::PRIMARYKEY]);
+    }
+    return $this;
+  }
+  protected function _recover(){
+    $pattern = "/" . $this->_shortGbl . "/";
+    foreach($this->_records as $record){
+      $record->doc_path = preg_replace($pattern,$this->_longGbl,$record->doc_path);
+      $record->update();
     }
     return $this;
   }
