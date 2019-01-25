@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../../models/dc/RecEmail.php';
-require_once __DIR__ . '/../../../models/util/translateGbl.php';
+require_once __DIR__ . '/../../models/dc/RecEmail.php';
+require_once __DIR__ . '/../../models/util/translateGbl.php';
 
 
 class RecoverRecEmail{
