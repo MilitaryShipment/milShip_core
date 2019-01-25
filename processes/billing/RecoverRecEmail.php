@@ -36,7 +36,7 @@ class RecoverRecEmail{
         ->select(RecEmail::PRIMARYKEY)
         ->where("gbl","=","'" . $this->_longGbl . "'")
         ->get();
-    while($row = mssql_fetch_assoc($results)){
+    while($row = mysql_fetch_assoc($results)){
       $this->_records[] = new RecEmail($row[RecEmail::PRIMARYKEY]);
     }
     return $this;
