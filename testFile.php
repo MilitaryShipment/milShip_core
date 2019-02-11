@@ -1,5 +1,65 @@
 <?php
 
+require_once __DIR__ . '/../../../models/rates/RateFactory.php';
+
+$scacs = array(
+  "AAMG",
+  "ADVA",
+  "ALMM",
+  "AVLE",
+  "AVLM",
+  "AWVA",
+  "CFVL",
+  "EVAL",
+  "EWVL",
+  "EXDV",
+  "FDVN",
+  "GVLN",
+  "HVNL",
+  "MVUS",
+  "MXSP",
+  "NVYV",
+  "OGVL",
+  "PPVL",
+  "PYVL",
+  "USAV",
+  "UVNL",
+  "VVNL"
+);
+
+$PEAKSIT = 58;
+$PEAKLH = 51;
+$NONPEAKSIT = 68;
+$NONPEAKLH = 58;
+
+foreach($scacs as $scac){
+  $scac = RateFactory::buildScac($scac,2,2018);
+  foreach($scac->peakLanes as $lane){
+    $lane->lh_adj = $PEAKLH;
+    $lane->sit_adj = $PEAKSIT;
+    $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+    $lane->update($update,true);
+  }
+  foreach($scac->nonPeakLanes as $lane){
+    $lane->lh_adj = $NONPEAKLH;
+    $lane->sit_adj = $NONPEAKSIT;
+    $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
+    $lane->update($update,false);
+  }
+}
+foreach($scacs as $scac){
+	$params = RateFactory::blankObject();
+	$params->scac = $scac;
+	$params->year = 2019;
+	$params->round = 1;
+	RateFactory::export($params);
+}
+
+
+exit;
+
+
+
 require_once __DIR__ . '/processes/billing/RecoverRecEmail.php';
 
 $gbls = array(
@@ -13,7 +73,7 @@ $gbls = array(
 );
 
 foreach($gbls as $gbl){
-  $r = new RecoverRecEmail($gbl);  
+  $r = new RecoverRecEmail($gbl);
 }
 
 exit;
