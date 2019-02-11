@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../../models/rates/RateFactory.php';
+require_once __DIR__ . '/models/rates/RateFactory.php';
 
 $scacs = array(
   "AAMG",
