@@ -30,7 +30,7 @@ $scacs = array(
 );
 
 foreach($scacs as $scac){
-  $file = '/srv/www/htdocs/tmp/ms_core/rates/data/output/' . strtolower($scac) . '.csv';
+  $file = '/srv/www/htdocs/tmp/ms_core/processes/rates/data/output/' . strtolower($scac) . '.csv';
   $handle = fopen($file,'w');
   $data = array(
     array($scac,"DHHG","US4965500","REGION 1","D",51,58,68,58),
