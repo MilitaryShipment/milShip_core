@@ -27,10 +27,10 @@ $scacs = array(
   "VVNL"
 );
 
-$PEAKSIT = 58;
 $PEAKLH = 51;
-$NONPEAKSIT = 68;
-$NONPEAKLH = 58;
+$PEAKSIT = 58;
+$NONPEAKLH = 68;
+$NONPEAKSIT = 58;
 
 foreach($scacs as $scac){
   $scac = RateFactory::buildScac($scac,2,2018);
@@ -50,8 +50,8 @@ foreach($scacs as $scac){
 foreach($scacs as $scac){
 	$params = RateFactory::blankObject();
 	$params->scac = $scac;
-	$params->year = 2019;
-	$params->round = 1;
+	$params->year = 2018;
+	$params->round = 2;
 	RateFactory::export($params);
 }
 
