@@ -4,7 +4,7 @@ require_once __DIR__ . '/models/rates/RateFactory.php';
 
 
 function _buildLane($array){
-  return strtolower($array[0]) . " to " . strtolower($array[2]);
+  return strtolower($array[1]) . " to " . strtolower($array[2]);
 }
 
 $input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
