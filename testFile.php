@@ -2,12 +2,19 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+
+function _buildLane($array){
+  return strtolower($array[0]) . " to " . strtolower($array[2]);
+}
+
 $input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
-
 $csv = array_map('str_getcsv', file($input));
+$hardToServiceLanes = array();
+foreach($csv as $row){
+  $hardToServiceLanes[] = _buildLane($row);
+}
 
-print_r($csv);
-
+print_r($hardToServiceLanes);
 exit;
 
 $scacs = array(
