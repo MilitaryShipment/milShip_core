@@ -33,34 +33,12 @@ $scacs = array(
 );
 
 $input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
+$outDir = __DIR__ . "/processes/rates/data/output/";
 $csv = array_map('str_getcsv', file($input));
 $hardToServiceLanes = array();
 foreach($csv as $row){
   $hardToServiceLanes[] = _buildLane($row);
 }
-
-// foreach($scacs as $scac){
-//   $file = '/srv/www/htdocs/tmp/ms_core/processes/rates/data/output/' . strtolower($scac) . '.csv';
-//   $handle = fopen($file,'a');
-//   $data = array(
-//     array($scac,"DHHG","US4965500","REGION 1","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 10","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 11","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 12","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 2","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 3","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 4","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 5","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 6","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 7","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 8","D",51,58,68,58),
-//     array($scac,"DHHG","US4965500","REGION 9","D",51,58,68,58)
-//   );
-//   foreach($data as $d){
-//     fputcsv($handle,$d);
-//   }
-//   fclose($handle);
-// }
 
 $PEAKLH = 51;
 $PEAKSIT = 58;
@@ -79,8 +57,6 @@ foreach($scacs as $scac){
   foreach($scac->nonPeakLanes as $lane){
     if(in_array($lane->lane,$hardToServiceLanes)){
       $lane->lh_adj = $HARDNONPEAKLH;
-      echo $lane->lane . "\n";
-      exit;
     }else{
       $lane->lh_adj = $NONPEAKLH;
     }
@@ -96,7 +72,38 @@ foreach($scacs as $scac){
 	$params->round = 2;
 	RateFactory::export($params);
 }
-
+$files = scandir($outDir);
+foreach($files as $file){
+  foreach($scacs as $scac){
+    $pattern = "/" . $scac . "/";
+    if(preg_match($pattern,$file) && !rename($outDir . $file, $outDir . strtolower($scac) . ".csv")){
+      print_r(error_get_last());
+      exit;
+    }
+  }
+}
+foreach($scacs as $scac){
+  $file = $outDir . strtolower($scac) . '.csv';
+  $handle = fopen($file,'a');
+  $data = array(
+    array($scac,"DHHG","US4965500","REGION 1","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 10","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 11","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 12","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 2","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 3","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 4","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 5","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 6","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 7","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 8","D",51,58,68,58),
+    array($scac,"DHHG","US4965500","REGION 9","D",51,58,68,58)
+  );
+  foreach($data as $d){
+    fputcsv($handle,$d);
+  }
+  fclose($handle);
+}
 
 exit;
 
