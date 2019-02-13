@@ -2,7 +2,13 @@
 
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
+$input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
 
+$csv = array_map('str_getcsv', file($input));
+
+print_r($csv);
+
+exit;
 
 $scacs = array(
   "AAMG",
