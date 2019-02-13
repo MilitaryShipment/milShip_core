@@ -86,18 +86,18 @@ foreach($scacs as $scac){
   $file = $outDir . strtolower($scac) . '.csv';
   $handle = fopen($file,'a');
   $data = array(
-    array($scac,"DHHG","US4965500","REGION 1","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 10","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 11","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 12","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 2","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 3","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 4","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 5","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 6","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 7","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 8","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 9","D",51,58,68,58)
+    array($scac,"DHHG","US4965500","REGION 1","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 10","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 11","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 12","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 2","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 3","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 4","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 5","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 6","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 7","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 8","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT),
+    array($scac,"DHHG","US4965500","REGION 9","D",$PEAKLH,$PEAKSIT,$HARDNONPEAKLH,$NONPEAKSIT)
   );
   foreach($data as $d){
     fputcsv($handle,$d);
