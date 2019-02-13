@@ -31,6 +31,7 @@ $scacs = array(
   "UVNL",
   "VVNL"
 );
+$scacs = array('FVNL');
 
 $input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
 $outDir = __DIR__ . "/processes/rates/data/output/";
