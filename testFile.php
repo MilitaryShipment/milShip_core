@@ -4,18 +4,8 @@ require_once __DIR__ . '/models/rates/RateFactory.php';
 
 
 function _buildLane($array){
-  return strtolower($array[1]) . " to " . strtolower($array[2]);
+  return trim(strtolower($array[1])) . " to " . trim(strtolower($array[2]));
 }
-
-$input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
-$csv = array_map('str_getcsv', file($input));
-$hardToServiceLanes = array();
-foreach($csv as $row){
-  $hardToServiceLanes[] = _buildLane($row);
-}
-
-print_r($hardToServiceLanes);
-exit;
 
 $scacs = array(
   "AAMG",
@@ -42,35 +32,41 @@ $scacs = array(
   "VVNL"
 );
 
-foreach($scacs as $scac){
-  $file = '/srv/www/htdocs/tmp/ms_core/processes/rates/data/output/' . strtolower($scac) . '.csv';
-  $handle = fopen($file,'a');
-  $data = array(
-    array($scac,"DHHG","US4965500","REGION 1","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 10","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 11","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 12","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 2","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 3","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 4","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 5","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 6","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 7","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 8","D",51,58,68,58),
-    array($scac,"DHHG","US4965500","REGION 9","D",51,58,68,58)
-  );
-  foreach($data as $d){
-    fputcsv($handle,$d);
-  }
-  fclose($handle);
+$input = __DIR__ . '/processes/rates/data/input/hard_to_service_lanes.csv';
+$csv = array_map('str_getcsv', file($input));
+$hardToServiceLanes = array();
+foreach($csv as $row){
+  $hardToServiceLanes[] = _buildLane($row);
 }
 
-exit;
+// foreach($scacs as $scac){
+//   $file = '/srv/www/htdocs/tmp/ms_core/processes/rates/data/output/' . strtolower($scac) . '.csv';
+//   $handle = fopen($file,'a');
+//   $data = array(
+//     array($scac,"DHHG","US4965500","REGION 1","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 10","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 11","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 12","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 2","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 3","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 4","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 5","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 6","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 7","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 8","D",51,58,68,58),
+//     array($scac,"DHHG","US4965500","REGION 9","D",51,58,68,58)
+//   );
+//   foreach($data as $d){
+//     fputcsv($handle,$d);
+//   }
+//   fclose($handle);
+// }
 
 $PEAKLH = 51;
 $PEAKSIT = 58;
 $NONPEAKLH = 68;
 $NONPEAKSIT = 58;
+$HARDNONPEAKLH = 60;
 
 foreach($scacs as $scac){
   $scac = RateFactory::buildScac($scac,2,2018);
@@ -81,7 +77,13 @@ foreach($scacs as $scac){
     $lane->update($update,true);
   }
   foreach($scac->nonPeakLanes as $lane){
-    $lane->lh_adj = $NONPEAKLH;
+    if(in_array($lane->lane,$hardToServiceLanes)){
+      $lane->lh_adj = $HARDNONPEAKLH;
+      echo $lane->lane . "\n";
+      exit;
+    }else{
+      $lane->lh_adj = $NONPEAKLH;
+    }
     $lane->sit_adj = $NONPEAKSIT;
     $update = array("lh_adj"=>$lane->lh_adj,"sit_adj"=>$lane->sit_adj);
     $lane->update($update,false);
