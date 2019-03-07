@@ -2,11 +2,12 @@
 
 
 require_once __DIR__ . '/models/comms/Template.php';
+require_once __DIR__ . '/processes/tami/TamiBase.php';
 
 $templates = Template::getTamiTemplates();
 
 foreach($templates as $template){
-  $shipments = Shipment::getTamiShipments($template->msg_name);
+  $shipments = TamiBase::getShipments($template->msg_name);
   echo $template->msg_name;
   foreach($shipments as $shipment){
     echo $shipment['gbl_dps'] . "\n";
