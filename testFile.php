@@ -8,12 +8,16 @@ $templates = Template::getTamiTemplates();
 
 foreach($templates as $template){
   try{
-    $shipments = TamiBase::getShipments($template->msg_name);
+    $shipments = TamiBase::getShipments(strtolower($template->msg_name));
     foreach($shipments as $shipment){
       echo $shipment['gbl_dps'] . "\n";
     }
   }catch(\Exception $e){
-    echo $e->getMessage() . "\n";
+    if($e->getMessage() == "Invalid Page Name"){
+      echo $e->getMessage() . ":" . strtolower($template->msg_name) . "\n";  
+    }else{
+      echo $e->getMessage() . "\n";
+    }
   }
 }
 
