@@ -1,5 +1,14 @@
 <?php
 
+
+require_once __DIR__ . '/models/comms/Template.php';
+
+$templates = Template::getTamiTemplates();
+
+print_r($templates);
+
+exit;
+
 require_once __DIR__ . '/models/rates/RateFactory.php';
 
 
