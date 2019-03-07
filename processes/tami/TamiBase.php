@@ -37,7 +37,7 @@ abstract class TamiBase{
     }
     return $data;
   }
-  public statif function buildWhereStr($msg_name){
+  public static function buildWhereStr($msg_name){
     $str = '';
     switch($msg_name){
       case "vcard":
