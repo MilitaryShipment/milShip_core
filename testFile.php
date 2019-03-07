@@ -5,7 +5,13 @@ require_once __DIR__ . '/models/comms/Template.php';
 
 $templates = Template::getTamiTemplates();
 
-print_r($templates);
+foreach($templates as $template){
+  $shipments = Shipment::getTamiShipments($template->msg_name);
+  echo $template->msg_name;
+  foreach($shipments as $shipment){
+    echo $shipment['gbl_dps'] . "\n";
+  }
+}
 
 exit;
 
