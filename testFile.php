@@ -7,14 +7,13 @@ require_once __DIR__ . '/processes/tami/TamiBase.php';
 $templates = Template::getTamiTemplates();
 
 foreach($templates as $template){
-  echo $template->msg_name;
   try{
     $shipments = TamiBase::getShipments($template->msg_name);
+    foreach($shipments as $shipment){
+      echo $shipment['gbl_dps'] . "\n";
+    }
   }catch(\Exception $e){
     echo $e->getMessage() . "\n";
-  }
-  foreach($shipments as $shipment){
-    echo $shipment['gbl_dps'] . "\n";
   }
 }
 
