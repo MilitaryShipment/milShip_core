@@ -241,6 +241,6 @@ abstract class TamiBase{
 				  , b.timezone";
   }
   public static function isDestMsg($msg_name){
-    return in_array($msg_name,self::_destPages);
+    return in_array($msg_name,self::$_destPages);
   }
 }
