@@ -6,7 +6,7 @@ abstract class TamiBase{
 
   const RECORDLIMIT = 2000;
 
-  protected static _destPages = array(
+  protected static $_destPages = array(
     "etadelivery",
     "deliverydayeta",
     "deliveryday",
