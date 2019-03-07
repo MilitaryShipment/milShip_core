@@ -45,7 +45,7 @@ class Template extends Record{
           ->andWhere("status_id","=",1)
           ->orderBy('list_order')
           ->get();
-      if(!mssql_num_row($results)){
+      if(!mssql_num_rows($results)){
         throw new \Exception('No Tami Templates available');
       }
       while($row = mssql_fetch_assoc($results)){
