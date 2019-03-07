@@ -6,6 +6,14 @@ abstract class TamiBase{
 
   const RECORDLIMIT = 2000;
 
+  protected static _destPages = array(
+    "etadelivery",
+    "deliverydayeta",
+    "deliveryday",
+    "rddinfo",
+    "rushsurvey"
+  );
+
   public static function getShipments($msg_name){
     $data = array();
     $zipField = self::isDestMsg($msg_name) ? 'a.dest_zip' : 'a.orig_zip';
@@ -231,5 +239,8 @@ abstract class TamiBase{
     			, b.zip
 			    , b.state
 				  , b.timezone";
+  }
+  public static function isDestMsg($msg_name){
+    return in_array($msg_name,self::_destPages);
   }
 }
