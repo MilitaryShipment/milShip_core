@@ -205,13 +205,13 @@ abstract class TamiBase{
         $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
         $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
         $whereStr .= " >= " . self::$_eventHour[$msg_name];
-        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone -" .  self::OURTIMEZONE . ") + 1) )";
+        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone - " .  self::OURTIMEZONE . ") + 1) )";
       break;
       case "intronts":
         $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
         $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
         $whereStr .= " >= " . self::$_eventHour[$msg_name];
-        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone -" .  self::OURTIMEZONE . ") + 1) )";
+        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone - " .  self::OURTIMEZONE . ") + 1) )";
       break;
       case "introbadger2":
         $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
