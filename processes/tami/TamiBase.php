@@ -62,7 +62,7 @@ abstract class TamiBase{
                               ->andWhere("a.gbl_dps","NOT LIKE","'MF%'")
                               ->andWhere("a.crm_date","is not","null")
                               ->andWhere("MMDDYY_TO_DATE(a.registration_date)",">=","'2016-04-27'")
-                              ->andWhere(self::appendWhereStr(self::buildWhereStr($msg_name)))
+                              ->andWhere(self::appendWhereStr($msg_name,self::buildWhereStr($msg_name)))
                               ->take(self::RECORDLIMIT)
                               ->get();
     if(!mssql_num_rows($results)){
