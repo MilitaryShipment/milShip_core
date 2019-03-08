@@ -5,21 +5,37 @@ require_once __DIR__ . '/models/comms/Template.php';
 require_once __DIR__ . '/processes/tami/TamiBase.php';
 
 $templates = Template::getTamiTemplates();
+$noShipments = array();
+$illegalTemplates = array();
 
 foreach($templates as $template){
   try{
     $shipments = TamiBase::getShipments(strtolower($template->msg_name));
     foreach($shipments as $shipment){
-      echo $shipment['gbl_dps'] . "\n";
+      if(TamiBase::isBlackList($shipment['gbl_dps'])){
+        continue;
+      }else{
+        if(!TamiBase::isRedFile($shipment) && !TamiBase::isRedFileExempt($template->msg_name)){
+          if(TamiBase::isBadger($template->msg_name) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
+            continue;
+          }else{
+            echo $shipment['gbl_dps'] . "\n";
+            //todo what's next
+          }
+        }
+      }
     }
   }catch(\Exception $e){
     if($e->getMessage() == "Invalid Page Name"){
-      echo $e->getMessage() . ":" . strtolower($template->msg_name) . "\n";  
+      $illegalTemplates[] = $template->msg_name;
     }else{
-      echo $e->getMessage() . "\n";
+      $noShipments[] = $e->getMessage();
     }
   }
 }
+
+print_r($illegalTemplates);
+print_r($noShipments);
 
 exit;
 

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../models/ops/Shipment.php';
+require_once __DIR__ . '/../../models/comms/MobileResponse.php';
 
 abstract class TamiBase{
 
@@ -14,6 +15,9 @@ abstract class TamiBase{
     "deliveryday",
     "rddinfo",
     "rushsurvey"
+  );
+  protected static $_gblBlackList = array(
+    "AGFM7000008"
   );
   protected static $_eventHour = array(
     'vcard' => 8,
@@ -39,6 +43,15 @@ abstract class TamiBase{
     'sitrequest' => 9,
     'vswelcome' => 9,
     'picsurveymember' => 9
+  );
+  protected static $_redFileExemptions = array(
+    "introbadger2",
+    "introntsbadger2",
+    "rushsurvey"
+  );
+  protected static $_badgers = array(
+    "introbadger2",
+    "introntsbadger2"
   );
 
   public static function getShipments($msg_name){
@@ -68,8 +81,12 @@ abstract class TamiBase{
     if(!mssql_num_rows($results)){
       throw new \Exception('Unable to locate any shipments for ' . $msg_name);
     }
+    $i = 0;
     while($row = mssql_fetch_assoc($results)){
-      $data[] = $row;
+      foreach($row as $key=>$value){
+        $data[$i][$key] = preg_replace("/'{1,}/", "''", $value);
+      }
+      $i++;
     }
     return $data;
   }
@@ -388,5 +405,23 @@ abstract class TamiBase{
   }
   public static function isDestMsg($msg_name){
     return in_array($msg_name,self::$_destPages);
+  }
+  public static function isBlackList($gbl_dps){
+    return in_array($gbl_dps,self::$_gblBlackList);
+  }
+  public static function isRedFileExempt($msg_name){
+    return in_array($msg_name,self::$_redFileExemptions);
+  }
+  public static function isBadger($msg_name){
+    return in_array($msg_name,self::$_badgers);
+  }
+  public static function hasIntroResponse($gbl_dps){
+    return MobileResponse::introExists($gbl_dps);
+  }
+  public static function isRedFile($tamiShipment){
+    if(strtolower($tamiShipment['redfile']) == "y" || preg_match("/red/",$tamiShipment['pickup_type'])){
+      return true;
+    }
+    return false;
   }
 }

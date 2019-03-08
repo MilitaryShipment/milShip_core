@@ -118,4 +118,20 @@ class MobileResponse extends Record{
         }
         return $data;
     }
+    public static function introExists($gbl_dps){
+      $results = $GLOBALS['db']
+          ->suite(self::DRIVER)
+          ->driver(self::DRIVER)
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select(self::PRIMARYKEY)
+          ->where("gbl_dps","=","'" . $gbl_dps . "'")
+          ->andWhere("page","like","'intro%'")
+          ->andWhere("status_id","=","'1'")
+          ->get();
+      if(!mssql_num_rows($results)){
+        return false;
+      }
+      return true;
+    }
 }
