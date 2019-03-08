@@ -204,7 +204,7 @@ abstract class TamiBase{
     switch($msg_name){
       case "intro":
         $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
-        $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone -" . self::OURTIMEZONE . ")";
+        $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
         $whereStr .= " >= " . self::$_eventHour[$msg_name];
         $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone -" .  self::OURTIMEZONE . ") + 1) )";
       break;
