@@ -7,6 +7,7 @@ require_once __DIR__ . '/processes/tami/TamiBase.php';
 $templates = Template::getTamiTemplates();
 $noShipments = array();
 $illegalTemplates = array();
+$noGblocData = array();
 
 foreach($templates as $template){
   try{
@@ -20,8 +21,12 @@ foreach($templates as $template){
           if(TamiBase::isBadger($template->msg_name) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
             continue;
           }else{
-            //echo $shipment['gbl_dps'] . "\n";
-            print_r($shipment);
+            try{
+              $shipment = array_merge($shipment,TamiBase::getGblocInfo($shipment['dest_gbloc'],$shipment['dest_gbloc_area']));
+            }catch(\Exception $e){
+              $noGblocData[] = $shipment['gbl_dps'];
+            }
+            echo $shipment['gbl_dps'] . "\n";
             //todo what's next
           }
         }
@@ -38,6 +43,7 @@ foreach($templates as $template){
 
 print_r($illegalTemplates);
 print_r($noShipments);
+print_r($noGblocData);
 
 exit;
 
