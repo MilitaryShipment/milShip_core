@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../models/ops/Shipment.php';
+require_once __DIR__ . '/../../models/ops/Gbloc.php';
 require_once __DIR__ . '/../../models/comms/MobileResponse.php';
 
 abstract class TamiBase{
@@ -425,5 +426,12 @@ abstract class TamiBase{
       return true;
     }
     return false;
+  }
+  public static function getGblocInfo($dest_gbloc,$dest_gbloc_area){
+    try{
+      return Gbloc::getTamiData($dest_gbloc,$dest_gbloc_area);
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
+    }
   }
 }

@@ -4,6 +4,16 @@ require_once __DIR__ . '/../../record.php';
 
 class Gbloc extends Record{
 
+    public static $tamiData = array(
+      "base_name",
+      "ppso_inbound_phone",
+      "e_mail_billing",
+      "e_mail_cust_serv",
+      "e_mail_dispatch",
+      "e_mail_registrations",
+      "ppso_email_tqap"
+    );
+
     const DRIVER = 'mssql';
     const DB = 'Sandbox';
     const TABLE = 'tbl_gbloc';
@@ -89,5 +99,26 @@ class Gbloc extends Record{
     public function __construct($gbloc = null)
     {
         parent::__construct(self::DRIVER,self::DRIVER,self::DB,self::TABLE,$gbloc);
+    }
+    public static function getTamiData($gbloc,$area){
+      $data = array();
+      $results = $GLOBALS['db']
+          ->suite(self::DRIVER)
+          ->driver(self::DRIVER)
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select(implode(","self::$tamiData))
+          ->where("gbloc","=","'" . $gbloc . "'")
+          ->andWhere("area","=","'" . $area . "'")
+          ->andWhere("dps_base_status_id","=",1)
+          ->andWhere("status_id","=",1)
+          ->get();
+      if(!mssql_num_rows($results)){
+        throw new \Exception('No Tami data available');
+      }
+      while($row = mssql_fetch_assoc($results)){
+        $data[] = $row;
+      }
+      return $data;
     }
 }

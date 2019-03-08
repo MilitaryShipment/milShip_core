@@ -20,7 +20,8 @@ foreach($templates as $template){
           if(TamiBase::isBadger($template->msg_name) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
             continue;
           }else{
-            echo $shipment['gbl_dps'] . "\n";
+            //echo $shipment['gbl_dps'] . "\n";
+            print_r($shipment);
             //todo what's next
           }
         }
