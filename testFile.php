@@ -32,7 +32,7 @@ foreach($templates as $template){
         if($template->msg_name == "packdayeta" && TamiBase::premoveSurveyExists($shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::isBadger($template->msg_name) && !TamiBase::isSent('vcard',$shipment['gbl_dps']){
+        if(TamiBase::isBadger($template->msg_name) && !TamiBase::isSent('vcard',$shipment['gbl_dps'])){
           continue;
         }
         if(TamiBase::isBadger($template->msg_name) && TamiBase::sentToday('vcard',$shipment['gbl_dps'])){
