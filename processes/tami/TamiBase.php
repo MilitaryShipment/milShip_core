@@ -63,9 +63,8 @@ abstract class TamiBase{
                               ->andWhere("a.crm_date","is not","null")
                               ->andWhere("MMDDYY_TO_DATE(a.registration_date)",">=","'2016-04-27'")
                               ->andWhere(self::appendWhereStr($msg_name,self::buildWhereStr($msg_name)))
-                              ->take(self::RECORDLIMIT);
-                              // ->get();
-                              echo $GLOBALS['db']->query . "\n";
+                              ->take(self::RECORDLIMIT)
+                              ->get();
     if(!mssql_num_rows($results)){
       throw new \Exception('Unable to locate any shipments for ' . $msg_name);
     }
