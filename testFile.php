@@ -44,8 +44,11 @@ foreach($templates as $template){
         if(TamiBase::isOneTimeMsg($template->msg_name) && TamiBase::isSent($template->msg_name)){
           continue;
         }
+        /*todo What to make of Andrew's stop over / Tomms systems
+        We are on roughly line 724 of the original tami CLI
+        */
+        //if($template->msg_name == "etadelivery"){}
         echo $shipment['gbl_dps'] . "\n";
-        //todo what's next
       }
     }
   }catch(\Exception $e){
