@@ -86,7 +86,7 @@ class Notification extends Record{
         $GLOBALS['db']->andWhere("gbl_dps","=","'" . $gbl_dps . "'");
       }
       if($today){
-        $GLOBALS['db']->->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)");
+        $GLOBALS['db']->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)");
       }
       $results = $GLOBALS['db']->get();
       while($row = mssql_fetch_assoc($results)){
