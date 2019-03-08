@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../models/ops/Shipment.php';
 abstract class TamiBase{
 
   const RECORDLIMIT = 2000;
+  const EARLIESTDELIVERY = 8;
+  const OURTIMEZONE = -6;
 
   protected static $_destPages = array(
     "etadelivery",
@@ -12,6 +14,31 @@ abstract class TamiBase{
     "deliveryday",
     "rddinfo",
     "rushsurvey"
+  );
+  protected static $_eventHour = array(
+    'vcard' => 8,
+    'intro' => 13,
+    'introbadger2' => 9,
+    'intronts' => 13,
+    'introntsbadger2' => 9,
+    'packdayeta' => 9,
+    'packloaddayeta' => 9,
+    '1stpackday' => 13,
+    '2ndpackday' => 13,
+    'lastpackday' => 13,
+    'loaddayeta' => 9,
+    'loadday' => 13,
+    'packloadday' => 13,
+    'etadelivery' => 9,
+    'deliverydayeta' => 9,
+    'deliveryday' => 13,
+    'vanoperator' => 13,
+    'rddinfo' => 9,
+    'rushsurvey' => 9,
+    'sitexpiration' => 9,
+    'sitrequest' => 9,
+    'vswelcome' => 9,
+    'picsurveymember' => 9
   );
 
   public static function getShipments($msg_name){
@@ -168,9 +195,130 @@ abstract class TamiBase{
         $str = "";
       break;
       default:
-        throw new \Exception('Invalid Page Name');
+        throw new \Exception('Invalid Template Name');
     }
     return $str;
+  }
+  public static function appendWhereStr($msg_name,$whereStr){
+    switch($msg_name){
+      case "intro":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone -" . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone -" .  self::OURTIMEZONE . ") + 1) )";
+      break;
+      case "intronts":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone -" .  self::OURTIMEZONE . ") + 1) )";
+      break;
+      case "introbadger2":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "introntsbadger2":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "packdayeta":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "packloaddayeta":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "1stpackday":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= "OR CURRENT_HOUR() >= HOUR(a.pack_eta_late_time)";
+        $whereStr .= " + (b.timezone - " . self::OURTIMEZONE . ") + 1)";
+      break;
+      case "2ndpackday":
+        $whereStr .= "\n AND CURRENT_HOUR() >=" . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= "\n OR CURRENT_HOUR() >= HOUR(a.pack_eta_late_time) + (b.timezone - " . self::OURTIMEZONE . ") + 1)";
+      break;
+      case "lastpackday":
+        $whereStr .= "\n AND CURRENT_HOUR() >=" . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= "\n OR CURRENT_HOUR() >= HOUR(a.pack_eta_late_time) + (b.timezone - " . self::OURTIMEZONE . ") + 1)";
+      break;
+      case "loaddayeta":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "loadday":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= " OR CURRENT_HOUR() >= HOUR(a.load_eta_late_time) + (b.timezone - " . self::OURTIMEZONE . ") + 1)";
+      break;
+      case "packloadday":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= " OR CURRENT_HOUR() >= HOUR(a.load_eta_late_time) + (b.timezone - " . self::OURTIMEZONE . ") + 1)";
+      break;
+      case "etadelivery":
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "deliverydayeta":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "deliveryday":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= " OR (CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . "))";
+        $whereStr .= " >= (HOUR(a.late_delivery_eta_time) + 1) )";
+      break;
+      case "residencedelivery":
+      break;
+      case "sitdelivery":
+      break;
+      case "deliverydayrating":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "rushsurvey":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "sitexpiration":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "rddinfo":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      break;
+      case "picsurveymember":
+        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
+        $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
+        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+        $whereStr .= " OR (CURRENT_HOUR() >= HOUR(a.registration_date) + (b.timezone - " . self::OURTIMEZONE . ") + 1) )";
+      break;
+      default:
+        throw new \Exception('Invalid Template Name');
+    }
+    return $whereStr;
   }
   public static function buildSelectStr(){
     return "a.full_name
