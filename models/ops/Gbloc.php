@@ -107,7 +107,7 @@ class Gbloc extends Record{
           ->driver(self::DRIVER)
           ->database(self::DB)
           ->table(self::TABLE)
-          ->select(implode(","self::$tamiData))
+          ->select(implode(",",self::$tamiData))
           ->where("gbloc","=","'" . $gbloc . "'")
           ->andWhere("area","=","'" . $area . "'")
           ->andWhere("dps_base_status_id","=",1)
