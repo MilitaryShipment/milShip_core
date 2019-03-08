@@ -295,21 +295,16 @@ abstract class TamiBase{
         $whereStr .= " >= " . self::$_eventHour[$msg_name];
       break;
       case "rushsurvey":
-      // $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY .
-                  // "\nAND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ") >= " . self::$_eventHour[$msg_name];
-        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
-        $whereStr .= "\nAND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
-        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY .
+                   "\nAND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ") >= " . self::$_eventHour[$msg_name];
       break;
       case "sitexpiration":
-        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
-        $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
-        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY .
+                   "\nAND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ") >= " . self::$_eventHour[$msg_name];
       break;
       case "rddinfo":
-        $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
-        $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
-        $whereStr .= " >= " . self::$_eventHour[$msg_name];
+      $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY .
+                   "\nAND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ") >= " . self::$_eventHour[$msg_name];
       break;
       case "picsurveymember":
         $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
