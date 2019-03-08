@@ -295,7 +295,7 @@ abstract class TamiBase{
         $whereStr .= " >= " . self::$_eventHour[$msg_name];
       break;
       case "rushsurvey":
-      $where .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY .
+      $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY .
                   "\nAND CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ") >= " . self::$_eventHour[$msg_name];
         // $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
         // $whereStr .= "\n AND CURRNET_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
