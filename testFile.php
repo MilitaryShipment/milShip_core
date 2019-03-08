@@ -11,6 +11,7 @@ $illegalTemplates = array();
 foreach($templates as $template){
   try{
     $shipments = TamiBase::getShipments(strtolower($template->msg_name));
+    echo count($shipments) ? $template->msg_name . "\n" : '';
     foreach($shipments as $shipment){
       if(TamiBase::isBlackList($shipment['gbl_dps'])){
         continue;

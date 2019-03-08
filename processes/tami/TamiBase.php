@@ -218,6 +218,8 @@ abstract class TamiBase{
   }
   public static function appendWhereStr($msg_name,$whereStr){
     switch($msg_name){
+      case "vcard":
+      break;
       case "intro":
         $whereStr .= "\n AND CURRENT_HOUR() >= " . self::EARLIESTDELIVERY;
         $whereStr .= "\n AND ( CURRENT_HOUR() + (b.timezone - " . self::OURTIMEZONE . ")";
