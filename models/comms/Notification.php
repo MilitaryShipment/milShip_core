@@ -67,18 +67,21 @@ class Notification extends Record{
         }
         return $data;
     }
-    public static function sentToday($message_filename){
+    public static function sentToday($message_filename,$gbl_dps = null){
         $data = array();
         $ids = array();
-        $results = $GLOBALS['db']
+        $GLOBALS['db']
             ->suite(self::DRIVER)
             ->driver(self::DRIVER)
             ->database(self::DB)
             ->table(self::TABLE)
             ->select(self::PRIMARYKEY)
             ->where("message_filename","=","'" . $message_filename . "'")
-            ->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)")
-            ->get();
+            ->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)");
+        if(!is_null($gbl_dps)){
+          $GLOBALS['db']->andWhere("gbl_dps","=","'" . $gbl_dps . "'");
+        }
+        $results = $GLOBALS['db']->get();
         while($row = mssql_fetch_assoc($results)){
             $ids[] = $row[self::PRIMARYKEY];
         }

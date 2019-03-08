@@ -16,20 +16,24 @@ foreach($templates as $template){
     foreach($shipments as $shipment){
       if(TamiBase::isBlackList($shipment['gbl_dps'])){
         continue;
-      }else{
-        if(!TamiBase::isRedFile($shipment) && !TamiBase::isRedFileExempt($template->msg_name)){
-          if(TamiBase::isBadger($template->msg_name) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
-            continue;
-          }else{
-            try{
-              $shipment = array_merge($shipment,TamiBase::getGblocInfo($shipment['dest_gbloc'],$shipment['dest_gbloc_area']));
-            }catch(\Exception $e){
-              $noGblocData[] = $shipment['gbl_dps'];
-            }
-            echo $shipment['gbl_dps'] . "\n";
-            //todo what's next
-          }
+      }
+      if(!TamiBase::isRedFile($shipment) && !TamiBase::isRedFileExempt($template->msg_name)){
+        if(TamiBase::isBadger($template->msg_name) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
+          continue;
         }
+        if(TamiBase::sentToday($template->msg_name,$shipment['gbl_dps'])){
+          continue;
+        }
+        try{
+          $shipment = array_merge($shipment,TamiBase::getGblocInfo($shipment['dest_gbloc'],$shipment['dest_gbloc_area']));
+        }catch(\Exception $e){
+          $noGblocData[] = $shipment['gbl_dps'];
+        }
+        if($template->msg_name == "packdayeta" && TamiBase::premoveSurveyExists($shipment['gbl_dps'])){
+          continue;
+        }
+        echo $shipment['gbl_dps'] . "\n";
+        //todo what's next
       }
     }
   }catch(\Exception $e){

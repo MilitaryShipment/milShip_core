@@ -3,12 +3,14 @@
 require_once __DIR__ . '/../../models/ops/Shipment.php';
 require_once __DIR__ . '/../../models/ops/Gbloc.php';
 require_once __DIR__ . '/../../models/comms/MobileResponse.php';
+require_once __DIR__ . '/../../models/comms/Notification.php';
 
 abstract class TamiBase{
 
   const RECORDLIMIT = 2000;
   const EARLIESTDELIVERY = 8;
   const OURTIMEZONE = -6;
+  const PREMOVEDIR = '/scan/silo/mobiledata/';
 
   protected static $_destPages = array(
     "etadelivery",
@@ -433,5 +435,16 @@ abstract class TamiBase{
     }catch(\Exception $e){
       throw new \Exception($e->getMessage());
     }
+  }
+  public static function sentToday($msg_name,$gbl_dps){
+    $objs = Notification::sentToday($msg_name,$gbl_dps);
+    if(count($objs)){
+      return true;
+    }
+    return false;
+  }
+  public static function premoveSurveyExists($gbl_dps){
+    return is_file(self::PREMOVEDIR . "mobile_" . $gbl_dps . "_premoveSurvey.jpg");
+
   }
 }
