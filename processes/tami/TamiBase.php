@@ -44,7 +44,7 @@ abstract class TamiBase{
   public static function getShipments($msg_name){
     $data = array();
     $zipField = self::isDestMsg($msg_name) ? 'a.dest_zip' : 'a.orig_zip';
-    $results = $GLOBALS['db']->suite(Shipment::DRIVER)
+    $GLOBALS['db']->suite(Shipment::DRIVER)
                               ->driver(Shipment::DRIVER)
                               ->database(Shipment::DB)
                               ->table(Shipment::TABLE . " a")
@@ -63,8 +63,14 @@ abstract class TamiBase{
                               ->andWhere("a.crm_date","is not","null")
                               ->andWhere("MMDDYY_TO_DATE(a.registration_date)",">=","'2016-04-27'")
                               ->andWhere(self::appendWhereStr($msg_name,self::buildWhereStr($msg_name)))
-                              ->take(self::RECORDLIMIT)
-                              ->get();
+                              ->take(self::RECORDLIMIT);
+                              // ->get();
+    try{
+      $results = $GLOBALS['db']->get();
+    }catch(\Exception $e){
+      echo $GLOBALS['db']->query . "\n";
+      exit;
+    }
     if(!mssql_num_rows($results)){
       throw new \Exception('Unable to locate any shipments for ' . $msg_name);
     }
