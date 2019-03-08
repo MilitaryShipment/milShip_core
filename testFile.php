@@ -26,7 +26,7 @@ foreach($templates as $template){
       }
     }
   }catch(\Exception $e){
-    if($e->getMessage() == "Invalid Page Name"){
+    if($e->getMessage() == "Invalid Template Name"){
       $illegalTemplates[] = $template->msg_name;
     }else{
       $noShipments[] = $e->getMessage();
