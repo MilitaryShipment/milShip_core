@@ -19,6 +19,11 @@ abstract class TamiBase{
     "rddinfo",
     "rushsurvey"
   );
+  protected static $_oneTimeMsgs = array(
+    "intro",
+    "intronts",
+    "vcard"
+  );
   protected static $_gblBlackList = array(
     "AGFM7000008"
   );
@@ -420,6 +425,9 @@ abstract class TamiBase{
   public static function isBadger($msg_name){
     return in_array($msg_name,self::$_badgers);
   }
+  public static function isOneTimeMsg($msg_name){
+    return in_array($msg_name,self::$_oneTimeMsgs);
+  }
   public static function hasIntroResponse($gbl_dps){
     return MobileResponse::introExists($gbl_dps);
   }
@@ -443,8 +451,22 @@ abstract class TamiBase{
     }
     return false;
   }
+  public static function isSent($msg_name,$gbl_dps){
+    $objs = Notification::sent($msg_name,$gbl_dps);
+    if(count($objs)){
+      return true;
+    }
+    return false;
+  }
+  public static function BadgerSentToday($gbl_dps){
+    foreach(self::$_badgers as $msg_name){
+      if(self::sentToday($msg_name,$gbl_dps)){
+        return true;
+      }
+    }
+    return false;
+  }
   public static function premoveSurveyExists($gbl_dps){
     return is_file(self::PREMOVEDIR . "mobile_" . $gbl_dps . "_premoveSurvey.jpg");
-
   }
 }

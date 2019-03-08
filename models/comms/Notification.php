@@ -68,26 +68,33 @@ class Notification extends Record{
         return $data;
     }
     public static function sentToday($message_filename,$gbl_dps = null){
-        $data = array();
-        $ids = array();
-        $GLOBALS['db']
-            ->suite(self::DRIVER)
-            ->driver(self::DRIVER)
-            ->database(self::DB)
-            ->table(self::TABLE)
-            ->select(self::PRIMARYKEY)
-            ->where("message_filename","=","'" . $message_filename . "'")
-            ->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)");
-        if(!is_null($gbl_dps)){
-          $GLOBALS['db']->andWhere("gbl_dps","=","'" . $gbl_dps . "'");
-        }
-        $results = $GLOBALS['db']->get();
-        while($row = mssql_fetch_assoc($results)){
-            $ids[] = $row[self::PRIMARYKEY];
-        }
-        foreach($ids as $id){
-            $data[] = new self($id);
-        }
-        return $data;
+      return self::sent($message_filename,$gbl_dps,true);
+    }
+    public static function sent($message_filename,$gbl_dps = null,$today = false){
+      $data = array();
+      $ids = array();
+      $GLOBALS['db']
+          ->suite(self::DRIVER)
+          ->driver(self::DRIVER)
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select(self::PRIMARYKEY)
+          ->where("message_filename","=","'" . $message_filename . "'")
+          ->andWhere("message_code","=",1)
+          ->andWhere("status_id","=",1);
+      if(!is_null($gbl_dps)){
+        $GLOBALS['db']->andWhere("gbl_dps","=","'" . $gbl_dps . "'");
+      }
+      if($today){
+        $GLOBALS['db']->->andWhere("cast(created_date as date)","=","cast(GETDATE() as date)");
+      }
+      $results = $GLOBALS['db']->get();
+      while($row = mssql_fetch_assoc($results)){
+          $ids[] = $row[self::PRIMARYKEY];
+      }
+      foreach($ids as $id){
+          $data[] = new self($id);
+      }
+      return $data;
     }
 }

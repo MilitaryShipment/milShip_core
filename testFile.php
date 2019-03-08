@@ -32,6 +32,18 @@ foreach($templates as $template){
         if($template->msg_name == "packdayeta" && TamiBase::premoveSurveyExists($shipment['gbl_dps'])){
           continue;
         }
+        if(TamiBase::isBadger($template->msg_name) && !TamiBase::isSent('vcard',$shipment['gbl_dps']){
+          continue;
+        }
+        if(TamiBase::isBadger($template->msg_name) && TamiBase::sentToday('vcard',$shipment['gbl_dps'])){
+          continue;
+        }
+        if(TamiBase::isBadger($template->msg_name) && TamiBase::BadgerSentToday($shipment['gbl_dps'])){
+          continue;
+        }
+        if(TamiBase::isOneTimeMsg($template->msg_name) && TamiBase::isSent($template->msg_name)){
+          continue;
+        }
         echo $shipment['gbl_dps'] . "\n";
         //todo what's next
       }
