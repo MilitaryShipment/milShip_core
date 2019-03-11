@@ -55,13 +55,15 @@ foreach($templates as $template){
     if($e->getMessage() == "Invalid Template Name"){
       $illegalTemplates[] = $template->msg_name;
     }else{
-      $noShipments[] = $e->getMessage();
+      $noShipments[] = $template->msg_name;
     }
   }
 }
-
+echo "Illegal Templates:\n";
 print_r($illegalTemplates);
+echo "Templates with No Shipments:\n";
 print_r($noShipments);
+echo "Shipments with no Gbloc Data:\n";
 print_r($noGblocData);
 
 exit;

@@ -87,7 +87,7 @@ abstract class TamiBase{
                               ->take(self::RECORDLIMIT)
                               ->get();
     if(!mssql_num_rows($results)){
-      throw new \Exception('Unable to locate any shipments for ' . $msg_name);
+      throw new \Exception('Unable to locate any shipments');
     }
     $i = 0;
     while($row = mssql_fetch_assoc($results)){
