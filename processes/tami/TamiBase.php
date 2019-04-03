@@ -505,7 +505,6 @@ abstract class TamiBase{
   public static function premoveSurveyExists($gbl_dps){
     return is_file(self::PREMOVEDIR . "mobile_" . $gbl_dps . "_premoveSurvey.jpg");
   }
-  public static function etaOverride($shipment,$mode){}
   public static function deliverydayetaOverride($shipment){
     if(10 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
       if(isset($shipment['del_eta_date']) && !empty($shipment['del_eta_date'])){
