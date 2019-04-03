@@ -2,6 +2,7 @@
 
 
 require_once __DIR__ . '/models/comms/Template.php';
+require_once __DIR__ . '/models/comms/Trigger.php';
 require_once __DIR__ . '/processes/tami/TamiBase.php';
 
 $templates = Template::getTamiTemplates();
@@ -41,18 +42,28 @@ foreach($templates as $template){
         if(TamiBase::isBadger(strtolower($template->msg_name)) && TamiBase::BadgerSentToday($shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::isOneTimeMsg(strtolower($template->msg_name)) && TamiBase::isSent($template->msg_name)){
+        if(TamiBase::isOneTimeMsg(strtolower($template->msg_name)) && TamiBase::isSent(strtolower($template->msg_name),$shipment['gbl_dps'])){
           continue;
         }
         if(strtolower($template->msg_name) == "etadelivery"){
-          /*todo What to make of Andrew's stop over / Tomms systems
-          Andrew's comment: Don't send eta delivery message if already sent
-          We are on roughly line 724 of the original tami CLI
-          */
+          $hasEtaChanged = !Trigger::hasDriverEtaChanged($shipment['gbl_dps']);
+          if($hasEtaChanged){
+            if(TamiBase::isSent(strtolower($template->msg_name))){
+              continue;
+            }
+          }
         }
         //The 'isRequireResponse question appears to be moot as it only applies to illegal templates'
         //if(TamiBase::isRequireResponse(strtolower($template->msg_name))){}
-        if(TamiBase::isEtaMsg(strtolower($template->msg_name))){}
+        if(TamiBase::isEtaMsg(strtolower($template->msg_name))){
+          //$shipment = TamiBase::etaOverride($shipment);
+        }
+        if(TamiBase::isLoadMsg(strtolower($template->msg_name))){
+          $shipment = TamiBase::dayOverride($shipment);
+        }
+        if(strtolower($template->msg_name) == 'deliverydayeta'){
+          //todo 'deliverydayetaOverride'
+        }
         echo $shipment['gbl_dps'] . "\n";
       }
     }

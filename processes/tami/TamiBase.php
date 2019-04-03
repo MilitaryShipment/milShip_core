@@ -492,4 +492,18 @@ abstract class TamiBase{
   public static function premoveSurveyExists($gbl_dps){
     return is_file(self::PREMOVEDIR . "mobile_" . $gbl_dps . "_premoveSurvey.jpg");
   }
+  public static function etaOverride($shipment,$mode){}
+  public static function deliverydayetaOverride($shipment){
+    if(10 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
+      if(isset($shipment['del_eta_date']) && !empty($shipment['del_eta_date'])){
+        if((!isset($shipment['early_delivery_eta']) || empty($shipment['early_delivery_eta'])) || date('H:i', strtotime($shipment['early_delivery_eta'])) == '00:00'){
+          $shipment['early_delivery_eta'] = "08:00";
+        }
+        if((!isset($shipment['late_delivery_eta']) || empty($shipment['late_delivery_eta'])) || date('H:i', strtotime($shipment['late_delivery_eta'])) == '00:00'){
+          $shipment['late_delivery_eta'] = '17:00';
+        }
+      }
+    }
+    return $shipment;
+  }
 }
