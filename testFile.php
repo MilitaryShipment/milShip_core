@@ -17,11 +17,11 @@ foreach($templates as $template){
       if(TamiBase::isBlackList($shipment['gbl_dps'])){
         continue;
       }
-      if(!TamiBase::isRedFile($shipment) && !TamiBase::isRedFileExempt($template->msg_name)){
-        if(TamiBase::isBadger($template->msg_name) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
+      if(!TamiBase::isRedFile($shipment) && !TamiBase::isRedFileExempt(strtolower($template->msg_name))){
+        if(TamiBase::isBadger(strtolower($template->msg_name)) && TamiBase::hasIntroResponse($shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::sentToday($template->msg_name,$shipment['gbl_dps'])){
+        if(TamiBase::sentToday(strtolower($template->msg_name),$shipment['gbl_dps'])){
           continue;
         }
         try{
@@ -29,25 +29,30 @@ foreach($templates as $template){
         }catch(\Exception $e){
           $noGblocData[] = $shipment['gbl_dps'];
         }
-        if($template->msg_name == "packdayeta" && TamiBase::premoveSurveyExists($shipment['gbl_dps'])){
+        if(strtolower($template->msg_name) == "packdayeta" && TamiBase::premoveSurveyExists($shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::isBadger($template->msg_name) && !TamiBase::isSent('vcard',$shipment['gbl_dps'])){
+        if(TamiBase::isBadger(strtolower($template->msg_name)) && !TamiBase::isSent('vcard',$shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::isBadger($template->msg_name) && TamiBase::sentToday('vcard',$shipment['gbl_dps'])){
+        if(TamiBase::isBadger(strtolower($template->msg_name)) && TamiBase::sentToday('vcard',$shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::isBadger($template->msg_name) && TamiBase::BadgerSentToday($shipment['gbl_dps'])){
+        if(TamiBase::isBadger(strtolower($template->msg_name)) && TamiBase::BadgerSentToday($shipment['gbl_dps'])){
           continue;
         }
-        if(TamiBase::isOneTimeMsg($template->msg_name) && TamiBase::isSent($template->msg_name)){
+        if(TamiBase::isOneTimeMsg(strtolower($template->msg_name)) && TamiBase::isSent($template->msg_name)){
           continue;
         }
-        /*todo What to make of Andrew's stop over / Tomms systems
-        We are on roughly line 724 of the original tami CLI
-        */
-        //if($template->msg_name == "etadelivery"){}
+        if(strtolower($template->msg_name) == "etadelivery"){
+          /*todo What to make of Andrew's stop over / Tomms systems
+          Andrew's comment: Don't send eta delivery message if already sent
+          We are on roughly line 724 of the original tami CLI
+          */
+        }
+        //The 'isRequireResponse question appears to be moot as it only applies to illegal templates'
+        //if(TamiBase::isRequireResponse(strtolower($template->msg_name))){}
+        if(TamiBase::isEtaMsg(strtolower($template->msg_name))){}
         echo $shipment['gbl_dps'] . "\n";
       }
     }

@@ -24,6 +24,17 @@ abstract class TamiBase{
     "intronts",
     "vcard"
   );
+  protected static $_requireResponseMsgs = array(
+    "firearms",
+    "orig_addr",
+    "dest_addr",
+    "oversize"
+  );
+  protected static $_etaMsgs = array(
+    "loaddayeta",
+    "packdayeta",
+    "packloaddayeta"
+  );
   protected static $_gblBlackList = array(
     "AGFM7000008"
   );
@@ -427,6 +438,18 @@ abstract class TamiBase{
   }
   public static function isOneTimeMsg($msg_name){
     return in_array($msg_name,self::$_oneTimeMsgs);
+  }
+  public static function isRequireResponse($msg_name){
+    return in_array($msg_name,self::$_requireResponseMsgs);
+  }
+  public static function isEtaMsg($msg_name){
+    return in_array($msg_name,self::$_etaMsgs);
+  }
+  public static function hasRequiredResponse($msg_name,$gbl_dps){
+    if(!self::isRequireResponse($msg_name)){
+      throw new \Exception('Not a required response message');
+    }
+    //todo implement util->is_text_info_required_response($msg_name,$gbl_dps,$key,$value)
   }
   public static function hasIntroResponse($gbl_dps){
     return MobileResponse::introExists($gbl_dps);
