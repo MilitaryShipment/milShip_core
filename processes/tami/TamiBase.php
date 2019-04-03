@@ -451,7 +451,7 @@ abstract class TamiBase{
     return in_array($msg_name,self::$_etaMsgs);
   }
   public static function isLoadMsg($msg_name){
-    return in_array($msg_name,self::$_loadMsgs)
+    return in_array($msg_name,self::$_loadMsgs);
   }
   public static function hasRequiredResponse($msg_name,$gbl_dps){
     if(!self::isRequireResponse($msg_name)){
