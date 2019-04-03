@@ -56,13 +56,13 @@ foreach($templates as $template){
         //The 'isRequireResponse question appears to be moot as it only applies to illegal templates'
         //if(TamiBase::isRequireResponse(strtolower($template->msg_name))){}
         if(TamiBase::isEtaMsg(strtolower($template->msg_name))){
-          //$shipment = TamiBase::etaOverride($shipment);
+          //todo etaOverride
         }
         if(TamiBase::isLoadMsg(strtolower($template->msg_name))){
-          $shipment = TamiBase::dayOverride($shipment);
+          //todo dayoverride
         }
         if(strtolower($template->msg_name) == 'deliverydayeta'){
-          //todo 'deliverydayetaOverride'
+          $shipment = TamiBase::deliverydayetaOverride($shipment);
         }
         echo $shipment['gbl_dps'] . "\n";
       }

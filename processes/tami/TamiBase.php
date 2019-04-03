@@ -77,6 +77,11 @@ abstract class TamiBase{
     "introbadger2",
     "introntsbadger2"
   );
+  protected static $_dateTimeWhiteList = array(
+    "created_date",
+    "update_date",
+    "registration_date"
+  );
 
   public static function getShipments($msg_name){
     $data = array();
