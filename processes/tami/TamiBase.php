@@ -77,7 +77,7 @@ abstract class TamiBase{
     "introbadger2",
     "introntsbadger2"
   );
-  protected static $_dateTimeWhiteList = array(
+  protected static $_dateTimeBlackList = array(
     "created_date",
     "update_date",
     "registration_date"
@@ -518,5 +518,57 @@ abstract class TamiBase{
       }
     }
     return $shipment;
+  }
+  public static function etaOverride($shipment,$template,$mode){
+    if(16 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
+      if($mode == 2){
+        $firstReplace = '{AGENT_INFO}';
+        $target = 'AGENT';
+        $target2 = 'origin agent';
+        switch(strtolower($template->msg_name)){
+          case 'packdayeta':
+            $template->msg_body = preg_replace('/\{PACK_ETA_TIME_LATE\}/i', $firstReplace,$template->msg_body);
+            $replaceME = '{PACK_ETA_TIME_LATE}';
+          break;
+          case 'loaddayeta':
+            $template->msg_body = preg_replace('/\{LOAD_ETA_TIME_LATE\}/i', $firstReplace, $template->msg_body);
+            $replaceME = '{LOAD_ETA_TIME_LATE}';
+            $target = 'HAULER';
+            $target2 = 'hauler agent';
+          break;
+          case 'packloaddayeta':
+            $this->data["msg_body"] = preg_replace('/\{PACK_LOAD_ETA_TIME_LATE\}/i', $firstReplace, $this->data["msg_body"]);
+            $replaceME = '{PACK_LOAD_ETA_TIME_LATE}';
+          break;
+        }
+        $replacement = $replaceME . "\n\nIf you need more information regarding your arrival time please contact your ";
+        $replacement .= $target2 . ", {" . $target . "_NAME} at {" . $target . "_PHONE_NUMBER}";
+        $template->msg_body = preg_replace('/\{AGENT_INFO\}/i', $replacement, $template->msg_body);
+        //todo interpret transformer
+      }else{
+        switch(strtolower($template->msg_name)){
+          case 'loaddayeta':
+            //todo get hauler carrier info
+            //todo validate issetnot empty
+          break;
+          default:
+            //todo get origin agent info
+            //todo validate issetnot empty
+        }
+        if((!isset($shipment['pack_eta_early_time']) || empty($shipment['pack_eta_early_time'])) || date('H:i', strtotime($shipment['pack_eta_early_time'])) == '00:00'){
+          $shipment['pack_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['pack_eta_late_time']) || empty($shipment['pack_eta_late_time'])) || date('H:i', strtotime($shipment['pack_eta_late_time'])) == '00:00'){
+          $shipment['pack_eta_late_time'] = '17:00';
+        }
+        if((!isset($shipment['load_eta_early_time']) || empty($shipment['load_eta_early_time'])) || date('H:i', strtotime($shipment['load_eta_early_time'])) == '00:00'){
+          $shipment['load_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['load_eta_late_time']) || empty($shipment['load_eta_late_time'])) || date('H:i', strtotime($shipment['load_eta_late_time'])) == '00:00'){
+          $shipment['load_eta_late_time'] = '17:00';
+        }
+      }
+    }
+    return false;
   }
 }
