@@ -35,6 +35,11 @@ abstract class TamiBase{
     "packdayeta",
     "packloaddayeta"
   );
+  protected static $_loadMsgs = array(
+    "loadday",
+    "1stpackday",
+    "packloadday"
+  );
   protected static $_gblBlackList = array(
     "AGFM7000008"
   );
@@ -444,6 +449,9 @@ abstract class TamiBase{
   }
   public static function isEtaMsg($msg_name){
     return in_array($msg_name,self::$_etaMsgs);
+  }
+  public static function isLoadMsg($msg_name){
+    return in_array($msg_name,self::$_loadMsgs)
   }
   public static function hasRequiredResponse($msg_name,$gbl_dps){
     if(!self::isRequireResponse($msg_name)){
