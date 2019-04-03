@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../models/ops/Shipment.php';
+require_once __DIR__ . '/../../models/ops/Agent.php';
 require_once __DIR__ . '/../../models/ops/Gbloc.php';
 require_once __DIR__ . '/../../models/comms/MobileResponse.php';
 require_once __DIR__ . '/../../models/comms/Notification.php';
@@ -480,6 +481,14 @@ abstract class TamiBase{
       throw new \Exception($e->getMessage());
     }
   }
+  public static function getAgentInfo($agent_id){
+    try{
+      $agent = new Agent($agent_id);
+      return array("agent_name"=>$agent->agent_name,"phone_number"=>$agent->phone_number);
+    }catch(\Exception $e){
+      throw new \Exception($e->getMessage());
+    }
+  }
   public static function sentToday($msg_name,$gbl_dps){
     $objs = Notification::sentToday($msg_name,$gbl_dps);
     if(count($objs)){
@@ -504,6 +513,12 @@ abstract class TamiBase{
   }
   public static function premoveSurveyExists($gbl_dps){
     return is_file(self::PREMOVEDIR . "mobile_" . $gbl_dps . "_premoveSurvey.jpg");
+  }
+  public static function validateIsset($var){
+    if(!isset($var) || empty($var)){
+      throw new \Exception("unset or empty");
+    }
+    return true;
   }
   public static function deliverydayetaOverride($shipment){
     if(10 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
