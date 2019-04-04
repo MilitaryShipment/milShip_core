@@ -108,16 +108,19 @@ class EpayImage extends Record{
         }
         return $data;
     }
-    public static function search($key,$value){
+    public static function search($key,$value,$maxDate = null){
       $data = array();
-      $results = $GLOBALS['db']
+      $GLOBALS['db']
           ->suite(self::DRIVER)
           ->driver(self::DRIVER)
           ->database(self::DB)
           ->table(self::TABLE)
           ->select(self::PRIMARYKEY)
-          ->where($key,"like","'%" . $value . "%'")
-          ->get();
+          ->where($key,"like","'%" . $value . "%'");
+      if(!is_null($maxDate)){
+        $GLOBALS['db']->andWhere("cast(created_date as date)",">=","cast('" . $maxDate . "' as date)");
+      }
+      $results = $GLOBALS['db']->get();
       while($row = mssql_fetch_assoc($results)){
         $data[] = new self($row[self::PRIMARYKEY]);
       }

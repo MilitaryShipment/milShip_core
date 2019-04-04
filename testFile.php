@@ -8,7 +8,7 @@ $value = "Johnson";
 $images = EpayImage::search($key,$value);
 
 foreach($images as $image){
-  echo $image->$path_to_gbl_image . "\n";
+  echo $image->path_to_gbl_image . "\n";
 }
 
 exit;
