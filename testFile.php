@@ -1,5 +1,14 @@
 <?php
 
+require_once __DIR__ . '/models/billing/EpayImage.php';
+
+$images = EpayImage::get($key,$value,"all");
+
+foreach($images as $image){
+  echo $image->$path_to_gbl_image . "\n";
+}
+
+exit;
 
 require_once __DIR__ . '/models/comms/Template.php';
 require_once __DIR__ . '/models/comms/Trigger.php';

@@ -62,6 +62,8 @@ class EpayImage extends Record{
     public $updated_by;
     public $updated_date;
     public $status_id;
+    public $dollar_amount;
+    public $cog_id;
 
     public function __construct($id = null)
     {
