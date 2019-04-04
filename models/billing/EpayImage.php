@@ -116,7 +116,7 @@ class EpayImage extends Record{
           ->database(self::DB)
           ->table(self::TABLE)
           ->select(self::PRIMARYKEY)
-          ->where($key,"like","%" . $value . "%")
+          ->where($key,"like","'%" . $value . "%'")
           ->get();
       while($row = mssql_fetch_assoc($results)){
         $data[] = new self($row[self::PRIMARYKEY]);
