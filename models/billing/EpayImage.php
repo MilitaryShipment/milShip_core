@@ -120,7 +120,7 @@ class EpayImage extends Record{
       if(!is_null($maxDate)){
         $GLOBALS['db']->andWhere("cast(created_date as date)",">=","cast('" . $maxDate . "' as date)");
       }
-      $results = $GLOBALS['db']->get();
+      $results = $GLOBALS['db']->orderBy("created_date desc")->get();
       while($row = mssql_fetch_assoc($results)){
         $data[] = new self($row[self::PRIMARYKEY]);
       }
