@@ -2,7 +2,10 @@
 
 require_once __DIR__ . '/models/billing/EpayImage.php';
 
-$images = EpayImage::get($key,$value,"all");
+$key = "agent_name";
+$value = "Johnson";
+
+$images = EpayImage::search($key,$value);
 
 foreach($images as $image){
   echo $image->$path_to_gbl_image . "\n";

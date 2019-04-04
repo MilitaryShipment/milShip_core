@@ -108,6 +108,21 @@ class EpayImage extends Record{
         }
         return $data;
     }
+    public static function search($key,$value){
+      $data = array();
+      $results = $GLOBALS['db']
+          ->suite(self::DRIVER)
+          ->driver(self::DRIVER)
+          ->database(self::DB)
+          ->table(self::TABLE)
+          ->select(self::PRIMARYKEY)
+          ->where($key,"like","%" . $value . "%")
+          ->get();
+      while($row = mssql_fetch_assoc($results)){
+        $data[] = new self($row[self::PRIMARYKEY]);
+      }
+      return $data;
+    }
     public static function remittance($agentId,$gbl_dps){
         $data = array();
         $ids = array();
