@@ -83,6 +83,10 @@ abstract class TamiBase{
     "update_date",
     "registration_date"
   );
+  protected static $_timeInclude = array(
+    "early_delivery_eta",
+    "late_delivery_eta"
+  );
 
   public static function getShipments($msg_name){
     $data = array();
@@ -584,5 +588,20 @@ abstract class TamiBase{
       }
     }
     return false;
+  }
+  public static function transformer($pattern,$replacement,$shipment,$msg_body){
+    if(preg_match('/date/',$replacement) && !in_array($replacement,self::$_dateTimeBlackList)){
+      $replace = date('m/d/y',strtotime($shipment[$replacement]));
+      $msg_body = preg_replace('/\{' . $pattern . '\}/i', $replace, $msg_body);
+    }elseif(preg_match('/time/',$replacement) || in_array($replacement,self::$_timeInclude)){
+      $replace = date('H:i:s', strtotime($shipment[$replacement]));
+      $msg_body = preg_replace('/\{' . $pattern . '\}/i', $replace, $msg_body);
+    }elseif(in_array($replacement,self::$_dateTimeBlackList)){
+      $replace = date('m/d/y H:i:s', strtotime($shipment[$replacement]));
+      $msg_body = preg_replace('/\{' . $pattern . '\}/i', $replace, $msg_body);
+    }else{
+      $msg_body = preg_replace('/\{' . $pattern . '\}/i', $shipment[$replacement], $msg_body);
+    }
+    return $msg_body;
   }
 }
