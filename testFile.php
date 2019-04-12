@@ -1,18 +1,5 @@
 <?php
 
-require_once __DIR__ . '/models/billing/EpayImage.php';
-
-$key = "agent_name";
-$value = "Johnson";
-
-$images = EpayImage::search($key,$value);
-
-foreach($images as $image){
-  echo $image->path_to_gbl_image . "\n";
-}
-
-exit;
-
 require_once __DIR__ . '/models/comms/Template.php';
 require_once __DIR__ . '/models/comms/Trigger.php';
 require_once __DIR__ . '/processes/tami/TamiBase.php';
