@@ -108,7 +108,7 @@ class EpayImage extends Record{
         }
         return $data;
     }
-    public static function search($key,$value,$maxDate = null){
+    public static function search($key,$value,$dateField = null,$maxDate = null){
       $data = array();
       $GLOBALS['db']
           ->suite(self::DRIVER)
@@ -118,7 +118,7 @@ class EpayImage extends Record{
           ->select(self::PRIMARYKEY)
           ->where($key,"like","'%" . $value . "%'");
       if(!is_null($maxDate)){
-        $GLOBALS['db']->andWhere("cast(created_date as date)",">=","cast('" . $maxDate . "' as date)");
+        $GLOBALS['db']->andWhere("cast(" . $dateField . " as date)",">=","cast('" . $maxDate . "' as date)");
       }
       $results = $GLOBALS['db']->orderBy("created_date desc")->get();
       while($row = mssql_fetch_assoc($results)){
