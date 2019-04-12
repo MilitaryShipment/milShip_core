@@ -562,6 +562,10 @@ abstract class TamiBase{
         $replacement = $replaceME . "\n\nIf you need more information regarding your arrival time please contact your ";
         $replacement .= $target2 . ", {" . $target . "_NAME} at {" . $target . "_PHONE_NUMBER}";
         $template->msg_body = preg_replace('/\{AGENT_INFO\}/i', $replacement, $template->msg_body);
+        $template->msg_body = self::transformer('AGENT_NAME','orig_agent_name',$shipment,$template->msg_body);
+        $template->msg_body = self::transformer('AGENT_PHONE_NUMBER','orig_agent_phone',$shipment,$template->msg_body);
+        $template->msg_body = self::transformer('HAULER_NAME','hauler_agent_name',$shipment,$template->msg_body);
+        $template->msg_body = self::transformer('HAULER_PHONE_NUMBER','hauler_agent_phone',$shipment,$template->msg_body);
         //todo interpret transformer
       }else{
         switch(strtolower($template->msg_name)){
