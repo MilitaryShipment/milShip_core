@@ -566,16 +566,29 @@ abstract class TamiBase{
         $template->msg_body = self::transformer('AGENT_PHONE_NUMBER','orig_agent_phone',$shipment,$template->msg_body);
         $template->msg_body = self::transformer('HAULER_NAME','hauler_agent_name',$shipment,$template->msg_body);
         $template->msg_body = self::transformer('HAULER_PHONE_NUMBER','hauler_agent_phone',$shipment,$template->msg_body);
-        //todo interpret transformer
+        return $template;
       }else{
         switch(strtolower($template->msg_name)){
           case 'loaddayeta':
-            //todo get hauler carrier info
-            //todo validate issetnot empty
+            $agentInfo = self::getAgentInfo($shipment['hauler_agent_id']);
+            $shipment['hauler_agent_name'] = $agentInfo['agent_name'];
+            $shipment['hauler_agent_phone'] = $agentInfo['agent_phone'];
+            try{
+              self::validateIsset($shipment['hauler_agent_id']);
+              self::validateIsset($shipment['hauler_agent_phone']);
+            }catch(\Exception $e){
+              throw new \Exception("Required hauler info " . $e->getMessage());
+            }
           break;
           default:
-            //todo get origin agent info
-            //todo validate issetnot empty
+            $agentInfo = self::getAgentInfo($shipment['orig_agent_id']);
+            $shipment['orig_agent_name'] = $agentInfo['agent_name'];
+            $shipment['orig_agent_phone'] = $agentInfo['agent_phone'];
+            try{
+              self::validateIsset($shipment['orig_agent_id']);
+            }catch(\Exception $e){
+              throw new \Exception("Required Origin Agent info " . $e->getMessage());
+            }
         }
         if((!isset($shipment['pack_eta_early_time']) || empty($shipment['pack_eta_early_time'])) || date('H:i', strtotime($shipment['pack_eta_early_time'])) == '00:00'){
           $shipment['pack_eta_early_time'] = '08:00';
@@ -589,6 +602,7 @@ abstract class TamiBase{
         if((!isset($shipment['load_eta_late_time']) || empty($shipment['load_eta_late_time'])) || date('H:i', strtotime($shipment['load_eta_late_time'])) == '00:00'){
           $shipment['load_eta_late_time'] = '17:00';
         }
+        return $shipment;
       }
     }
     return false;
