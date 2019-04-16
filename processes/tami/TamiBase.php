@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../models/ops/Agent.php';
 require_once __DIR__ . '/../../models/ops/Gbloc.php';
 require_once __DIR__ . '/../../models/comms/MobileResponse.php';
 require_once __DIR__ . '/../../models/comms/Notification.php';
+require_once __DIR__ . '/../../util/Messenger.php';
 
 abstract class TamiBase{
 
@@ -86,6 +87,14 @@ abstract class TamiBase{
   protected static $_timeInclude = array(
     "early_delivery_eta",
     "late_delivery_eta"
+  );
+  protected static $_phoneFields = array(
+    "transit",
+    "shipper_cell_phone_number_1",
+    "shipper_cell_phone_number_2",
+    "orig_phone",
+    "orig_alt_phone",
+    "dest_phone"
   );
 
   public static function getShipments($msg_name){
@@ -664,5 +673,25 @@ abstract class TamiBase{
       $msg_body = preg_replace('/\{' . $pattern . '\}/i', $shipment[$replacement], $msg_body);
     }
     return $msg_body;
+  }
+  public static function validatePhoneNumbers($shipment){
+    foreach(self::$_phoneFields as $phoneField){
+      try{
+        $phoneData = Messenger::verify(preg_replace('/[\|\s]/','',$shipment[$phoneField]));
+        if($phoneData->mms_address && strtolower($phoneData->wless) == 'y'){
+          //todo about sendToarr??
+          if(!Messenger::isSaved($shipment[$phoneField])){
+            try{
+              Messenger::saveNumber($shipment[$phoneField],$phoneData->sms_address,$phoneData->mms_address,$phoneData->carrier_name,$phoneData->wless,$phoneField);
+            }catch(\Exception $e){
+              throw new \Exception($e->getMessage());
+            }
+          }
+        }
+      }catch(\Exception $e){
+        throw new \Exception($e->getMessage());
+      }
+    }
+    return $shipment; // don't actually know what to return yet
   }
 }

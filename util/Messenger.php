@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/SendMessage.php';
 require_once __DIR__ . '/../record.php';
+require_once __DIR__ . '/../comms/PhoneNumber.php';
 
 abstract class Messenger implements MessageBehavior{
 
@@ -55,5 +56,17 @@ abstract class Messenger implements MessageBehavior{
     }
     public static function send($msgArray,$host = null,$port = null,$username = null,$password = null){
         return new SendMessage($msgArray,$host,$port,$username,$password);
+    }
+    public static function isSaved($phoneNumber){
+      return PhoneNumber::exists($phoneNumber);
+    }
+    public static function saveNumber($phone,$sms,$mms,$carrier,$wless,$category,$first_name = null,$last_name = null){
+      $phone = new PhoneNumber();
+      $phone->phone = $phone;
+      $phone->sms = $sms;
+      $phone->mms = $mms;
+      $phone->carrier = $carrier;
+      $phone->wless = $wless;
+      return $phone->create();
     }
 }
