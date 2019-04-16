@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/SendMessage.php';
 require_once __DIR__ . '/../record.php';
-require_once __DIR__ . '/../comms/PhoneNumber.php';
+require_once __DIR__ . '/../models/comms/PhoneNumber.php';
 
 abstract class Messenger implements MessageBehavior{
 
