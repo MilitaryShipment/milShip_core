@@ -55,7 +55,14 @@ foreach($templates as $template){
         //The 'isRequireResponse question appears to be moot as it only applies to illegal templates'
         //if(TamiBase::isRequireResponse(strtolower($template->msg_name))){}
         if(TamiBase::isEtaMsg(strtolower($template->msg_name))){
-          //todo etaOverride
+          /*
+          hold results in $newShipment because etaOverride may return false
+          based on the current time
+          */
+          $newShipment = TamiBase::etaOverride($shipment,$template,1);
+          if($newShipment){
+            $shipment = $newShipment;
+          }
         }
         if(TamiBase::isLoadMsg(strtolower($template->msg_name))){
           //todo dayoverride
