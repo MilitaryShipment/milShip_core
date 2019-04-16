@@ -650,19 +650,6 @@ abstract class TamiBase{
     }
     return $shipment;
   }
-  public static function deliverydayetaOverride($shipment){
-    if(10 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE){
-      if(isset($shipment['del_eta_date']) && !empty($shipment['del_eta_date'])){
-        if((!isset($shipment['early_delivery_eta']) || empty($shipment['early_delivery_eta'])) || date('H:i', strtotime($shipment['early_delivery_eta'])) == '00:00'){
-          $shipment['early_delivery_eta'] = '08:00';
-        }
-        if((!isset($shipment['late_delivery_eta']) || empty($shipment['late_delivery_eta'])) || date('H:i', strtotime($shipment['late_delivery_eta'])) == '00:00'){
-          $shipment['late_delivery_eta'] = '17:00';
-        }
-      }
-    }
-    return $shipment;
-  }
   public static function transformer($pattern,$replacement,$shipment,$msg_body){
     if(preg_match('/date/',$replacement) && !in_array($replacement,self::$_dateTimeBlackList)){
       $replace = date('m/d/y',strtotime($shipment[$replacement]));
