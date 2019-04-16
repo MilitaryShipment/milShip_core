@@ -69,7 +69,12 @@ foreach($templates as $template){
           $shipment = TamiBase::deliverydayetaOverride($shipment);
         }
         if(strtolower($template->msg_name) == 'rddinfo'){
-          
+          if(TamiBase::isSent(strtolower($template->msg_name),$shipment['gbl_dps'])){
+            continue;
+          }
+          if(TamiBase::isSent('rushsurvey',$shipment['gbl_dps'])){
+            continue;
+          }
         }
         echo $shipment['gbl_dps'] . "\n";
       }
