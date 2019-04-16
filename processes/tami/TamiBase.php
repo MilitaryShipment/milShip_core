@@ -607,6 +607,49 @@ abstract class TamiBase{
     }
     return false;
   }
+  public static function dayOverride($msg_name,$shipment){
+    if($msg_name == "1stpackday"){
+      if(13 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
+        if((!isset($shipment['pack_eta_early_time']) || empty($shipment['pack_eta_early_time'])) || date('H:i', strtotime($shipment['pack_eta_early_time'])) == '00:00'){
+          $shipment['pack_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['pack_eta_late_time']) || empty($shipment['pack_eta_late_time'])) || date('H:i', strtotime($shipment['pack_eta_late_time'])) == '00:00'){
+          $shipment['pack_eta_late_time'] = '17:00';
+        }
+      }
+    }elseif($msg_name == 'packloadday'){
+      if(13 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
+        if((!isset($shipment['pack_eta_early_time']) || empty($shipment['pack_eta_early_time'])) || date('H:i', strtotime($shipment['pack_eta_early_time'])) == '00:00'){
+          $shipment['pack_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['pack_eta_late_time']) || empty($shipment['pack_eta_late_time'])) || date('H:i', strtotime($shipment['pack_eta_late_time'])) == '00:00'){
+          $shipment['pack_eta_late_time'] = '17:00';
+        }
+        if((!isset($shipment['load_eta_early_time']) || empty($shipment['load_eta_early_time'])) || date('H:i', strtotime($shipment['load_eta_early_time'])) == '00:00'){
+          $shipment['load_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['load_eta_late_time']) || empty($shipment['load_eta_late_time'])) || date('H:i', strtotime($shipment['load_eta_late_time'])) == '00:00'){
+          $shipment['load_eta_late_time'] = '17:00';
+        }
+      }
+    }else{
+      if(10 <= (date('H') + $shipment['timezone'] - self::OURTIMEZONE)){
+        if((!isset($shipment['pack_eta_early_time']) || empty($shipment['pack_eta_early_time'])) || date('H:i', strtotime($shipment['pack_eta_early_time'])) == '00:00'){
+          $shipment['pack_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['pack_eta_late_time']) || empty($shipment['pack_eta_late_time'])) || date('H:i', strtotime($shipment['pack_eta_late_time'])) == '00:00'){
+          $shipment['pack_eta_late_time'] = '17:00';
+        }
+        if((!isset($shipment['load_eta_early_time']) || empty($shipment['load_eta_early_time'])) || date('H:i', strtotime($shipment['load_eta_early_time'])) == '00:00'){
+          $shipment['load_eta_early_time'] = '08:00';
+        }
+        if((!isset($shipment['load_eta_late_time']) || empty($shipment['load_eta_late_time'])) || date('H:i', strtotime($shipment['load_eta_late_time'])) == '00:00'){
+          $shipment['load_eta_late_time'] = '17:00';
+        }
+      }
+    }
+    return $shipment;
+  }
   public static function transformer($pattern,$replacement,$shipment,$msg_body){
     if(preg_match('/date/',$replacement) && !in_array($replacement,self::$_dateTimeBlackList)){
       $replace = date('m/d/y',strtotime($shipment[$replacement]));
