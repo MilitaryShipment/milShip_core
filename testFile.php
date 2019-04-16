@@ -68,6 +68,9 @@ foreach($templates as $template){
         if(strtolower($template->msg_name) == 'deliverydayeta'){
           $shipment = TamiBase::deliverydayetaOverride($shipment);
         }
+        if(strtolower($template->msg_name) == 'rddinfo'){
+          
+        }
         echo $shipment['gbl_dps'] . "\n";
       }
     }
